@@ -43,34 +43,36 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
     <div
       className={`${
         pageIsShowing ? "opacity-1" : "opacity-0"
-      } transition-opacity duration-500 max-w-[1000px] xl:ml-[500px] w-full pt-20 pb-4 xl:py-12`}
+      } transition-opacity duration-500 xl:w-[calc(100vw-350px)] xl:ml-[350px] w-full pt-20 pb-4 xl:py-12`}
     >
-      {project ? (
-        <animated.div style={springProps}>
-          <div className="flex flex-col gap-12 p-4 xl:p-0">
-            <animated.div style={springProps}>
-              <div className="flex flex-col xl:flex-row items-start justify-between gap-12">
-                <animated.div style={springProps}>
-                  <div className="flex flex-col gap-4">
-                    <ProjectDate date={project.date} />
-                    <ProjectTitle title={project.title} type={project.type} />
-                    <ProjectLink href={project.href} />
-                    <ProjectDescription description={project.description} />
-                  </div>
-                </animated.div>
-                <animated.div style={springProps}>
-                  <ProjectGif gifImage={project.gifImage} />
-                </animated.div>
-              </div>
-            </animated.div>
-            <ProjectMyRole myRole={project.myRole} />
-            <ProjectTechnologies technologies={project.technologies} />
-            <ProjectVideo videoSrc={project.videoSrc} />
-          </div>
-        </animated.div>
-      ) : (
-        <p>No project selected</p>
-      )}
+      <div className="xl:max-w-[1000px] w-full mx-auto">
+        {project ? (
+          <animated.div style={springProps}>
+            <div className="flex flex-col gap-12 p-4 xl:p-0">
+              <animated.div style={springProps}>
+                <div className="flex flex-col xl:flex-row items-start justify-between gap-12">
+                  <animated.div style={springProps}>
+                    <div className="flex flex-col gap-4">
+                      <ProjectDate date={project.date} />
+                      <ProjectTitle title={project.title} type={project.type} />
+                      <ProjectLink href={project.href} />
+                      <ProjectDescription description={project.description} />
+                    </div>
+                  </animated.div>
+                  <animated.div style={springProps}>
+                    <ProjectGif gifImage={project.gifImage} />
+                  </animated.div>
+                </div>
+              </animated.div>
+              <ProjectMyRole myRole={project.myRole} />
+              <ProjectTechnologies technologies={project.technologies} />
+              <ProjectVideo videoSrc={project.videoSrc} />
+            </div>
+          </animated.div>
+        ) : (
+          <p>No project selected</p>
+        )}
+      </div>
     </div>
   );
 };

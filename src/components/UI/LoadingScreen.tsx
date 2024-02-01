@@ -12,7 +12,7 @@ function LoadingScreen() {
     config,
     opacity: isLoading ? 1 : 0,
     y: isLoading ? 0 : 20,
-    height: isLoading ? 30 : 0,
+    height: isLoading ? 35 : 0,
     from: { opacity: 0, y: 20, height: 0 },
   });
 
@@ -40,7 +40,7 @@ function LoadingScreen() {
           {items.map((item) => (
             <animated.div
               key={item}
-              className="trails-text relative w-full h-[30px] overflow-hidden text-2xl leading-10"
+              className="trails-text relative w-full h-[35px] overflow-hidden xl:text-2xl leading-10"
               style={{
                 ...springProps,
                 transform: springProps.y.interpolate(

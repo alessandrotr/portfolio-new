@@ -5,10 +5,10 @@ export default {
     extend: {
       colors: {
         primaryDark: "#1f2229",
-        secondaryDark: "#202229",
+        secondaryDark: "#283541",
 
         items: "#5fd9f9",
-        itemsHover: "#2ac0e5d4",
+        itemsHover: "#2ac0e5",
       },
       backgroundColor: (theme) => theme("colors"),
       textColor: (theme) => theme("colors"),

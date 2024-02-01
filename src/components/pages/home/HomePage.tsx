@@ -28,15 +28,15 @@ const HomePage = () => {
           snap.isLoading || snap.pageActive !== "HomePage"
             ? "opacity-0 "
             : "opacity-1"
-        } transition-opacity duration-500 flex flex-col items-center gap-2`}
+        } transition-opacity duration-500 flex flex-col items-center gap-4 xl:gap-6`}
       >
         <h2 className="uppercase xl:text-2xl select-none">
           New Website coming soon
         </h2>
         <Navigator
           linkToPage="Projects"
-          pageActiveName="some of my Projects"
-          prevText="Take a look at"
+          pageActiveName="Projects"
+          prevText="While you wait, take a look at some of my"
         />
       </div>
       <Links loading={snap.isLoading || snap.pageActive !== "HomePage"} />
@@ -61,39 +61,39 @@ const NameAndJob = ({ loading }: { loading: boolean }) => {
 
 const Links = ({ loading }: { loading: boolean }) => {
   return (
-    <div
-      className={`${
-        loading ? "opacity-0 translate-y-[500px]" : "opacity-1 translate-y-0"
-      } transition-all duration-500 flex gap-8 xl:gap-12`}
-    >
-      <Link
-        tooltipId="email"
-        tooltipContent="Email me"
-        href="mailto:alessandrotraiola@gmail.com"
+    <>
+      <div
+        className={`${
+          loading ? "opacity-0 translate-y-[500px]" : "opacity-1 translate-y-0"
+        } transition-all duration-500 flex gap-8 xl:gap-12`}
       >
-        <MdAlternateEmail />
-      </Link>
-      <Link
-        tooltipId="linkedin"
-        tooltipContent="My Linkedin profile"
-        href="https://www.linkedin.com/in/alessandro-traiola/"
-      >
-        <GrLinkedinOption />
-      </Link>
+        <Link
+          tooltipId="email"
+          tooltipContent="Email me"
+          href="mailto:alessandrotraiola@gmail.com"
+        >
+          <MdAlternateEmail />
+        </Link>
+        <Link
+          tooltipId="linkedin"
+          tooltipContent="My Linkedin profile"
+          href="https://www.linkedin.com/in/alessandro-traiola/"
+        >
+          <GrLinkedinOption />
+        </Link>
 
-      <Link
-        tooltipId="cv"
-        tooltipContent="View my CV"
-        href="/AlessandroTraiola_CV2024.pdf"
-      >
-        <GrCertificate />
-      </Link>
-      <div className="hidden xl:block">
-        <Tooltip id="email" />
-        <Tooltip id="linkedin" />
-        <Tooltip id="cv" />
+        <Link
+          tooltipId="cv"
+          tooltipContent="View my CV"
+          href="/AlessandroTraiola_CV2024.pdf"
+        >
+          <GrCertificate />
+        </Link>
       </div>
-    </div>
+      <Tooltip className="hidden xl:block" id="email" />
+      <Tooltip className="hidden xl:block" id="linkedin" />
+      <Tooltip className="hidden xl:block" id="cv" />
+    </>
   );
 };
 

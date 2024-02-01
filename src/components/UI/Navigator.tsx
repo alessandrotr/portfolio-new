@@ -13,16 +13,16 @@ const Navigator: React.FC<NavigatorProps> = ({
   prevText,
 }) => {
   return (
-    <p className="flex items-center gap-1.5 select-none xl:text-lg">
-      <span className="text-gray-400">{prevText}</span>
+    <div className="flex flex-col items-center gap-4 xl:gap-6 select-none xl:text-lg">
+      <p className="text-gray-400">{prevText}</p>
 
-      <span
+      <h4
         onClick={() => (store.pageActive = linkToPage)}
-        className="text-items hover:text-itemsHover cursor-pointer"
+        className="transition-colors duration-250 font-semibold cursor-pointer rounded-md bg-secondaryDark hover:bg-white text-items hover:text-primaryDark drop-shadow-xl p-2 px-3 uppercase text-sm"
       >
         {pageActiveName}
-      </span>
-    </p>
+      </h4>
+    </div>
   );
 };
 

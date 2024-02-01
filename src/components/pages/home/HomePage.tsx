@@ -30,7 +30,9 @@ const HomePage = () => {
             : "opacity-1"
         } transition-opacity duration-500 flex flex-col items-center gap-2`}
       >
-        <h2 className="uppercase xl:text-2xl">New Website coming soon</h2>
+        <h2 className="uppercase xl:text-2xl select-none">
+          New Website coming soon
+        </h2>
         <Navigator
           linkToPage="Projects"
           pageActiveName="some of my Projects"
@@ -51,8 +53,8 @@ const NameAndJob = ({ loading }: { loading: boolean }) => {
         loading ? "opacity-0 -translate-y-[500px]" : "opacity-1 translate-y-0"
       } transition-all duration-500 flex flex-col items-center`}
     >
-      <h1 className="uppercase xl:text-2xl">Alessandro Traiola</h1>
-      <p className="xl:text-lg text-gray-400">Frontend Developer</p>
+      <h1 className="uppercase xl:text-2xl select-none">Alessandro Traiola</h1>
+      <p className="xl:text-lg text-gray-400 select-none">Frontend Developer</p>
     </div>
   );
 };

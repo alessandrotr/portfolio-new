@@ -58,9 +58,9 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
     <div
       className={`${
         snap.projectActive === project.title
-          ? "bg-gray-900"
-          : "hover:bg-gray-900 bg-gray-800"
-      } flex items-center gap-2 cursor-pointer p-4 select-none rounded-md`}
+          ? "bg-gray-800 drop-shadow-xl"
+          : "hover:bg-gray-800 bg-gray-700 cursor-pointer"
+      } flex items-center gap-2 p-4 select-none rounded-md transition-colors duration-250`}
       onClick={() => {
         store.projectActive = project.title;
         handleShowListOfProjects();
@@ -87,7 +87,7 @@ const MenuButton: React.FC<MenuButtonProps> = ({
     <div
       className={`${
         pageIsShowing ? "opacity-1" : "opacity-0"
-      } transition-opacity duration-500 xl:hidden rounded-full p-2 bg-gray-900 cursor-pointer fixed top-4 right-4 z-20 text-3xl z-50 flex items-center gap-2`}
+      } transition-opacity duration-500 xl:hidden rounded-full p-2 px-3 bg-gray-800 drop-shadow-xl cursor-pointer fixed top-4 right-4 z-20 text-3xl z-50 flex items-center gap-2`}
       onClick={handleShowListOfProjects}
     >
       <h4 className="text-sm uppercase">Other Projects</h4>

@@ -79,7 +79,7 @@ export default ProjectPage;
 
 const ProjectTitle = ({ title, type }: { title: string; type: string }) => {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 select-none">
       <h2 className="xl:text-xl leading-tight uppercase text-gray-400">
         {type}
       </h2>
@@ -92,7 +92,7 @@ const ProjectLink = ({ href }: { href?: string }) => {
   return (
     href && (
       <a
-        className="flex items-center gap-2 w-fit text-items hover:text-itemsHover"
+        className="flex items-center gap-2 w-fit text-items hover:text-itemsHover select-none"
         href={href}
         target="_blank"
       >
@@ -111,7 +111,7 @@ const ProjectGif = ({ gifImage }: { gifImage?: string }) => {
     gifImage && (
       <img
         src={gifImage}
-        className="xl:min-w-[400px] xl:max-w-[400px] rounded-md"
+        className="xl:min-w-[400px] xl:max-w-[400px] rounded-md select-none pointer-events-none"
         alt="Gif"
       />
     )
@@ -127,7 +127,7 @@ const ProjectTechnologies = ({ technologies }: { technologies?: string[] }) => {
           {technologies.map((technology, i) => (
             <p
               key={`${technology}_${i}`}
-              className="text-lg text-gray-400 bg-gray-700 py-2 px-3 rounded-md whitespace-nowrap"
+              className="text-lg text-gray-400 bg-gray-700 py-2 px-3 rounded-md whitespace-nowrap select-none"
             >
               {technology}
             </p>
@@ -166,7 +166,7 @@ const ProjectDate = ({ date }: { date?: string }) => {
 };
 
 const SectionHeading = ({ text }: { text?: string }) => {
-  return <h2 className="uppercase text-xl">{text}</h2>;
+  return <h2 className="uppercase text-xl select-none">{text}</h2>;
 };
 
 const SectionText = ({ text }: { text?: string }) => {

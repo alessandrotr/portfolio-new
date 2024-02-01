@@ -1,0 +1,51 @@
+@import "tailwindcss/base";
+
+@import "tailwindcss/components";
+
+@import "tailwindcss/utilities";
+
+@font-face {
+  font-family: "Monument Extended";
+  src: url("./fonts/MonumentExtended-Ultrabold.otf");
+  font-display: block;
+}
+
+@font-face {
+  font-family: "Monument Extended";
+  src: url("./fonts/MonumentExtended-Regular.otf");
+  font-display: block;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Monument Extended";
+}
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1f2229;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+/* per far funzionare l'animazione del loading screen */
+.trails-text {
+  will-change: transform, opacity;
+}
+
+.sidebar {
+  scrollbar-width: none;
+}

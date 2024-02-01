@@ -13,6 +13,7 @@ type ProjectType = {
   href?: string;
   gifImage?: string;
   videoSrc?: string;
+  videoSrc2?: string;
   technologies?: string[];
   myRole?: string;
   date?: string;
@@ -66,7 +67,10 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
               </animated.div>
               <ProjectMyRole myRole={project.myRole} />
               <ProjectTechnologies technologies={project.technologies} />
-              <ProjectVideo videoSrc={project.videoSrc} />
+              <ProjectVideo
+                videoSrc={project.videoSrc}
+                videoSrc2={project.videoSrc2}
+              />
             </div>
           </animated.div>
         ) : (
@@ -152,12 +156,21 @@ const ProjectMyRole = ({ myRole }: { myRole?: string }) => {
   );
 };
 
-const ProjectVideo = ({ videoSrc }: { videoSrc?: string }) => {
+const ProjectVideo = ({
+  videoSrc,
+  videoSrc2,
+}: {
+  videoSrc?: string;
+  videoSrc2?: string;
+}) => {
   return (
     videoSrc && (
       <div className="gap-4 xl:gap-6 w-full flex flex-col  justify-center">
         <SectionHeading text="Short demonstration" />
         <video src={videoSrc} controls muted className="rounded-t-md" />
+        {videoSrc2 && (
+          <video src={videoSrc2} controls muted className="rounded-t-md" />
+        )}
       </div>
     )
   );

@@ -15,7 +15,7 @@ import AmazonFreeveeVideo from "/projects-videos/AmazonFreevee_video.mp4";
 import KunischVideo from "/projects-videos/Kunisch_video.mp4";
 import BuerkertVideo from "/projects-videos/buerkert_video.mp4";
 import AWSRetail_1_Video from "/projects-videos/AWSRetail_1_video.mp4";
-// import AWSRetail_2_Video from "/projects-videos/AWSRetail_2_video.mp4";
+import AWSRetail_2_Video from "/projects-videos/AWSRetail_2_video.mp4";
 
 export const ProjectsData = [
   {
@@ -209,6 +209,7 @@ export const ProjectsData = [
     description: "AWS for Retail",
     gifImage: AwsretailGif,
     videoSrc: AWSRetail_1_Video,
+    videoSrc2: AWSRetail_2_Video,
     technologies: [
       "React.js",
       "react-three-fiber",

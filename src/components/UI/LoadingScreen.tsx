@@ -2,7 +2,7 @@ import { useSpring, animated, useTransition } from "@react-spring/web";
 import { useEffect, useState } from "react";
 import store from "../../appStore";
 
-const items = ["Alessandro", "Traiola's", "Portfolio"];
+const items = ["Alessandro", "Traiola"];
 const config = { mass: 5, tension: 750, friction: 150 };
 
 function LoadingScreen() {
@@ -40,7 +40,7 @@ function LoadingScreen() {
           {items.map((item) => (
             <animated.div
               key={item}
-              className="trails-text relative w-full h-[35px] overflow-hidden xl:text-2xl leading-10"
+              className="trails-text relative w-full h-[35px] overflow-hidden xl:text-2xl leading-10 z-[2001]"
               style={{
                 ...springProps,
                 transform: springProps.y.interpolate(
@@ -49,7 +49,7 @@ function LoadingScreen() {
               }}
             >
               <animated.h1
-                className="overflow-hidden text-white uppercase"
+                className="overflow-hidden text-white uppercase z-[2001]"
                 style={springProps.height as unknown as React.CSSProperties}
               >
                 {item}

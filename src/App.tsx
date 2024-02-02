@@ -1,14 +1,34 @@
 import LoadingScreen from "./components/UI/LoadingScreen";
 import HomePage from "./components/pages/home/HomePage";
 import ProjectsPage from "./components/pages/projects/ProjectsPage";
-import LogoSmall from "/Logo-small-blue-new.webp";
 import "react-tooltip/dist/react-tooltip.css";
+import { Canvas } from "@react-three/fiber";
+import LogoModel from "./components/3d/LogoModel";
 
 function App() {
   return (
     <>
+      <Canvas
+        style={{
+          height: "100vh",
+          width: "100vw",
+        }}
+        camera={{
+          position: [0, 0, 15],
+        }}
+        id="canvas"
+        flat
+      >
+        <LogoModel />
+        <ambientLight intensity={0.085} />
+        <pointLight
+          distance={50}
+          position={[0, 0, 10]}
+          intensity={10}
+          color={"#5fd9f9"}
+        />
+      </Canvas>
       <LoadingScreen />
-      <BackgroundWithLogoAndOverlay />
       <HomePage />
       <ProjectsPage />
     </>
@@ -16,16 +36,3 @@ function App() {
 }
 
 export default App;
-
-const BackgroundWithLogoAndOverlay = () => {
-  return (
-    <div
-      className="flex w-full h-screen fixed top-0 left-0 z-[0] bg-center bg-no-repeat bg-contain xl:bg-[length:500px_300px]"
-      style={{
-        backgroundImage: `url(${LogoSmall})`,
-      }}
-    >
-      <div className="fixed top-0 left-0 w-full h-full bg-[rgba(32,35,42,0.97)]" />
-    </div>
-  );
-};

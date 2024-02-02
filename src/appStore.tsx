@@ -4,6 +4,7 @@ export const storeModel = {
   isLoading: true,
   projectActive: "ENRX",
   pageActive: "HomePage",
+  changingProject: false,
 };
 
 export const store = proxy(storeModel);

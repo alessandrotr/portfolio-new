@@ -66,6 +66,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({
       onClick={() => {
         store.projectActive = project.title;
         handleShowListOfProjects();
+        store.changingProject = true;
       }}
     >
       <h3>{"0" + (number + 1) + "."}</h3>

@@ -53,10 +53,7 @@ function App() {
           distance={50}
           position={[0, 0, 10]}
           intensity={
-            (snap.pageActive === "HomePage" || snap.changingProject) &&
-            !snap.isLoading
-              ? 12
-              : 1
+            snap.pageActive === "HomePage" || snap.changingProject ? 12 : 1
           }
           color={"#5fd9f9"}
         />

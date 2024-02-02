@@ -5,6 +5,12 @@ import store from "../../../appStore";
 import { GrLinkedinOption, GrCertificate } from "react-icons/gr";
 import { MdAlternateEmail } from "react-icons/md";
 import { Tooltip } from "react-tooltip";
+import {
+  useSpring,
+  animated,
+  config as springConfig,
+  SpringValue,
+} from "@react-spring/web";
 
 const HomePage = () => {
   const snap = useSnapshot(store);
@@ -16,19 +22,32 @@ const HomePage = () => {
     }
   }, [snap.pageActive]);
 
+  const springAnimation = useSpring({
+    from: {
+      opacity: 0,
+      y: "-500px",
+      y2: "500px",
+    },
+    to: {
+      opacity: snap.isLoading || snap.pageActive !== "HomePage" ? 0 : 1,
+      y: snap.isLoading || snap.pageActive !== "HomePage" ? "-500px" : "0px",
+      y2: snap.isLoading || snap.pageActive !== "HomePage" ? "500px" : "0px",
+    },
+    config: springConfig.default,
+  });
+
   return (
     <div
       className={`${
         snap.pageActive === "HomePage" ? "z-[1001]" : "pointer-events-none"
       }  w-full h-full flex flex-col items-center justify-between fixed top-0 left-0 py-12 border-box`}
     >
-      <NameAndJob loading={snap.isLoading || snap.pageActive !== "HomePage"} />
-      <div
-        className={`${
-          snap.isLoading || snap.pageActive !== "HomePage"
-            ? "opacity-0 "
-            : "opacity-1"
-        } transition-opacity duration-500 flex flex-col items-center gap-4 xl:gap-6`}
+      <NameAndJob y={springAnimation.y} opacity={springAnimation.opacity} />
+      <animated.div
+        style={{
+          opacity: springAnimation.opacity,
+        }}
+        className={`flex flex-col items-center gap-4 xl:gap-6`}
       >
         <h2 className="uppercase xl:text-2xl select-none">
           New Website coming soon
@@ -38,34 +57,50 @@ const HomePage = () => {
           pageActiveName="Projects"
           prevText="While you wait, take a look at some of my"
         />
-      </div>
-      <Links loading={snap.isLoading || snap.pageActive !== "HomePage"} />
+      </animated.div>
+      <Links y2={springAnimation.y2} opacity={springAnimation.opacity} />
     </div>
   );
 };
 
 export default HomePage;
 
-const NameAndJob = ({ loading }: { loading: boolean }) => {
+const NameAndJob = ({
+  y,
+  opacity,
+}: {
+  y: SpringValue<string>;
+  opacity: SpringValue<number>;
+}) => {
   return (
-    <div
-      className={`${
-        loading ? "opacity-0 -translate-y-[500px]" : "opacity-1 translate-y-0"
-      } transition-all duration-500 flex flex-col items-center`}
+    <animated.div
+      style={{
+        translateY: y,
+        opacity: opacity,
+      }}
+      className={`flex flex-col items-center`}
     >
       <h1 className="uppercase xl:text-2xl select-none">Alessandro Traiola</h1>
       <p className="xl:text-lg text-gray-400 select-none">Frontend Developer</p>
-    </div>
+    </animated.div>
   );
 };
 
-const Links = ({ loading }: { loading: boolean }) => {
+const Links = ({
+  y2,
+  opacity,
+}: {
+  y2: SpringValue<string>;
+  opacity: SpringValue<number>;
+}) => {
   return (
     <>
-      <div
-        className={`${
-          loading ? "opacity-0 translate-y-[500px]" : "opacity-1 translate-y-0"
-        } transition-all duration-500 flex gap-8 xl:gap-12`}
+      <animated.div
+        style={{
+          translateY: y2,
+          opacity: opacity,
+        }}
+        className={`flex gap-8 xl:gap-12`}
       >
         <Link
           tooltipId="email"
@@ -89,7 +124,7 @@ const Links = ({ loading }: { loading: boolean }) => {
         >
           <GrCertificate />
         </Link>
-      </div>
+      </animated.div>
       <Tooltip className="hidden xl:block" id="email" />
       <Tooltip className="hidden xl:block" id="linkedin" />
       <Tooltip className="hidden xl:block" id="cv" />

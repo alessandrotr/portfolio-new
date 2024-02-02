@@ -1,20 +1,21 @@
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useSpring, animated, useTransition } from "@react-spring/web";
 import { useEffect, useState } from "react";
 import store from "../../appStore";
 
-const items = ["Alessandro", "Traiola"];
-const config = { mass: 5, tension: 750, friction: 150 };
+// const items = ["Alessandro", "Traiola"];
+// const config = { mass: 5, tension: 750, friction: 150 };
 
 function LoadingScreen() {
   const [isLoading, setIsLoading] = useState(true);
 
-  const springProps = useSpring({
-    config,
-    opacity: isLoading ? 1 : 0,
-    y: isLoading ? 0 : 20,
-    height: isLoading ? 35 : 0,
-    from: { opacity: 0, y: 20, height: 0 },
-  });
+  // const springProps = useSpring({
+  //   config,
+  //   opacity: isLoading ? 1 : 0,
+  //   y: isLoading ? 0 : 20,
+  //   height: isLoading ? 35 : 0,
+  //   from: { opacity: 0, y: 20, height: 0 },
+  // });
 
   useEffect(() => {
     setTimeout(() => {
@@ -37,7 +38,7 @@ function LoadingScreen() {
           className="fixed w-full h-full overflow-hidden flex flex-col justify-center items-center text-center z-[2001] top-0 left-0"
           style={style}
         >
-          {items.map((item) => (
+          {/* {items.map((item) => (
             <animated.div
               key={item}
               className="trails-text relative w-full h-[35px] overflow-hidden xl:text-2xl leading-10 z-[2001]"
@@ -55,7 +56,7 @@ function LoadingScreen() {
                 {item}
               </animated.h1>
             </animated.div>
-          ))}
+          ))} */}
         </animated.div>
       )
   );

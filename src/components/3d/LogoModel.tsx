@@ -1,7 +1,7 @@
 import {
   AccumulativeShadows,
   Float,
-  Html,
+  // Html,
   RandomizedLight,
   useGLTF,
 } from "@react-three/drei";
@@ -9,8 +9,9 @@ import { useEffect, useRef } from "react";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { useSnapshot } from "valtio";
 import store from "../../appStore";
-import { Cloud, Clouds } from "@react-three/drei";
-import * as THREE from "three";
+// import { Cloud, Clouds } from "@react-three/drei";
+// import * as THREE from "three";
+import { useSpring, config as springConfig } from "@react-spring/three";
 
 const LogoModel = () => {
   const { scene } = useGLTF("./models/logo.glb", "./draco/gltf/");
@@ -21,9 +22,30 @@ const LogoModel = () => {
     if (snap.changingProject) {
       setTimeout(() => {
         store.changingProject = false;
-      }, 750);
+      }, 1000);
     }
   }, [snap.changingProject]);
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const springAnimation = useSpring({
+    from: {
+      z: snap.isLoading ? -45 : 0,
+      opacity: snap.isLoading ? 0 : 0.05,
+    },
+    to: {
+      z: 0,
+      opacity: 0.05,
+    },
+    onChange: ({ value }) => {
+      const { z } = value;
+      if (ref.current) {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        ref.current.position.z = z;
+      }
+    },
+    config: springConfig.molasses,
+  });
 
   return (
     <Float
@@ -32,7 +54,7 @@ const LogoModel = () => {
       floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange, defaults to 1
       floatingRange={[-0.1, 0.1]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
     >
-      <Clouds material={THREE.MeshBasicMaterial}>
+      {/* <Clouds material={THREE.MeshBasicMaterial}>
         <Cloud
           segments={20}
           volume={1}
@@ -47,8 +69,8 @@ const LogoModel = () => {
           speed={1}
           color="#5fd9f9"
         />
-      </Clouds>
-      {(snap.isLoading || snap.changingProject) && (
+      </Clouds> */}
+      {/* {(snap.isLoading || snap.changingProject) && (
         <Html center position={[0, 0.5, 0]} zIndexRange={[1, 0]}>
           <div role="status" className="z-[0]">
             <svg
@@ -69,7 +91,7 @@ const LogoModel = () => {
             </svg>
           </div>
         </Html>
-      )}
+      )} */}
       <primitive
         ref={ref}
         object={scene}

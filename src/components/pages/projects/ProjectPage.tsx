@@ -56,7 +56,7 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
         !project ? "flex justify-center items-center h-screen" : ""
       } transition-opacity duration-500 xl:w-[calc(100vw-350px)] xl:ml-[350px] w-full pt-20 pb-4 xl:py-12`}
     >
-      <div className="xl:max-w-[1000px] w-full mx-auto flex justify-center">
+      <div className="xl:max-w-[780px] w-full mx-auto flex justify-center">
         {snap.pageActive === "Projects" &&
           (project ? (
             <animated.div style={springProps}>
@@ -107,7 +107,7 @@ const ProjectTitle = ({ title, type }: { title: string; type: string }) => {
       <h2 className="xl:text-xl leading-tight uppercase text-gray-400">
         {type}
       </h2>
-      <h2 className="text-3xl xl:text-6xl leading-tight">{title}</h2>
+      <h2 className="text-3xl xl:text-6xl leading-tight uppercase">{title}</h2>
     </div>
   );
 };

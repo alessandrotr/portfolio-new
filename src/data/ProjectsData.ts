@@ -66,7 +66,7 @@ export const ProjectsData = [
   },
   {
     id: 2,
-    title: "LZ micro nano",
+    title: "Fraunhofer",
     type: "Virtual Showroom",
     description:
       "The High-Performance Center 'Functional Integration for Micro Nanoelectronics' was created as a cross-institute platform for the core competencies of system design, components & manufacturing technologies, system integration and reliability assessment.</br></br>This includes the Fraunhofer Institutes IPMS, ENAS, IIS-EAS and IZM-ASSID as well as the universities and colleges TU Dresden, TU Chemnitz and HTW Dresden.",

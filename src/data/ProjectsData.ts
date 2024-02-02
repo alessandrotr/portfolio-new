@@ -23,7 +23,7 @@ export const ProjectsData = [
     title: "ENRX",
     type: "Virtual Experience",
     description:
-      "As a Frontend Developer, I contributed to the creation of the ENRX WebGL Showroom, a cutting-edge marketing and sales web application developed in collaboration with Solid White for ENRX Group AS. The virtual showroom addresses sustainability goals by improving communication, reducing travel costs, and revolutionizing product showcasing in the digital era. The result is a powerful tool that not only reflects ENRX's commitment to sustainability but also transforms how businesses can effectively market and sell their products.",
+      "I contributed to the creation of the ENRX WebGL Showroom, a cutting-edge marketing and sales web application developed in collaboration with Solid White for ENRX Group AS. The virtual showroom addresses sustainability goals by improving communication, reducing travel costs, and revolutionizing product showcasing in the digital era. The result is a powerful tool that not only reflects ENRX's commitment to sustainability but also transforms how businesses can effectively market and sell their products.",
     keyFeatures: [
       {
         title: "WebGL 3D Virtualization",
@@ -66,10 +66,30 @@ export const ProjectsData = [
   },
   {
     id: 2,
-    title: "Fraunhofer",
+    title: "Leistungszentrum",
     type: "Virtual Showroom",
     description:
-      "The High-Performance Center 'Functional Integration for Micro Nanoelectronics' was created as a cross-institute platform for the core competencies of system design, components & manufacturing technologies, system integration and reliability assessment.</br></br>This includes the Fraunhofer Institutes IPMS, ENAS, IIS-EAS and IZM-ASSID as well as the universities and colleges TU Dresden, TU Chemnitz and HTW Dresden.",
+      "The Leistungszentrum, dedicated to Functional Integration for Micro/Nanoelectronics, serves as an interdisciplinary platform for core competencies in System Design, Components & Manufacturing Technologies, System Integration, and Reliability Assessment.</br></br>Fraunhofer IPMS, ENAS, IIS-EAS, IZM-ASSID, along with TU Dresden, TU Chemnitz, and HTW Dresden, collectively contribute to this powerhouse of research and development.</br></br>Solid White took on the challenge of translating this complex network of competencies into an engaging, accessible, and vivid experience. The solution? A WebGL Exhibition seamlessly blended with 3D animations and motion graphic videos. This multimedia platform goes beyond the limitations of conventional media, offering an immersive journey through the Leistungszentrum's vast knowledge base.",
+    keyFeatures: [
+      {
+        title: "WebGL 3D Virtualization",
+        text: "Immersive 3D visualization of the institutes and their work, creating an interactive and engaging user experience.",
+      },
+      {
+        title: "CMS Integration",
+        text: "Empowering Leistungszentrum with the ability to manage users, texts, and media effortlessly.",
+      },
+      {
+        title: "Autopilot for Presentations",
+        text: "Streamlining the showcase of competencies.",
+      },
+      {
+        title: "Snapshot Function",
+        text: "Allowing users to capture high-resolution images (png, up to 7680x4320).",
+      },
+    ],
+    myRole:
+      "I created the UI components and ensured a seamless backend connection. My responsibilities extended to implementing interactive 3D models and animations, integrating media files, enabling localization, and implementing snapshot and autopilot functionalities. ",
     href: "https://www.showroom.leistungszentrum-mikronano.de",
     gifImage: FraunhoferGif,
     videoSrc: FraunhoferVideo,
@@ -88,7 +108,6 @@ export const ProjectsData = [
       "wouter",
       "vite",
     ],
-    myRole: "Yoyo cumpagn mi ca s parè",
     date: "2021/2022",
   },
   {
@@ -96,7 +115,23 @@ export const ProjectsData = [
     title: "Ambitious",
     type: "Rocket",
     description:
-      "AMbitious offers consulting, training and software in the field of additive manufacturing/AM. The portfolio includes training on additive manufacturing and Siemens' NX software including training. AMbitious is Siemens' NX AM Smart Expert Partner and Reseller.</br></br>In order to convey the possibilities of additive manufacturing as vividly and realistically as possible, we virtualized an exhibit - which is also used in real life - as an interactive WebGL experience.",
+      "The Siemens NX AM Smart Expert Partner and Reseller, AMbitious focuses on providing training in additive manufacturing and Siemens' NX Software.</br></br>The challenge in this project was to vividly convey the astonishing possibilities and unprecedented shapes of components and products in the realm of additive manufacturing. To achieve this, Solid White took a real-world exhibit and transformed it into an interactive WebGL experience that mirrored its physical counterpart, creating an immersive and realistic virtualization.",
+    keyFeatures: [
+      {
+        title: "WebGL 3D Virtualization",
+        text: "Immersive 3D visualization, creating an interactive and engaging user experience.",
+      },
+      {
+        title: "Interactive Product Presentation",
+        text: "Experience the real-world exhibit in a virtual space, allowing users to interact with the product, exploring its features and functionalities.",
+      },
+      {
+        title: "Localization",
+        text: "The application is tailored to be accessible to a wider audience by providing content in multiple languages",
+      },
+    ],
+    myRole:
+      "As the frontend developer for this project, I created the user interface and overall user experience. From crafting responsive layouts to implementing captivating animations, my contribution extended to ensuring the seamless functionality of the interactive product presentation.",
     href: "https://www.am-bitious.de/fileadmin/3d-animation-additive-fertigung/#de",
     gifImage: AmbitiousGif,
     videoSrc: AmbitiousVideo,
@@ -110,7 +145,6 @@ export const ProjectsData = [
       "valtio",
       "wouter",
     ],
-    myRole: "Yoyo cumpagn mi ca s parè",
     date: "2021",
   },
   {

@@ -46,7 +46,7 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
     opacity: !snap.changingProject || pageIsShowing ? 1 : 0,
     transform:
       snap.changingProject || !pageIsShowing
-        ? "translateY(40px)"
+        ? "translateY(200px)"
         : "translateY(0px)",
   });
 
@@ -61,36 +61,25 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
           (project ? (
             <animated.div style={springProps}>
               <div className="flex flex-col gap-12 p-4 xl:p-0">
-                <animated.div
-                  className="flex flex-col xl:flex-row items-start justify-between gap-12"
-                  style={springProps}
-                >
-                  <animated.div
-                    className="flex flex-col gap-6 xl:gap-10"
-                    style={springProps}
-                  >
+                <div className="flex flex-col xl:flex-row items-start justify-between gap-12">
+                  <div className="flex flex-col gap-6 xl:gap-10">
                     <ProjectDate date={project.date} />
                     <ProjectTitle title={project.title} type={project.type} />
                     <ProjectLink href={project.href} />
-                  </animated.div>
+                  </div>
+                  <ProjectGif gifImage={project.gifImage} />
+                </div>
 
-                  <animated.div style={springProps}>
-                    <ProjectGif gifImage={project.gifImage} />
-                  </animated.div>
-                </animated.div>
-                <animated.div
-                  className="flex flex-col gap-4 xl:gap-6"
-                  style={springProps}
-                >
+                <div className="flex flex-col gap-12">
                   <ProjectDescription description={project.description} />
                   <ProjectKeyFeatures keyFeatures={project.keyFeatures} />
-                </animated.div>
-                <ProjectMyRole myRole={project.myRole} />
-                <ProjectTechnologies technologies={project.technologies} />
-                <ProjectVideo
-                  videoSrc={project.videoSrc}
-                  videoSrc2={project.videoSrc2}
-                />
+                  <ProjectMyRole myRole={project.myRole} />
+                  <ProjectTechnologies technologies={project.technologies} />
+                  <ProjectVideo
+                    videoSrc={project.videoSrc}
+                    videoSrc2={project.videoSrc2}
+                  />
+                </div>
               </div>
             </animated.div>
           ) : null)}
@@ -107,7 +96,13 @@ const ProjectTitle = ({ title, type }: { title: string; type: string }) => {
       <h2 className="xl:text-xl leading-tight uppercase text-gray-400">
         {type}
       </h2>
-      <h2 className="text-3xl xl:text-6xl leading-tight uppercase">{title}</h2>
+      <h2
+        className={`text-3xl xl:text-6xl leading-tight uppercase ${
+          title === "Leistungszentrum" ? "break-all" : ""
+        }`}
+      >
+        {title}
+      </h2>
     </div>
   );
 };

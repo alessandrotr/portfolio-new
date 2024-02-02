@@ -1,8 +1,18 @@
-import { Float, Html, useGLTF } from "@react-three/drei";
+import {
+  AccumulativeShadows,
+  ContactShadows,
+  Float,
+  Html,
+  RandomizedLight,
+  Sparkles,
+  useGLTF,
+} from "@react-three/drei";
 import { useEffect, useRef } from "react";
 import { degToRad } from "three/src/math/MathUtils.js";
 import { useSnapshot } from "valtio";
 import store from "../../appStore";
+import { Cloud, Clouds } from "@react-three/drei";
+import * as THREE from "three";
 
 const LogoModel = () => {
   const { scene } = useGLTF("./models/logo.glb", "./draco/gltf/");
@@ -13,7 +23,7 @@ const LogoModel = () => {
     if (snap.changingProject) {
       setTimeout(() => {
         store.changingProject = false;
-      }, 500);
+      }, 750);
     }
   }, [snap.changingProject]);
 
@@ -24,12 +34,28 @@ const LogoModel = () => {
       floatIntensity={1} // Up/down float intensity, works like a multiplier with floatingRange, defaults to 1
       floatingRange={[-0.5, 0.5]} // Range of y-axis values the object will float within, defaults to [-0.1,0.1]
     >
+      <Clouds material={THREE.MeshBasicMaterial}>
+        <Cloud
+          segments={20}
+          volume={1}
+          color="#1f2229"
+          opacity={0.05}
+          speed={1}
+        />
+        <Cloud
+          segments={20}
+          volume={1}
+          opacity={0.05}
+          speed={1}
+          color="#5fd9f9"
+        />
+      </Clouds>
       {(snap.isLoading || snap.changingProject) && (
         <Html center position={[0, 0.5, 0]} zIndexRange={[1, 0]}>
           <div role="status" className="z-[0]">
             <svg
               aria-hidden="true"
-              className="w-[375px] h-[375px] xl:w-[450px] xl:h-[450px] text-gray-200 animate-spin dark:text-gray-600 fill-items"
+              className="w-12 h-12 text-gray-200 animate-spin dark:text-gray-600 fill-items"
               viewBox="0 0 100 101"
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
@@ -53,6 +79,10 @@ const LogoModel = () => {
         rotation={[degToRad(90), 0, 0]}
         position={[-3, 2.5, 0]}
       />
+
+      <AccumulativeShadows temporal frames={100} scale={10}>
+        <RandomizedLight amount={8} position={[0, 5, -10]} />
+      </AccumulativeShadows>
     </Float>
   );
 };

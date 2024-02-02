@@ -24,7 +24,7 @@ const ListOfProjects = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
           pageIsShowing
             ? "opacity-1 translate-x-0"
             : "opacity-0 -translate-x-[500px]"
-        } duration-500 xl:left-4 pt-28 xl:pt-0 top-0 xl:top-32 gap-4 w-full h-screen xl:h-auto xl:w-[350px] min-w-[350px] xl:max-w-[350px] flex flex-col fixed transition-all z-20 bg-primaryDark xl:bg-transparent`}
+        } duration-500 xl:left-8 pt-28 xl:pt-0 top-0 xl:top-32 gap-4 w-full h-screen xl:h-auto xl:w-[350px] min-w-[350px] xl:max-w-[350px] flex flex-col fixed transition-all z-20 bg-primaryDark xl:bg-transparent`}
       >
         {ProjectsData.map((project, i) => (
           <ProjectItem

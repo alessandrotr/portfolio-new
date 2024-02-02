@@ -32,7 +32,7 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
       setProject(null);
       setTimeout(() => {
         setProject(foundProject);
-      }, 500);
+      }, 750);
     } else {
       setProject(null);
     }

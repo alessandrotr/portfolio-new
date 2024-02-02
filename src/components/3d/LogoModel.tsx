@@ -1,10 +1,8 @@
 import {
   AccumulativeShadows,
-  ContactShadows,
   Float,
   Html,
   RandomizedLight,
-  Sparkles,
   useGLTF,
 } from "@react-three/drei";
 import { useEffect, useRef } from "react";

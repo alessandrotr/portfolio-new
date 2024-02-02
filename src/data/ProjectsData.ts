@@ -23,7 +23,27 @@ export const ProjectsData = [
     title: "ENRX",
     type: "Virtual Experience",
     description:
-      "ENRX is a global green tech company whose mission is to accelerate the journey to a sustainable future. ENRX helps companies achieve their productivity and sustainability goals.</br></br>The virtual showroom supports marketing and sales in communicating complex products, reduces transportation and travel costs in various situations and thus also supports productivity and sustainability goals.",
+      "As a Frontend Developer, I contributed to the creation of the ENRX WebGL Showroom, a cutting-edge marketing and sales web application developed in collaboration with Solid White for ENRX Group AS. The virtual showroom addresses sustainability goals by improving communication, reducing travel costs, and revolutionizing product showcasing in the digital era. The result is a powerful tool that not only reflects ENRX's commitment to sustainability but also transforms how businesses can effectively market and sell their products.",
+    keyFeatures: [
+      {
+        title: "WebGL 3D Virtualization",
+        text: "Immersive 3D visualization of machines and products, creating an interactive and engaging user experience.",
+      },
+      {
+        title: "CMS Integration",
+        text: "Empowering ENRX with the ability to manage users, texts, and media effortlessly.",
+      },
+      {
+        title: "Public Area",
+        text: "A publicly accessible space for widespread engagement.",
+      },
+      {
+        title: "Secured Sales Area",
+        text: "Exclusive access for authorized personnel, facilitating a tailored experience for sales representatives and clients.",
+      },
+    ],
+    myRole:
+      "As a Frontend Developer, I played a pivotal role in bringing the virtual showroom to life. Collaborating closely with the design and backend teams, I took charge of building all UI components, implementing robust authentication mechanisms, establishing connections with the backend infrastructure, and introducing engaging animations to enhance the user experience.</br></br>I contributed to implementing WebGL 3D virtualization for the showroom, enabling interactive exploration of intricate machines and products through 3D models and animations.</br></br>Localization was another vital component I addressed, ensuring that the virtual showroom catered to a diverse audience by offering content in multiple languages.",
     href: "https://www.virtualexperience.enrx.com",
     gifImage: ENRXGif,
     videoSrc: ENRXVideo,
@@ -42,7 +62,6 @@ export const ProjectsData = [
       "wouter",
       "vite",
     ],
-    myRole: "Yoyo cumpagn mi ca s parè",
     date: "2022/2023",
   },
   {

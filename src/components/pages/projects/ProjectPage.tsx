@@ -7,15 +7,19 @@ import { useSpring, animated } from "@react-spring/web";
 
 type ProjectType = {
   id: number;
-  description: string;
   title: string;
   type: string;
+  description: string;
+  keyFeatures?: {
+    title: string;
+    text: string;
+  }[];
+  myRole?: string;
   href?: string;
   gifImage?: string;
   videoSrc?: string;
   videoSrc2?: string;
   technologies?: string[];
-  myRole?: string;
   date?: string;
 };
 
@@ -57,23 +61,29 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
           (project ? (
             <animated.div style={springProps}>
               <div className="flex flex-col gap-12 p-4 xl:p-0">
-                <animated.div style={springProps}>
-                  <div className="flex flex-col xl:flex-row items-start justify-between gap-12">
-                    <animated.div style={springProps}>
-                      <div className="flex flex-col gap-4">
-                        <ProjectDate date={project.date} />
-                        <ProjectTitle
-                          title={project.title}
-                          type={project.type}
-                        />
-                        <ProjectLink href={project.href} />
-                        <ProjectDescription description={project.description} />
-                      </div>
-                    </animated.div>
-                    <animated.div style={springProps}>
-                      <ProjectGif gifImage={project.gifImage} />
-                    </animated.div>
-                  </div>
+                <animated.div
+                  className="flex flex-col xl:flex-row items-start justify-between gap-12"
+                  style={springProps}
+                >
+                  <animated.div
+                    className="flex flex-col gap-6 xl:gap-10"
+                    style={springProps}
+                  >
+                    <ProjectDate date={project.date} />
+                    <ProjectTitle title={project.title} type={project.type} />
+                    <ProjectLink href={project.href} />
+                  </animated.div>
+
+                  <animated.div style={springProps}>
+                    <ProjectGif gifImage={project.gifImage} />
+                  </animated.div>
+                </animated.div>
+                <animated.div
+                  className="flex flex-col gap-4 xl:gap-6"
+                  style={springProps}
+                >
+                  <ProjectDescription description={project.description} />
+                  <ProjectKeyFeatures keyFeatures={project.keyFeatures} />
                 </animated.div>
                 <ProjectMyRole myRole={project.myRole} />
                 <ProjectTechnologies technologies={project.technologies} />
@@ -129,6 +139,33 @@ const ProjectGif = ({ gifImage }: { gifImage?: string }) => {
         className="xl:min-w-[400px] xl:max-w-[400px] rounded-md select-none pointer-events-none"
         alt="Gif"
       />
+    )
+  );
+};
+
+const ProjectKeyFeatures = ({
+  keyFeatures,
+}: {
+  keyFeatures?: {
+    title: string;
+    text: string;
+  }[];
+}) => {
+  return (
+    keyFeatures && (
+      <div className="flex flex-col gap-4 xl:gap-6">
+        <SectionHeading text="Key Features" />
+        <div className="flex flex-col gap-6">
+          {keyFeatures.map((feature, i) => (
+            <div className="flex flex-col gap-2" key={`${feature.title}_${i}`}>
+              <h4 className="text-sm uppercase text-gray-400">
+                {feature.title}
+              </h4>
+              <SectionText text={feature.text} />
+            </div>
+          ))}
+        </div>
+      </div>
     )
   );
 };

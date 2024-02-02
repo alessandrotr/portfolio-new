@@ -26,15 +26,12 @@ const LogoModel = () => {
     }
   }, [snap.changingProject]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const springAnimation = useSpring({
     from: {
       z: snap.isLoading ? -45 : 0,
-      opacity: snap.isLoading ? 0 : 0.05,
     },
     to: {
       z: 0,
-      opacity: 0.05,
     },
     onChange: ({ value }) => {
       const { z } = value;
@@ -97,7 +94,7 @@ const LogoModel = () => {
         object={scene}
         scale={45}
         rotation={[degToRad(90), 0, 0]}
-        position={[-3, 2.5, 0]}
+        position={[-3, 2.5, springAnimation.z]}
       />
 
       <AccumulativeShadows temporal frames={100} scale={10}>

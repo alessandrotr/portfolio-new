@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { useSpring, animated, useTransition } from "@react-spring/web";
+import { animated, useTransition } from "@react-spring/web";
 import { useEffect, useState } from "react";
 import store from "../../appStore";
 

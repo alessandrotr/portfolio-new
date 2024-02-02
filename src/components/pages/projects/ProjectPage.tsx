@@ -157,12 +157,14 @@ const ProjectKeyFeatures = ({
         <SectionHeading text="Key Features" />
         <div className="flex flex-col gap-6">
           {keyFeatures.map((feature, i) => (
-            <div className="flex flex-col gap-2" key={`${feature.title}_${i}`}>
-              <h4 className="text-sm uppercase text-gray-400">
-                {feature.title}
-              </h4>
-              <SectionText text={feature.text} />
-            </div>
+            <ul className="list-disc" key={`${feature.title}_${i}`}>
+              <li className="flex flex-col gap-2">
+                <h4 className="text-sm uppercase text-gray-400">
+                  {feature.title}
+                </h4>
+                <SectionText text={feature.text} />
+              </li>
+            </ul>
           ))}
         </div>
       </div>

@@ -47,7 +47,6 @@ const HomePage = () => {
         opacity={springAnimation.opacity}
         linkToPage="Projects"
         pageActiveName="Projects"
-        prevText="While you wait, take a look at some of my"
       />
       <Links y2={springAnimation.y2} opacity={springAnimation.opacity} />
     </div>

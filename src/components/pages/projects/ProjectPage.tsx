@@ -36,14 +36,14 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
       setProject(null);
       setTimeout(() => {
         setProject(foundProject);
-      }, 750);
+      }, 450);
     } else {
       setProject(null);
     }
   }, [snap.projectActive]);
 
   const springProps = useSpring({
-    opacity: !snap.changingProject || pageIsShowing ? 1 : 0,
+    opacity: snap.changingProject || !pageIsShowing ? 0 : 1,
     transform:
       snap.changingProject || !pageIsShowing
         ? "translateY(200px)"
@@ -72,13 +72,13 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
 
                 <div className="flex flex-col gap-12">
                   <ProjectDescription description={project.description} />
-                  <ProjectKeyFeatures keyFeatures={project.keyFeatures} />
-                  <ProjectMyRole myRole={project.myRole} />
-                  <ProjectTechnologies technologies={project.technologies} />
                   <ProjectVideo
                     videoSrc={project.videoSrc}
                     videoSrc2={project.videoSrc2}
                   />
+                  <ProjectKeyFeatures keyFeatures={project.keyFeatures} />
+                  <ProjectMyRole myRole={project.myRole} />
+                  <ProjectTechnologies technologies={project.technologies} />
                 </div>
               </div>
             </animated.div>

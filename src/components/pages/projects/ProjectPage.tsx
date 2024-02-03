@@ -44,10 +44,10 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
 
   const springProps = useSpring({
     opacity: snap.changingProject || !pageIsShowing ? 0 : 1,
-    transform:
-      snap.changingProject || !pageIsShowing
-        ? "translateY(200px)"
-        : "translateY(0px)",
+    // transform:
+    //   snap.changingProject || !pageIsShowing
+    //     ? "translateY(200px)"
+    //     : "translateY(0px)",
   });
 
   return (

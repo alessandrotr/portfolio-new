@@ -43,21 +43,12 @@ const HomePage = () => {
       }  w-full h-full flex flex-col items-center justify-between fixed top-0 left-0 py-12 border-box`}
     >
       <NameAndJob y={springAnimation.y} opacity={springAnimation.opacity} />
-      <animated.div
-        style={{
-          opacity: springAnimation.opacity,
-        }}
-        className={`flex flex-col items-center gap-4 xl:gap-6`}
-      >
-        <h2 className="uppercase xl:text-2xl select-none">
-          New Website coming soon
-        </h2>
-        <Navigator
-          linkToPage="Projects"
-          pageActiveName="Projects"
-          prevText="While you wait, take a look at some of my"
-        />
-      </animated.div>
+      <Navigator
+        opacity={springAnimation.opacity}
+        linkToPage="Projects"
+        pageActiveName="Projects"
+        prevText="While you wait, take a look at some of my"
+      />
       <Links y2={springAnimation.y2} opacity={springAnimation.opacity} />
     </div>
   );
@@ -81,7 +72,9 @@ const NameAndJob = ({
       className={`flex flex-col items-center`}
     >
       <h1 className="uppercase xl:text-2xl select-none">Alessandro Traiola</h1>
-      <p className="xl:text-lg text-gray-400 select-none">Frontend Developer</p>
+      <p className="xl:text-lg text-gray-400 select-none font-semibold">
+        Frontend Developer based in Berlin
+      </p>
     </animated.div>
   );
 };

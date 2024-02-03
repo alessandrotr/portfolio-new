@@ -6,6 +6,7 @@ import { Canvas } from "@react-three/fiber";
 import LogoModel from "./components/3d/LogoModel";
 import { Stars } from "@react-three/drei";
 import Lights from "./components/3d/Lights";
+import OrbitCameraControls from "./components/3d/OrbitCameraControls";
 
 function App() {
   return (
@@ -24,14 +25,14 @@ function App() {
         <LogoModel />
         <Lights />
         <Stars
-          radius={100}
-          depth={50}
+          radius={200}
+          depth={25}
           count={250}
           factor={4}
           saturation={0}
-          fade
           speed={2}
         />
+        <OrbitCameraControls />
       </Canvas>
       <LoadingScreen />
       <HomePage />

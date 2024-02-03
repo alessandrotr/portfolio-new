@@ -25,8 +25,7 @@ const LogoModel = () => {
     }
   }, [snap.changingProject]);
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const springAnimation = useSpring({
+  useSpring({
     from: {
       z: snap.isLoading ? -45 : 0,
     },

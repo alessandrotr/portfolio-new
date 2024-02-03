@@ -4,13 +4,10 @@ import ProjectsPage from "./components/pages/projects/ProjectsPage";
 import "react-tooltip/dist/react-tooltip.css";
 import { Canvas } from "@react-three/fiber";
 import LogoModel from "./components/3d/LogoModel";
-import { useSnapshot } from "valtio";
-import store from "./appStore";
-import { Sparkles, Stars } from "@react-three/drei";
+import { Stars } from "@react-three/drei";
+import Lights from "./components/3d/Lights";
 
 function App() {
-  const snap = useSnapshot(store);
-
   return (
     <>
       <Canvas
@@ -25,21 +22,8 @@ function App() {
         flat
       >
         <LogoModel />
-        <ambientLight
-          intensity={
-            (snap.pageActive === "HomePage" || snap.changingProject) &&
-            !snap.isLoading
-              ? 0.085
-              : 0.085
-          }
-        />
-        <Sparkles
-          position={[1, 0, 0]}
-          count={10}
-          scale={6}
-          size={6}
-          speed={1}
-        />
+        <Lights />
+
         <Stars
           radius={100}
           depth={50}
@@ -48,14 +32,6 @@ function App() {
           saturation={0}
           fade
           speed={2}
-        />
-        <pointLight
-          distance={50}
-          position={[0, 0, 10]}
-          intensity={
-            snap.pageActive === "HomePage" || snap.changingProject ? 12 : 1
-          }
-          color={"#5fd9f9"}
         />
       </Canvas>
       <LoadingScreen />

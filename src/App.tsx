@@ -23,7 +23,6 @@ function App() {
       >
         <LogoModel />
         <Lights />
-
         <Stars
           radius={100}
           depth={50}

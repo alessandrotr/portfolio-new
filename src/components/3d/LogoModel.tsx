@@ -54,13 +54,15 @@ const LogoModel = () => {
       <AccumulativeShadows temporal frames={100} scale={10}>
         <RandomizedLight amount={8} position={[0, 0, -10]} />
       </AccumulativeShadows>
-      <Sparkles
-        position={[3, -2, 0]}
-        count={20}
-        scale={2.5}
-        size={6}
-        speed={2}
-      />
+      {snap.pageActive === "HomePage" || snap.changingProject ? (
+        <Sparkles
+          position={[3, -2, 1]}
+          count={25}
+          scale={3.5}
+          size={8}
+          speed={2.5}
+        />
+      ) : null}
     </group>
   );
 };

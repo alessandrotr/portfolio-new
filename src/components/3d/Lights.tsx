@@ -7,15 +7,35 @@ const Lights = () => {
   return (
     <>
       <ambientLight intensity={0.085} />
-      <pointLight
-        castShadow
-        distance={50}
-        position={[0, 0, 10]}
-        intensity={
-          snap.pageActive === "HomePage" || snap.changingProject ? 15 : 2
-        }
-        color={"#5fd9f9"}
-      />
+      {snap.changingProject && (
+        <pointLight
+          castShadow
+          distance={50}
+          position={[0, 0, 10]}
+          intensity={15}
+          color={"#5fd9f9"}
+        />
+      )}
+
+      {snap.pageActive === "HomePage" && (
+        <pointLight
+          castShadow
+          distance={50}
+          position={[0, 0, 10]}
+          intensity={15}
+          color={"#5fd9f9"}
+        />
+      )}
+
+      {snap.pageActive === "Projects" && (
+        <pointLight
+          castShadow
+          distance={50}
+          position={[0, 0, 20]}
+          intensity={15}
+          color={"#5fd9f9"}
+        />
+      )}
     </>
   );
 };

@@ -36,7 +36,7 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
       setProject(null);
       setTimeout(() => {
         setProject(foundProject);
-      }, 750);
+      }, 1000);
     } else {
       setProject(null);
     }
@@ -44,17 +44,13 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
 
   const springProps = useSpring({
     opacity: snap.changingProject || !pageIsShowing ? 0 : 1,
-    // transform:
-    //   snap.changingProject || !pageIsShowing
-    //     ? "translateY(200px)"
-    //     : "translateY(0px)",
   });
 
   return (
     <div
       className={`${pageIsShowing ? "opacity-1" : "opacity-0"} ${
         !project ? "flex justify-center items-center h-screen" : ""
-      } transition-opacity duration-500 xl:w-[calc(100vw-350px)] xl:ml-[350px] w-full pt-20 pb-4 xl:py-12`}
+      } transition-opacity duration-500 xl:w-[calc(100vw)] w-full pt-20 pb-4 xl:py-12`}
     >
       <div className="xl:max-w-[780px] w-full mx-auto flex justify-center">
         {snap.pageActive === "Projects" &&

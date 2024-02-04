@@ -3,12 +3,9 @@ import store from "../../../appStore";
 import BackButton from "../../UI/BackButton";
 import ListOfProjects from "./ListOfProjects";
 import ProjectPage from "./ProjectPage";
-import { useRef } from "react";
 
 const ProjectsPage = () => {
   const snap = useSnapshot(store);
-  const projectPageRef = useRef(null);
-
   return (
     <div
       className={`${
@@ -21,10 +18,8 @@ const ProjectsPage = () => {
         onClickHandler={() => (store.pageActive = "HomePage")}
         pageIsShowing={snap.pageActive === "Projects"}
       />
-      <div className="flex items-start" ref={projectPageRef}>
-        <ListOfProjects pageIsShowing={snap.pageActive === "Projects"} />
-        <ProjectPage pageIsShowing={snap.pageActive === "Projects"} />
-      </div>
+      <ListOfProjects pageIsShowing={snap.pageActive === "Projects"} />
+      <ProjectPage pageIsShowing={snap.pageActive === "Projects"} />
     </div>
   );
 };

@@ -5,15 +5,26 @@ import useSound from 'use-sound';
 import mute from '/sounds/mute.mp3';
 import unmute from '/sounds/unmute.mp3';
 import tailwindColors from '../../../tailwindColors';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 const VolumeButton = () => {
   const snap = useSnapshot(store);
+  const { t } = useTranslation();
   const [play] = useSound(mute, {
     volume: 0.25,
   });
   const [play2] = useSound(unmute, {
     volume: snap.volume,
   });
+
+  useEffect(() => {
+    const savedVolume = localStorage.getItem('volume');
+    if (savedVolume !== null) {
+      store.volume = parseFloat(savedVolume);
+    }
+  }, []);
 
   const megaphoneSpring = useSpring({
     transform:
@@ -44,12 +55,28 @@ const VolumeButton = () => {
   });
 
   const handleMute = () => {
-    if (snap.volume === 0) {
+    const newVolume = snap.volume === 0 ? 1 : 0;
+
+    if (newVolume === 1) {
       play2();
+      toast.success(t('settingsBar.sound.volumeActivated'), {
+        icon: '🔊',
+        style: {
+          fontSize: '0.9vw',
+        },
+      });
     } else {
       play();
+      toast.success(t('settingsBar.sound.volumeMuted'), {
+        icon: '🔇',
+        style: {
+          fontSize: '0.9vw',
+        },
+      });
     }
-    store.volume = snap.volume === 0 ? 1 : 0;
+
+    store.volume = newVolume;
+    localStorage.setItem('volume', newVolume.toString());
   };
 
   return (

@@ -3,15 +3,26 @@
     "uiSettings": {
       "title": "UI-Einstellungen"
     },
+    "theme": {
+      "changeThemeText": "Theme ändern",
+      "changed": "Theme geändert zu",
+      "light": "Hell",
+      "dark": "Dunkel"
+    },
     "languages": {
       "titleSwitcher": "Sprache",
       "changeLangText": "Sprache ändern",
       "changeColorText": "Hauptfarbe ändern",
-      "changeThemeText": "Theme ändern"
+      "languageChanged": "Sprache geändert zu"
     },
     "sound": {
       "titleSound": "Ton",
-      "changeVolumeText": "Lautstärke ändern"
+      "changeVolumeText": "Lautstärke ändern",
+      "volumeMuted": "Ton stumm geschaltet",
+      "volumeActivated": "Ton aktiviert"
+    },
+    "colors": {
+      "colorChanged": "Hauptfarbe geändert zu"
     }
   },
   "contactForm": {

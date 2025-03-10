@@ -1,5 +1,5 @@
 import { ReactNode, useEffect } from 'react';
-import Navigator from '../../UI/Navigator';
+// import Navigator from '../../UI/Navigator';
 import { useSnapshot } from 'valtio';
 import store from '../../../appStore';
 import { GrLinkedinOption, GrCertificate } from 'react-icons/gr';
@@ -45,11 +45,11 @@ const HomePage = () => {
       } pointer-events-none w-full h-full flex flex-col items-start fixed top-0 left-0 p-4 lg:p-8 border-box`}
     >
       {/* <NameAndJob y={springAnimation.y} opacity={springAnimation.opacity} /> */}
-      <Navigator
+      {/* <Navigator
         opacity={springAnimation.opacity}
         linkToPage="Projects"
         pageActiveName="Projects"
-      />
+      /> */}
       {/* <CoolSentence x={springAnimation.x} opacity={springAnimation.opacity} /> */}
       {/* <Links y2={springAnimation.y2} opacity={springAnimation.opacity} /> */}
     </div>

@@ -1,16 +1,31 @@
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 const languages = [
-  { code: 'en', flag: <EnglishFlag /> },
-  { code: 'de', flag: <GermanFlag /> },
-  { code: 'it', flag: <ItalianFlag /> },
+  { code: 'en', flag: <EnglishFlag />, name: 'English', emoji: '🇬🇧' },
+  { code: 'de', flag: <GermanFlag />, name: 'Deutsch', emoji: '🇩🇪' },
+  { code: 'it', flag: <ItalianFlag />, name: 'Italiano', emoji: '🇮🇹' },
 ];
 
 function LanguageSwitcher() {
   const { i18n, t } = useTranslation();
 
   const changeLanguage = (language: string) => {
-    i18n.changeLanguage(language).catch(console.error);
+    i18n
+      .changeLanguage(language)
+      .then(() => {
+        const lang = languages.find((l) => l.code === language);
+        toast.success(
+          `${t('settingsBar.languages.languageChanged')} ${lang?.name}`,
+          {
+            icon: lang?.emoji,
+            style: {
+              fontSize: '0.9vw',
+            },
+          }
+        );
+      })
+      .catch(console.error);
   };
 
   return (

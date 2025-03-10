@@ -219,15 +219,35 @@ const ContactForm = () => {
       }
 
       setSubmitStatus('success');
-      toast.success('Message sent successfully!');
-      // Clear both form data and localStorage
-      setFormData({ email: '', reason: '', message: '', legalConsent: false });
-      localStorage.removeItem('contactFormData');
 
-      setTimeout(() => {
-        store.contactFormExpanded = false;
-        setSubmitStatus('idle');
-      }, 2000);
+      toast.promise(
+        new Promise((resolve) => {
+          // Clear both form data and localStorage
+          setFormData({
+            email: '',
+            reason: '',
+            message: '',
+            legalConsent: false,
+          });
+          localStorage.removeItem('contactFormData');
+
+          setTimeout(() => {
+            store.contactFormExpanded = false;
+            setSubmitStatus('idle');
+            resolve(null);
+          }, 2000);
+        }),
+        {
+          loading: 'Sending message...',
+          success: 'Message sent successfully!',
+          error: 'Failed to send message',
+        },
+        {
+          style: {
+            fontSize: '0.9vw',
+          },
+        }
+      );
     } catch (error) {
       setSubmitStatus('error');
       toast.error('Failed to send message. Please try again.');

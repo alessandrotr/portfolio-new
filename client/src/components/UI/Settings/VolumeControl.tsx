@@ -4,8 +4,11 @@ import useSound from 'use-sound';
 import mute from '/sounds/mute.mp3';
 import unmute from '/sounds/unmute.mp3';
 import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 const VolumeControl = () => {
+  const { t } = useTranslation();
   const snap = useSnapshot(store);
   const [playMute] = useSound(mute, {
     volume: 0.25,
@@ -26,8 +29,20 @@ const VolumeControl = () => {
 
     if (newVolume === 0 && snap.volume !== 0) {
       playMute();
+      toast.success(t('settingsBar.sound.volumeMuted'), {
+        icon: '🔇',
+        style: {
+          fontSize: '0.9vw',
+        },
+      });
     } else if (newVolume > 0 && snap.volume === 0) {
       playUnmute();
+      toast.success(t('settingsBar.sound.volumeActivated'), {
+        icon: '🔊',
+        style: {
+          fontSize: '0.9vw',
+        },
+      });
     }
 
     store.volume = newVolume;

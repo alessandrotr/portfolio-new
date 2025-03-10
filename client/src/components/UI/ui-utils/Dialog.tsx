@@ -73,7 +73,7 @@ const Dialog: React.FC<DialogProps> = ({
         dialogHeightSize={dialogHeightSize}
         buttonPositionRight={buttonPositionRight}
         handleOpenClick={handleDialogOpen}
-        className="z-[20]"
+        className={`z-[20]`}
       >
         <DialogButtonText
           expanded={expanded}

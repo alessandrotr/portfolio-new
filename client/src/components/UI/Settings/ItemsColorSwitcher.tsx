@@ -1,6 +1,7 @@
 import { useSnapshot } from 'valtio';
 import store from '../../../appStore';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 export default function ItemsColorSwitcher() {
   const snap = useSnapshot(store);
@@ -9,6 +10,13 @@ export default function ItemsColorSwitcher() {
   const handleColorChange = (color: string) => {
     store.selectedColor = color;
     localStorage.setItem('selectedColor', color);
+    toast.success(`${t('settingsBar.colors.colorChanged')} ${color}`, {
+      icon: '🎨',
+      style: {
+        border: `3px solid ${color}`,
+        fontSize: '0.9vw',
+      },
+    });
   };
 
   return (

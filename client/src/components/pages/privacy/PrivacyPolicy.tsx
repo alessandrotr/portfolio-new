@@ -127,11 +127,12 @@ const PrivacyPolicy = () => {
             background: rgba(255, 255, 255, 0.1);
           }
           .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: ${snap.selectedColor};
+            background: ${snap.selectedColor}80;
             border-radius: 4px;
           }
           .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: ${snap.selectedColor};
+            background: ${snap.selectedColor}B3;
+            cursor: grab;
             opacity: 0.8;
           }
         `}

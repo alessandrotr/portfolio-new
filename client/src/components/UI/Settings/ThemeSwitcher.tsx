@@ -2,6 +2,7 @@ import { useSpring, animated } from '@react-spring/web';
 import useTheme from '../../../hooks/useTheme';
 import store from '../../../appStore';
 import { useTranslation } from 'react-i18next';
+import toast from 'react-hot-toast';
 
 export default function ThemeSwitcher() {
   const { theme, toggleTheme } = useTheme();
@@ -23,6 +24,16 @@ export default function ThemeSwitcher() {
     const newTheme = theme === 'dark' ? 'light' : 'dark';
     store.theme = newTheme;
 
+    toast.success(
+      `${t('settingsBar.theme.changed')} ${t(`settingsBar.theme.${newTheme}`)}`,
+      {
+        style: {
+          fontSize: '0.9vw',
+        },
+        icon: newTheme === 'light' ? '☀️' : '🌙',
+      }
+    );
+
     api.start({
       x: newTheme === 'dark' ? -0.1 : 1.9,
       rotate: props.rotate.get() + -180,
@@ -37,7 +48,7 @@ export default function ThemeSwitcher() {
   return (
     <div className="space-y-[0.3vw]">
       <span className="text-[0.75vw] text-gray-500 dark:text-gray-400 transition-colors duration-300">
-        {t('settingsBar.languages.changeThemeText')}
+        {t('settingsBar.theme.changeThemeText')}
       </span>
       <div
         onClick={handleToggle}

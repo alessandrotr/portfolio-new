@@ -1,0 +1,151 @@
+{
+  "settingsBar": {
+    "uiSettings": {
+      "title": "Impostazioni UI"
+    },
+    "languages": {
+      "titleSwitcher": "Lingua",
+      "changeLangText": "Cambia lingua",
+      "changeColorText": "Cambia colore principale",
+      "changeThemeText": "Cambia Tema"
+    },
+    "sound": {
+      "titleSound": "Audio",
+      "changeVolumeText": "Cambia il volume"
+    }
+  },
+  "contactForm": {
+    "messagePrompts": [
+      { "text": "dimmi qualcosa in più", "minLength": 19 },
+      { "text": "va abbastanza bene", "minLength": 36 },
+      { "text": "ora si ragiona", "minLength": 49 },
+      { "text": "sta diventando interessante!", "minLength": 76 },
+      { "text": "sei proprio un narratore", "minLength": 98 },
+      { "text": "questo sta diventando un romanzo!", "minLength": 125 }
+    ],
+    "buttonOpenDialogText": "Contattami",
+    "email": {
+      "label": "Email",
+      "labelIsRequired": "Email è obbligatoria",
+      "labelIsNotValid": "Email non valida",
+      "placeholder": "la-tua-email@email.it"
+    },
+    "reason": {
+      "label": "Motivo del contatto",
+      "labelIsRequired": "Motivo del contatto è obbligatorio",
+      "options": [
+        {
+          "value": "",
+          "label": "Seleziona un motivo"
+        },
+        {
+          "value": "general",
+          "label": "Inchiesta generale"
+        },
+        {
+          "value": "business",
+          "label": "Proposta commerciale"
+        },
+        {
+          "value": "support",
+          "label": "Supporto tecnico"
+        },
+        {
+          "value": "feedback",
+          "label": "Feedback"
+        },
+        {
+          "value": "other",
+          "label": "Altro"
+        }
+      ]
+    },
+    "message": {
+      "label": "Messaggio",
+      "labelIsRequired": "Messaggio è obbligatorio",
+      "labelIsTooShort": "Messaggio è troppo corto",
+      "placeholder": "Scrivi un messaggio! Punti extra per battute divertenti."
+    },
+    "buttonSendText": "Invia messaggio",
+    "buttonSendTextIsLoading": "Invio in corso...",
+    "legalConsent": {
+      "text": "Accetto il trattamento dei miei dati come descritto nell'<a href='/privacy' class='underline'>Informativa sulla Privacy</a>",
+      "error": "Devi accettare i termini e le condizioni"
+    }
+  },
+  "privacyPolicy": {
+    "buttonOpenDialogText": "Informativa sulla Privacy",
+    "title": "Informativa sulla Privacy",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": "Ultimo aggiornamento: Marzo 2024"
+      },
+      {
+        "type": "paragraph",
+        "content": "Questa Informativa sulla Privacy descrive come raccolgo, utilizzo e gestisco le tue informazioni personali quando utilizzi il mio sito web."
+      },
+      {
+        "type": "title",
+        "content": "Informazioni che raccolgo"
+      },
+      {
+        "type": "paragraph",
+        "content": "Raccolgo informazioni che mi fornisci direttamente, inclusi:"
+      },
+      {
+        "type": "list",
+        "content": [
+          "Nome e informazioni di contatto",
+          "Indirizzo email",
+          "Qualsiasi altra informazione che scegli di fornirci"
+        ]
+      },
+      {
+        "type": "title",
+        "content": "Come utilizzo le Tue Informazioni"
+      },
+      {
+        "type": "paragraph",
+        "content": "utilizzo le informazioni raccolte per:"
+      },
+      {
+        "type": "list",
+        "content": [
+          "Rispondere alle tue richieste",
+          "Fornirti informazioni sui miei servizi",
+          "Migliorare il mio sito web e i miei servizi",
+          "Rispettare gli obblighi legali"
+        ]
+      },
+      {
+        "type": "title",
+        "content": "Protezione dei Dati"
+      },
+      {
+        "type": "paragraph",
+        "content": "Implemento misure di sicurezza appropriate per proteggere le tue informazioni personali da accessi, modifiche, divulgazioni o distruzioni non autorizzate."
+      },
+      {
+        "type": "title",
+        "content": "Contattami"
+      },
+      {
+        "type": "paragraph",
+        "content": "Se hai domande su questa Informativa sulla Privacy, contattami a:"
+      },
+      {
+        "type": "paragraph",
+        "content": "Email: alessandrotraiola@gmail.com"
+      },
+      {
+        "type": "title",
+        "content": "Modifiche a Questa Informativa"
+      },
+      {
+        "type": "paragraph",
+        "content": "Potrei aggiornare questa Informativa sulla Privacy di tanto in tanto. Ti informerò di eventuali modifiche pubblicando la nuova Informativa sulla Privacy su questa pagina."
+      }
+    ]
+  }
+}

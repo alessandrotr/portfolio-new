@@ -1,0 +1,151 @@
+{
+  "settingsBar": {
+    "uiSettings": {
+      "title": "UI-Einstellungen"
+    },
+    "languages": {
+      "titleSwitcher": "Sprache",
+      "changeLangText": "Sprache ändern",
+      "changeColorText": "Hauptfarbe ändern",
+      "changeThemeText": "Theme ändern"
+    },
+    "sound": {
+      "titleSound": "Ton",
+      "changeVolumeText": "Lautstärke ändern"
+    }
+  },
+  "contactForm": {
+    "messagePrompts": [
+      { "text": "erzähl mir mehr", "minLength": 15 },
+      { "text": "das ist schon besser", "minLength": 32 },
+      { "text": "jetzt wird es interessant", "minLength": 48 },
+      { "text": "sehr spannend!", "minLength": 68 },
+      { "text": "du bist ein guter Geschichtenerzähler", "minLength": 94 },
+      { "text": "das wird eine epische Geschichte", "minLength": 117 }
+    ],
+    "buttonOpenDialogText": "Kontakt",
+    "email": {
+      "label": "E-Mail",
+      "labelIsRequired": "E-Mail ist erforderlich",
+      "labelIsNotValid": "E-Mail ist nicht gültig",
+      "placeholder": "ihre@email.de"
+    },
+    "reason": {
+      "label": "Grund für den Kontakt",
+      "labelIsRequired": "Grund für den Kontakt ist erforderlich",
+      "options": [
+        {
+          "value": "",
+          "label": "Grund auswählen"
+        },
+        {
+          "value": "general",
+          "label": "Allgemeine Anfrage"
+        },
+        {
+          "value": "business",
+          "label": "Geschäftsangebot"
+        },
+        {
+          "value": "support",
+          "label": "Technischer Support"
+        },
+        {
+          "value": "feedback",
+          "label": "Feedback"
+        },
+        {
+          "value": "other",
+          "label": "Sonstiges"
+        }
+      ]
+    },
+    "message": {
+      "label": "Nachricht",
+      "labelIsRequired": "Nachricht ist erforderlich",
+      "labelIsTooShort": "Nachricht ist zu kurz",
+      "placeholder": "Schreiben Sie mir eine Nachricht! Bonus-Punkte für Witze."
+    },
+    "legalConsent": {
+      "text": "Ich stimme der Verarbeitung meiner Daten gemäß der <a href='/privacy' class='underline'>Datenschutzerklärung</a> zu",
+      "error": "Sie müssen den Bedingungen zustimmen"
+    },
+    "buttonSendText": "Nachricht senden",
+    "buttonSendTextIsLoading": "Wird gesendet..."
+  },
+  "privacyPolicy": {
+    "buttonOpenDialogText": "Datenschutzerklärung",
+    "title": "Datenschutzerklärung",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": "Zuletzt aktualisiert: März 2024"
+      },
+      {
+        "type": "paragraph",
+        "content": "Diese Datenschutzerklärung beschreibt, wie ich Ihre persönlichen Daten sammeln, verwenden und verarbeiten, wenn Sie meine Website nutzen."
+      },
+      {
+        "type": "title",
+        "content": "Informationen, die ich sammle"
+      },
+      {
+        "type": "paragraph",
+        "content": "Ich sammle Informationen, die Sie mir direkt zur Verfügung stellen, einschließlich:"
+      },
+      {
+        "type": "list",
+        "content": [
+          "Name und Kontaktinformationen",
+          "E-Mail-Adresse",
+          "Alle anderen Informationen, die Sie uns zur Verfügung stellen"
+        ]
+      },
+      {
+        "type": "title",
+        "content": "Wie ich Ihre Informationen verwende"
+      },
+      {
+        "type": "paragraph",
+        "content": "Ich verwende die gesammelten Informationen für folgende Zwecke:"
+      },
+      {
+        "type": "list",
+        "content": [
+          "Beantwortung Ihrer Anfragen",
+          "Bereitstellung von Informationen über meine Dienste",
+          "Verbesserung meiner Website und Dienste",
+          "Einhaltung gesetzlicher Verpflichtungen"
+        ]
+      },
+      {
+        "type": "title",
+        "content": "Datenschutz"
+      },
+      {
+        "type": "paragraph",
+        "content": "Ich implementiere angemessene Sicherheitsmaßnahmen, um Ihre persönlichen Daten vor unbefugtem Zugriff, Änderung, Offenlegung oder Zerstörung zu schützen."
+      },
+      {
+        "type": "title",
+        "content": "Kontakt"
+      },
+      {
+        "type": "paragraph",
+        "content": "Wenn Sie Fragen zu dieser Datenschutzerklärung haben, kontaktieren Sie mich bitte unter:"
+      },
+      {
+        "type": "paragraph",
+        "content": "E-Mail: alessandrotraiola@gmail.com"
+      },
+      {
+        "type": "title",
+        "content": "Änderungen dieser Richtlinie"
+      },
+      {
+        "type": "paragraph",
+        "content": "Ich kann diese Datenschutzerklärung von Zeit zu Zeit aktualisieren. Ich werde Sie über alle Änderungen informieren, indem ich die neue Datenschutzerklärung auf dieser Seite veröffentliche."
+      }
+    ]
+  }
+}

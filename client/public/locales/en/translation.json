@@ -1,0 +1,152 @@
+{
+  "settingsBar": {
+    "uiSettings": {
+      "title": "UI Settings"
+    },
+    "languages": {
+      "titleSwitcher": "Language",
+      "changeLangText": "Change language",
+      "changeColorText": "Change main color",
+      "changeThemeText": "Change Theme"
+    },
+    "sound": {
+      "titleSound": "Sound",
+      "changeVolumeText": "Change volume"
+    }
+  },
+  "contactForm": {
+    "messagePrompts": [
+      { "text": "tell me a bit more", "minLength": 15 },
+      { "text": "I mean it's alright", "minLength": 32 },
+      { "text": "now we're talking", "minLength": 48 },
+      { "text": "getting interesting!", "minLength": 68 },
+      { "text": "you're quite the storyteller", "minLength": 94 },
+      { "text": "this is becoming an epic tale", "minLength": 117 }
+    ],
+    "buttonOpenDialogText": "Reach out",
+    "email": {
+      "label": "Email",
+      "labelIsRequired": "Email is required",
+      "labelIsNotValid": "Email is not valid",
+      "placeholder": "your@email.com"
+    },
+    "reason": {
+      "label": "Reason for contacting",
+      "labelIsRequired": "Reason for contacting is required",
+      "options": [
+        {
+          "value": "",
+          "label": "Select a reason"
+        },
+        {
+          "value": "general",
+          "label": "General Inquiry"
+        },
+        {
+          "value": "business",
+          "label": "Business Proposal"
+        },
+        {
+          "value": "support",
+          "label": "Technical Support"
+        },
+        {
+          "value": "feedback",
+          "label": "Feedback"
+        },
+        {
+          "value": "other",
+          "label": "Other"
+        }
+      ]
+    },
+    "message": {
+      "label": "Message",
+      "labelIsRequired": "Message is required",
+      "labelIsTooShort": "Message is too short",
+      "placeholder": "Write me a message! Bonus points for jokes."
+    },
+    "legalConsent": {
+      "text": "I agree to the processing of my data as described in the <a href='/privacy' class='underline'>Privacy Policy</a>",
+      "error": "You must accept the terms and conditions"
+    },
+    "buttonSendText": "Send message",
+    "buttonSendTextIsLoading": "Sending..."
+  },
+  "privacyPolicy": {
+    "buttonOpenDialogText": "Privacy Policy",
+    "title": "Privacy Policy",
+    "content": [
+      {
+        "type": "paragraph",
+        "content": "Last updated: March 2024"
+      },
+      {
+        "type": "paragraph",
+        "content": "This Privacy Policy describes how I collect, use, and handle your personal information when you use my website."
+      },
+      {
+        "type": "title",
+        "content": "Information I Collect"
+      },
+      {
+        "type": "paragraph",
+        "content": "I collect information that you provide directly to me, including:"
+      },
+      {
+        "type": "list",
+        "content": [
+          "Name and contact information",
+          "Email address",
+          "Any other information you choose to provide"
+        ]
+      },
+      {
+        "type": "title",
+        "content": "How I Use Your Information"
+      },
+      {
+        "type": "paragraph",
+        "content": "I use the information I collect to:"
+      },
+      {
+        "type": "list",
+        "content": [
+          "Respond to your inquiries",
+          "Provide you with information about my services",
+          "Improve my website and services",
+          "Comply with legal obligations"
+        ]
+      },
+      {
+        "type": "title",
+        "content": "Data Protection"
+      },
+      {
+        "type": "paragraph",
+        "content": "I implement appropriate security measures to protect your personal information from unauthorized access, alteration, disclosure, or destruction."
+      },
+      {
+        "type": "title",
+        "content": "Contact Me"
+      },
+      {
+        "type": "paragraph",
+        "content": "If you have any questions about this Privacy Policy, please contact me at:"
+      },
+      {
+        "type": "paragraph",
+        "content": "Email: alessandrotraiola@gmail.com"
+      },
+      {
+        "type": "title",
+        "content": "Changes to This Policy"
+      },
+      {
+        "type": "paragraph",
+        "content": "I may update this Privacy Policy from time to time. I will notify you of any changes by posting the new Privacy Policy on this page."
+      }
+    ]
+  },
+  "copyright": "@ 2025"
+}

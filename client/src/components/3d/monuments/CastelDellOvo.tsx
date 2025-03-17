@@ -75,18 +75,6 @@ export default function CastelDellOvo({
         visible={visible}
       />
 
-      {/* Lighting */}
-      <pointLight
-        position={[2, 5, 2]}
-        intensity={1}
-        color={isHovered ? snap.selectedColor : '#ffffff'}
-      />
-      <pointLight
-        position={[-2, 3, -2]}
-        intensity={0.5}
-        color={isHovered ? snap.selectedColor : '#ffffff'}
-      />
-
       {/* Base platform and sea rock */}
       <points position={[0, -0.5, 0]}>
         <boxGeometry args={[8, 1, 3, 64, 32, 32]} />
@@ -131,7 +119,7 @@ export default function CastelDellOvo({
       </group>
 
       {/* Battlements */}
-      <points position={[0, 2.8, 0]}>
+      <points position={[0, 2.5, 0]}>
         <boxGeometry args={[7.2, 0.4, 2.7, 64, 8, 32]} />
         <primitive object={material} />
       </points>

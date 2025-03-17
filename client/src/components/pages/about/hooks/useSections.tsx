@@ -41,6 +41,8 @@ export const useSections = ({ t }: UseSectionsProps): Section[] => {
               ? 'berlin'
               : id === 'from'
               ? 'naples'
+              : id === 'what'
+              ? 'what'
               : undefined,
         };
       }),

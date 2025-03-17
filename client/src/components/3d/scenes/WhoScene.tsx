@@ -18,6 +18,7 @@ const User3D = ({
 }: User3DProps) => {
   const snap = useSnapshot(store);
   const userRef = useRef<THREE.Group>(null);
+  const rightArmRef = useRef<THREE.Group>(null);
 
   // Create a single shared material instance
   const material = useMemo(() => {
@@ -41,48 +42,84 @@ const User3D = ({
   // Animation frame update
   useFrame((state) => {
     material.time = state.clock.getElapsedTime();
+    // Add waving animation to right arm
+    if (rightArmRef.current && rightArmRef.current.children[1]) {
+      const t = state.clock.getElapsedTime();
+      // Create a natural waving motion pivoting from the elbow
+      const forearm = rightArmRef.current.children[1];
+      // Asymmetric wave: more movement away from head (positive values), less towards
+      const wave = Math.sin(t * 3);
+      forearm.rotation.z = wave * (wave > 0 ? 0.35 : 0.15);
+      forearm.rotation.y = Math.sin(t * 3) * 0.1;
+      // Adjust position to maintain connection at the elbow
+      forearm.position.set(
+        Math.sin(forearm.rotation.z) * 0.2, // X offset
+        -0.4 + (1 - Math.cos(forearm.rotation.z)) * 0.2, // Y offset
+        0
+      );
+    }
   });
 
   return (
     <group ref={userRef} scale={scale} position={position} visible={visible}>
       {/* Head */}
       <points position={[0, 2, 0]}>
-        <sphereGeometry args={[0.3, 32, 32]} />
+        <sphereGeometry args={[0.3, 64, 64]} />
         <primitive object={material} />
       </points>
 
       {/* Neck */}
       <points position={[0, 1.6, 0]}>
-        <cylinderGeometry args={[0.1, 0.15, 0.3, 32, 16]} />
+        <cylinderGeometry args={[0.1, 0.15, 0.3, 64, 32]} />
         <primitive object={material} />
       </points>
 
       {/* Body */}
       <points position={[0, 0.8, 0]}>
-        <cylinderGeometry args={[0.4, 0.3, 1.2, 32, 32]} />
+        <cylinderGeometry args={[0.25, 0.3, 1.2, 64, 64]} />
         <primitive object={material} />
       </points>
 
       {/* Left Arm */}
-      <group position={[-0.4, 1.2, 0]} rotation={[0, 0, -Math.PI / 4]}>
+      <group position={[-0.35, 1.175, 0]} rotation={[0, 0, -Math.PI / 4]}>
+        {/* Upper arm - static */}
         <points>
-          <cylinderGeometry args={[0.12, 0.1, 0.8, 32, 16]} />
+          <cylinderGeometry args={[0.12, 0.1, 0.4, 64, 32]} />
           <primitive object={material} />
         </points>
+        {/* Forearm - static */}
+        <group position={[0, -0.4, 0]}>
+          <points>
+            <cylinderGeometry args={[0.1, 0.08, 0.4, 64, 32]} />
+            <primitive object={material} />
+          </points>
+        </group>
       </group>
 
       {/* Right Arm */}
-      <group position={[0.4, 1.2, 0]} rotation={[0, 0, Math.PI / 4]}>
+      <group
+        ref={rightArmRef}
+        position={[0.4, 1.5, 0]}
+        rotation={[0, 0, -Math.PI / -1.3]}
+      >
+        {/* Upper arm - static */}
         <points>
-          <cylinderGeometry args={[0.12, 0.1, 0.8, 32, 16]} />
+          <cylinderGeometry args={[0.12, 0.1, 0.4, 64, 32]} />
           <primitive object={material} />
         </points>
+        {/* Forearm - animated */}
+        <group position={[0, -0.4, 0]}>
+          <points>
+            <cylinderGeometry args={[0.1, 0.08, 0.4, 64, 32]} />
+            <primitive object={material} />
+          </points>
+        </group>
       </group>
 
       {/* Left Leg */}
       <group position={[-0.2, 0, 0]}>
         <points>
-          <cylinderGeometry args={[0.15, 0.12, 1, 32, 16]} />
+          <cylinderGeometry args={[0.08, 0.1, 1, 64, 32]} />
           <primitive object={material} />
         </points>
       </group>
@@ -90,7 +127,7 @@ const User3D = ({
       {/* Right Leg */}
       <group position={[0.2, 0, 0]}>
         <points>
-          <cylinderGeometry args={[0.15, 0.12, 1, 32, 16]} />
+          <cylinderGeometry args={[0.08, 0.1, 1, 64, 32]} />
           <primitive object={material} />
         </points>
       </group>

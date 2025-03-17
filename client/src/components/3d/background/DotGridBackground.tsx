@@ -13,6 +13,7 @@ import { useScreenSize } from '../../../hooks/useScreenSize';
 import BerlinScene from '../scenes/BerlinScene';
 import NaplesScene from '../scenes/NaplesScene';
 import WhoScene from '../scenes/WhoScene';
+import WhatScene from '../scenes/WhatScene';
 
 interface SphereBehavior {
   x: number;
@@ -1349,6 +1350,9 @@ export default function DotGridBackground() {
           </group>
           <group visible={snap.activeScene === 'naples'}>
             <NaplesScene visible={snap.activeScene === 'naples'} />
+          </group>
+          <group visible={snap.activeScene === 'what'}>
+            <WhatScene visible={snap.activeScene === 'what'} />
           </group>
         </group>
 

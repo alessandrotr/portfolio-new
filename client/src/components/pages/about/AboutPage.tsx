@@ -86,7 +86,7 @@ const AboutPage = () => {
   return (
     <div
       id="about-container"
-      className="w-full h-full flex flex-col items-center justify-center fixed top-0 left-0 overflow-hidden pointer-events-none"
+      className="w-full h-full flex flex-col items-center justify-center fixed top-0 left-0 overflow-hidden xl:pointer-events-none"
       onWheel={handleWheel}
       onTouchStart={handleTouchStart}
       onTouchMove={handleTouchMove}

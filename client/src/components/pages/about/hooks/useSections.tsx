@@ -35,7 +35,13 @@ export const useSections = ({ t }: UseSectionsProps): Section[] => {
           title: t(`aboutPage.sections.${id}.title`),
           content,
           sceneId:
-            id === 'live' ? 'berlin' : id === 'from' ? 'naples' : undefined,
+            id === 'who'
+              ? 'who'
+              : id === 'live'
+              ? 'berlin'
+              : id === 'from'
+              ? 'naples'
+              : undefined,
         };
       }),
     [t]

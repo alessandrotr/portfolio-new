@@ -12,6 +12,7 @@ import sphereDotfx from '/sounds/glitch.mp3';
 import { useScreenSize } from '../../../hooks/useScreenSize';
 import BerlinScene from '../scenes/BerlinScene';
 import NaplesScene from '../scenes/NaplesScene';
+import WhoScene from '../scenes/WhoScene';
 
 interface SphereBehavior {
   x: number;
@@ -1340,6 +1341,9 @@ export default function DotGridBackground() {
 
         {/* Landmarks - only show when activeScene is set */}
         <group position-y={0.15}>
+          <group visible={snap.activeScene === 'who'}>
+            <WhoScene visible={snap.activeScene === 'who'} />
+          </group>
           <group visible={snap.activeScene === 'berlin'}>
             <BerlinScene visible={snap.activeScene === 'berlin'} />
           </group>

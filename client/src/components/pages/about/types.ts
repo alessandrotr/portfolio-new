@@ -7,7 +7,7 @@ export interface Section {
   id: SectionId;
   title: string;
   content: ReactNode;
-  sceneId?: 'berlin' | 'naples';
+  sceneId?: 'who' | 'berlin' | 'naples';
 }
 
 export interface AboutSectionProps {

@@ -36,7 +36,7 @@ const store = proxy({
   availableColors: ['#5fd9f9', '#ff6b6b', '#ffbb33', '#48c774', '#a29bfe'],
   touchStartY: null as number | null,
   touchStartX: null as number | null,
-  activeScene: null as 'berlin' | 'naples' | null,
+  activeScene: null as 'who' | 'berlin' | 'naples' | null,
   changeColor: () => {
     const currentIndex = store.availableColors.indexOf(store.selectedColor);
     const nextIndex = (currentIndex + 1) % store.availableColors.length;

@@ -209,36 +209,8 @@ export default function DotGridBackground() {
   const rippleTimeRef = useRef(-1);
   const clockRef = useRef(new THREE.Clock());
 
-  const [opacityFactor, setOpacityFactor] = useState(1.0);
-  const lastPageActiveRef = useRef(snap.pageActive);
-
   const [isMousePressed, setIsMousePressed] = useState(false); // Track mouse press state
   const [pressStartTime, setPressStartTime] = useState(0); // Track the press start time
-
-  useEffect(() => {
-    const animateOpacityTransition = (targetOpacity: number) => {
-      const animate = () => {
-        setOpacityFactor((prev) => {
-          const delta = (targetOpacity - prev) * 0.05; // Smooth step
-          if (Math.abs(delta) < 0.001) return targetOpacity; // Stop when close to target
-          return prev + delta;
-        });
-
-        if (Math.abs(opacityFactor - targetOpacity) > 0.001) {
-          requestAnimationFrame(animate);
-        }
-      };
-      animate();
-    };
-    // Only animate if pageActive changes
-    const targetOpacity = snap.pageActive === 'Projects' ? 0.15 : 1.0;
-    if (snap.pageActive == 'Projects') {
-      lastPageActiveRef.current = snap.pageActive;
-      animateOpacityTransition(targetOpacity);
-    } else {
-      animateOpacityTransition(targetOpacity);
-    }
-  }, [snap.pageActive, opacityFactor]);
 
   const animateRipple = () => {
     const clock = clockRef.current;
@@ -301,7 +273,6 @@ export default function DotGridBackground() {
         resolution={[size.width * viewport.dpr, size.height * viewport.dpr]}
         gridSize={100}
         mouseTrail={trail}
-        opacityFactor={opacityFactor} // Pass opacityFactor to the shader
         isMousePressed={isMousePressed ? 1.0 : 0.0} // Pass the mouse press state to the shader
         depthWrite={false}
         renderOrder={1}

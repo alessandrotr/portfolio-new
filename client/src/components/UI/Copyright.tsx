@@ -4,6 +4,7 @@ import { useSnapshot } from 'valtio';
 import store from '../../appStore';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const Copyright = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -12,6 +13,7 @@ const Copyright = () => {
   const { t } = useTranslation();
   const text = t('copyright');
   const snap = useSnapshot(store);
+  const { currentLanguage } = useLanguage();
 
   const handleMouseMove = (event: React.MouseEvent) => {
     setMouseX(event.clientX);
@@ -19,7 +21,7 @@ const Copyright = () => {
   };
 
   const { opacity: buttonOpacity } = useSpring({
-    opacity: snap.isLoading || snap.pageActive === 'Projects' ? 0 : 1,
+    opacity: snap.isLoading ? 0 : 1,
     config: { ...springConfig.molasses, duration: 800 },
     delay: 400,
   });
@@ -50,8 +52,8 @@ const Copyright = () => {
       </div>
       <animated.div style={{ opacity: buttonOpacity }}>
         <Link
-          to="/privacy-policy"
-          className="text-[1vw] uppercase text-textDark dark:text-textLight hover:opacity-80 transition-opacity"
+          to={`/${currentLanguage}/privacy-policy`}
+          className="text-[1vw] uppercase text-textDark dark:text-textLight hover:opacity-80 transition-opacity select-none"
         >
           {t('privacyPolicy.buttonOpenDialogText')}
         </Link>
@@ -101,7 +103,7 @@ const AnimatedLetter = ({
   const mouseDeltaY = mouseY - letterPosition.y;
 
   const { opacity } = useSpring({
-    opacity: snap.isLoading || snap.pageActive === 'Projects' ? 0 : 1,
+    opacity: snap.isLoading ? 0 : 1,
     config: { ...springConfig.molasses, duration: 800 },
     delay:
       !hovered || snap.isLoading

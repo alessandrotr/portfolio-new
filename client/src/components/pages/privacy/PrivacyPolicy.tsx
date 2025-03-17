@@ -1,9 +1,11 @@
 import { useTranslation } from 'react-i18next';
 import { animated, useSpring } from '@react-spring/web';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useNavigationType } from 'react-router-dom';
 import CloseButton from '../../UI/ui-utils/CloseButton';
 import { useSnapshot } from 'valtio';
 import store from '../../../appStore';
+import { useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 interface ContentSection {
   type: 'title' | 'paragraph' | 'list';
@@ -13,6 +15,7 @@ interface ContentSection {
 const PrivacyPolicy = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const navigationType = useNavigationType();
   const snap = useSnapshot(store);
 
   const [springs, api] = useSpring(() => ({
@@ -21,9 +24,17 @@ const PrivacyPolicy = () => {
     config: { tension: 300, friction: 30 },
   }));
 
+  useEffect(() => {
+    if (navigationType === 'POP') {
+      api.start({
+        to: { opacity: 0, y: 1000 },
+        config: { tension: 300, friction: 30 },
+      });
+    }
+  }, [navigationType, api]);
+
   const handleClose = () => {
     api.start({
-      from: { opacity: 1, y: 0 },
       to: { opacity: 0, y: 1000 },
       config: { tension: 300, friction: 30 },
       onRest: () => {
@@ -100,20 +111,21 @@ const PrivacyPolicy = () => {
     returnObjects: true,
   }) as (ContentSection | string)[];
 
-  return (
+  const contentPortal = (
     <animated.div
       style={{
         ...springs,
         position: 'fixed',
         bottom: 0,
+        top: 0,
+        margin: 'auto',
         left: '50%',
         transform: 'translateX(-50%)',
-        width: '70%',
+        width: '65%',
         maxWidth: '1150px',
-        height: '92vh',
-        backgroundColor: 'var(--bg-light)',
+        height: '85vh',
       }}
-      className="bg-bgLight dark:bg-bgDark z-[4]"
+      className="z-[4] drop-shadow rounded-[25px] border-2 border-bgDarkTransparent dark:border-bgLightTransparent p-[15px]"
     >
       <style>
         {`
@@ -122,6 +134,7 @@ const PrivacyPolicy = () => {
           }
           .custom-scrollbar::-webkit-scrollbar-track {
             background: rgba(0, 0, 0, 0.1);
+            border-radius: 0 4px 4px 0;
           }
           .dark .custom-scrollbar::-webkit-scrollbar-track {
             background: rgba(255, 255, 255, 0.1);
@@ -142,13 +155,17 @@ const PrivacyPolicy = () => {
           <CloseButton handleClick={handleClose} />
         </div>
         <div className="w-full h-full overflow-hidden">
-          <div className="w-full h-full overflow-y-auto rounded-tl-3xl bg-bgDarkTransparent dark:bg-bgLightTransparent custom-scrollbar">
-            <div className="px-[2.5vw] pt-[1vw] w-full h-full">
-              <h2 className="text-textDark dark:text-textLight transition-colors duration-300 text-[3.5vw] uppercase select-none mb-6">
-                {t('privacyPolicy.title')}
-              </h2>
-              <div className="space-y-4 text-[1vw] text-textDark dark:text-textLight pb-[2.5vw]">
-                {content.map((section, index) => renderContent(section, index))}
+          <div className="w-full h-full rounded-[20px] bg-bgLightTransparent dark:bg-bgDarkTransparent">
+            <div className="w-full h-full overflow-y-auto custom-scrollbar">
+              <div className="px-[2.5vw] pr-[4vw] pt-[1vw]">
+                <h2 className="text-textDark dark:text-textLight transition-colors duration-300 text-[3.5vw] uppercase select-none mb-6">
+                  {t('privacyPolicy.title')}
+                </h2>
+                <div className="space-y-4 text-[1vw] text-textDark dark:text-textLight pb-[2.5vw]">
+                  {content.map((section, index) =>
+                    renderContent(section, index)
+                  )}
+                </div>
               </div>
             </div>
           </div>
@@ -156,6 +173,8 @@ const PrivacyPolicy = () => {
       </div>
     </animated.div>
   );
+
+  return createPortal(contentPortal, document.body);
 };
 
 export default PrivacyPolicy;

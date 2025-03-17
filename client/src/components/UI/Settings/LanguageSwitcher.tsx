@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const languages = [
   { code: 'en', flag: <EnglishFlag />, name: 'English', emoji: '🇬🇧' },
@@ -9,8 +10,11 @@ const languages = [
 
 function LanguageSwitcher() {
   const { i18n, t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const changeLanguage = (language: string) => {
+  const handleLanguageChange = (language: string) => {
+    // Update i18n language
     i18n
       .changeLanguage(language)
       .then(() => {
@@ -24,6 +28,16 @@ function LanguageSwitcher() {
             },
           }
         );
+
+        // Update URL while maintaining the current path
+        const currentPath = location.pathname;
+        const pathParts = currentPath.split('/').filter(Boolean);
+        const newPath =
+          pathParts.length > 1
+            ? `/${language}/${pathParts.slice(1).join('/')}`
+            : `/${language}`;
+
+        navigate(newPath);
       })
       .catch(console.error);
   };
@@ -37,7 +51,7 @@ function LanguageSwitcher() {
         {languages.map(({ code, flag }) => (
           <button
             key={code}
-            onClick={() => changeLanguage(code)}
+            onClick={() => handleLanguageChange(code)}
             className={`w-[1.5vw] h-[1.5vw] rounded-full overflow-hidden transition-transform transform hover:scale-110 ${
               i18n.language === code ? 'ring-2 ring-bgLight' : ''
             }`}

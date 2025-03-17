@@ -9,14 +9,15 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: 'en',
-    debug: true,
+    supportedLngs: ['en', 'it', 'de'],
+    debug: process.env.NODE_ENV === 'development',
     detection: {
-      order: ['queryString', 'cookie'],
-      caches: ['cookie'],
+      order: ['path', 'localStorage', 'navigator'],
+      lookupFromPathIndex: 0,
     },
     interpolation: {
       escapeValue: false,
     },
-  });
+  } as any); // Type assertion to avoid TypeScript errors
 
 export default i18n;

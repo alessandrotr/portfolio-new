@@ -25,6 +25,51 @@
       "colorChanged": "Hauptfarbe geändert zu"
     }
   },
+  "aboutPage": {
+    "sections": {
+      "who": {
+        "title": "Wer ich bin",
+        "content": [
+          "Hi! Ich bin Alessandro, ein Frontend-Entwickler aus Berlin. Ich entwickle mit Leidenschaft schöne und funktionale Web-Erlebnisse, die einen Unterschied machen.",
+          "Mit Fokus auf moderne Web-Technologien wie React, TypeScript und Three.js entwickle ich Anwendungen, die nicht nur visuell ansprechend, sondern auch leistungsfähig und benutzerfreundlich sind."
+        ]
+      },
+      "what": {
+        "title": "Was ich mache",
+        "content": [
+          "Ich bin spezialisiert auf die Entwicklung moderner Webanwendungen mit modernsten Technologien. Meine Expertise umfasst:",
+          "React- und TypeScript-Entwicklung",
+          "3D-Web-Erlebnisse mit Three.js",
+          "Responsives und barrierefreies Design",
+          "Performance-Optimierung",
+          "Modernes State Management"
+        ]
+      },
+      "live": {
+        "title": "Wo ich lebe",
+        "content": [
+          "Berlin ist seit mehreren Jahren mein Zuhause. Diese lebendige Stadt mit ihrer reichen Geschichte und florierenden Tech-Szene bietet endlose Inspiration für meine Arbeit. Die einzigartige Mischung aus Geschichte, Technologie und Kreativität passt perfekt zu meinem Entwicklungsansatz."
+        ]
+      },
+      "from": {
+        "title": "Woher ich komme",
+        "content": [
+          "Ich komme ursprünglich aus Neapel, Italien - einer Stadt, die für ihre reiche Kultur, atemberaubende Küste und den majestätischen Vesuv bekannt ist. Das Aufwachsen in einem so historisch und kulturell reichen Umfeld hat meinen kreativen Ansatz in der Entwicklung stark beeinflusst."
+        ]
+      },
+      "hobbies": {
+        "title": "Meine Hobbys",
+        "content": [
+          "Wenn ich nicht programmiere, findet man mich:",
+          "Beim Erkunden der Berliner Tech-Szene",
+          "Beim Genießen einer guten Tasse Kaffee",
+          "Bei der Arbeit an persönlichen Projekten",
+          "Beim Lernen neuer Technologien",
+          "Beim Beitragen zu Open-Source-Projekten"
+        ]
+      }
+    }
+  },
   "contactForm": {
     "messagePrompts": [
       { "text": "erzähl mir mehr", "minLength": 15 },

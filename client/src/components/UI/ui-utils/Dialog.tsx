@@ -185,7 +185,7 @@ const DialogContainer: React.FC<DialogContainerProps> = ({
         ${expanded ? 'cursor-default z-[20]' : 'cursor-pointer z-[0]'}
         ${
           expanded || isHeld
-            ? 'border-2 border-bgDarkTransparent dark:border-bgLightTransparent p-[5px]'
+            ? 'border-2 border-borderLightTransparent dark:border-borderDarkTransparent p-[5px]'
             : ''
         } ${className}`}
       style={{
@@ -199,7 +199,7 @@ const DialogContainer: React.FC<DialogContainerProps> = ({
         } ${
           isPrivacyPolicy && expanded
             ? 'bg-white dark:bg-black'
-            : 'bg-bgDarkTransparent dark:bg-bgLightTransparent'
+            : 'bg-borderLightTransparent dark:bg-borderDarkTransparent'
         }`}
       >
         {children}

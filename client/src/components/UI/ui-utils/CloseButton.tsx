@@ -24,10 +24,10 @@ const CloseButton: React.FC<CloseButtonProps> = ({ handleClick }) => {
       }}
       onPointerOver={() => setCloseButtonHovered(true)}
       onPointerOut={() => setCloseButtonHovered(false)}
-      className="relative w-[3vw] h-[3vw] bg-transparent border-[0.15vw] border-bgDarkTransparent dark:border-bgLightTransparent rounded-full cursor-pointer z-[5]"
+      className="relative w-[3vw] h-[3vw] bg-transparent border-[0.15vw] border-borderLightTransparent dark:border-borderDarkTransparent rounded-full cursor-pointer z-[5]"
     >
       <span
-        className={`absolute top-0 bottom-0 left-0 right-0 m-auto bg-bgDarkTransparent dark:bg-bgLightTransparent rounded-full transition-all flex items-center justify-center ${
+        className={`absolute top-0 bottom-0 left-0 right-0 m-auto bg-borderLightTransparent dark:bg-borderDarkTransparent rounded-full transition-all flex items-center justify-center ${
           closeButtonHovered
             ? 'w-full h-full duration-500'
             : 'w-[1vw] h-[1vw] duration-300'

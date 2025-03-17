@@ -3,6 +3,7 @@ import { useSpring, animated, config as springConfig } from '@react-spring/web';
 import { useSnapshot } from 'valtio';
 import store from '../../appStore';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 const text = `ALESSANDRO TRAIOLA`;
 
@@ -11,6 +12,7 @@ const Logo = () => {
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
   const navigate = useNavigate();
+  const { currentLanguage } = useLanguage();
 
   const handleMouseMove = (event: React.MouseEvent) => {
     setMouseX(event.clientX);
@@ -18,15 +20,14 @@ const Logo = () => {
   };
 
   const handleClick = () => {
-    store.pageActive = 'HomePage';
-    navigate('/');
+    navigate(`/${currentLanguage}`);
   };
 
   const snap = useSnapshot(store);
 
   return (
     <div
-      className="absolute left-[1.5vw] top-[1vw] flex flex-wrap text-center text-[4vw] xl:text-[1.5vw] uppercase whitespace-pre-line select-none cursor-pointer"
+      className="absolute left-[1.5vw] top-[1vw] flex flex-wrap text-center text-[4vw] xl:text-[1.5vw] uppercase whitespace-pre-line select-none cursor-pointer z-[50]"
       onMouseMove={handleMouseMove}
       onClick={handleClick}
     >
@@ -96,7 +97,7 @@ const AnimatedLetter = ({
   const mouseDeltaY = mouseY - letterPosition.y;
 
   const { opacity } = useSpring({
-    opacity: snap.isLoading || snap.pageActive === 'Projects' ? 0 : 1,
+    opacity: snap.isLoading ? 0 : 1,
     config: { ...springConfig.molasses, duration: 800 },
     delay:
       !hovered || snap.isLoading

@@ -1,9 +1,9 @@
-import { useSnapshot } from "valtio";
-import store from "../../../appStore";
-import { ProjectsData } from "../../../data/ProjectsData";
-import { useEffect, useState } from "react";
-import { MdLink } from "react-icons/md";
-import { useSpring, animated } from "@react-spring/web";
+import { useSnapshot } from 'valtio';
+import store from '../../../appStore';
+import { ProjectsData } from '../../../data/ProjectsData';
+import { useEffect, useState } from 'react';
+import { MdLink } from 'react-icons/md';
+import { useSpring, animated } from '@react-spring/web';
 
 type ProjectType = {
   id: number;
@@ -48,37 +48,36 @@ const ProjectPage = ({ pageIsShowing }: { pageIsShowing: boolean }) => {
 
   return (
     <div
-      className={`${pageIsShowing ? "opacity-1" : "opacity-0"} ${
-        !project ? "flex justify-center items-center h-screen" : ""
+      className={`${pageIsShowing ? 'opacity-1' : 'opacity-0'} ${
+        !project ? 'flex justify-center items-center h-screen' : ''
       } transition-opacity duration-500 xl:w-[calc(100vw)] w-full pt-20 pb-4 xl:py-12`}
     >
       <div className="xl:max-w-[780px] w-full mx-auto flex justify-center">
-        {snap.pageActive === "Projects" &&
-          (project ? (
-            <animated.div style={springProps}>
-              <div className="flex flex-col gap-12 p-4 xl:p-0">
-                <div className="flex flex-col xl:flex-row items-start justify-between gap-12">
-                  <div className="flex flex-col gap-6 xl:gap-10">
-                    <ProjectDate date={project.date} />
-                    <ProjectTitle title={project.title} type={project.type} />
-                    <ProjectLink href={project.href} />
-                  </div>
-                  <ProjectGif gifImage={project.gifImage} />
+        {project ? (
+          <animated.div style={springProps}>
+            <div className="flex flex-col gap-12 p-4 xl:p-0">
+              <div className="flex flex-col xl:flex-row items-start justify-between gap-12">
+                <div className="flex flex-col gap-6 xl:gap-10">
+                  <ProjectDate date={project.date} />
+                  <ProjectTitle title={project.title} type={project.type} />
+                  <ProjectLink href={project.href} />
                 </div>
-
-                <div className="flex flex-col gap-12">
-                  <ProjectDescription description={project.description} />
-                  <ProjectVideo
-                    videoSrc={project.videoSrc}
-                    videoSrc2={project.videoSrc2}
-                  />
-                  <ProjectKeyFeatures keyFeatures={project.keyFeatures} />
-                  <ProjectMyRole myRole={project.myRole} />
-                  <ProjectTechnologies technologies={project.technologies} />
-                </div>
+                <ProjectGif gifImage={project.gifImage} />
               </div>
-            </animated.div>
-          ) : null)}
+
+              <div className="flex flex-col gap-12">
+                <ProjectDescription description={project.description} />
+                <ProjectVideo
+                  videoSrc={project.videoSrc}
+                  videoSrc2={project.videoSrc2}
+                />
+                <ProjectKeyFeatures keyFeatures={project.keyFeatures} />
+                <ProjectMyRole myRole={project.myRole} />
+                <ProjectTechnologies technologies={project.technologies} />
+              </div>
+            </div>
+          </animated.div>
+        ) : null}
       </div>
     </div>
   );
@@ -94,7 +93,7 @@ const ProjectTitle = ({ title, type }: { title: string; type: string }) => {
       </h2>
       <h2
         className={`text-3xl xl:text-6xl leading-tight uppercase ${
-          title === "Leistungszentrum" ? "break-all" : ""
+          title === 'Leistungszentrum' ? 'break-all' : ''
         }`}
       >
         {title}
@@ -177,7 +176,7 @@ const ProjectTechnologies = ({ technologies }: { technologies?: string[] }) => {
               {technology}
             </p>
           ))}
-          <SectionText text={"and more..."} />
+          <SectionText text={'and more...'} />
         </div>
       </div>
     )
@@ -227,7 +226,7 @@ const SectionText = ({ text }: { text?: string }) => {
   return (
     <p
       className="text-lg text-gray-400"
-      dangerouslySetInnerHTML={{ __html: text ? text : "" }}
+      dangerouslySetInnerHTML={{ __html: text ? text : '' }}
     />
   );
 };

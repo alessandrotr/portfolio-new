@@ -25,6 +25,51 @@
       "colorChanged": "Colore principale cambiato in"
     }
   },
+  "aboutPage": {
+    "sections": {
+      "who": {
+        "title": "Chi Sono",
+        "content": [
+          "Ciao! Sono Alessandro, un Frontend Developer con base a Berlino. Sono appassionato di creare esperienze web belle e funzionali che fanno la differenza.",
+          "Con un focus sulle tecnologie web moderne come React, TypeScript e Three.js, mi impegno a costruire applicazioni che non sono solo visivamente accattivanti, ma anche performanti e user-friendly."
+        ]
+      },
+      "what": {
+        "title": "Cosa Faccio",
+        "content": [
+          "Mi specializzo nello sviluppo di applicazioni web moderne utilizzando tecnologie all'avanguardia. La mia esperienza include:",
+          "Sviluppo React e TypeScript",
+          "Esperienze web 3D con Three.js",
+          "Design responsive e accessibile",
+          "Ottimizzazione delle prestazioni",
+          "Gestione dello stato moderna"
+        ]
+      },
+      "live": {
+        "title": "Dove Vivo",
+        "content": [
+          "Berlino è la mia casa da diversi anni. Questa città vibrante, con la sua ricca storia e la fiorente scena tech, fornisce infinita ispirazione per il mio lavoro. Il mix unico di storia, tecnologia e creatività si allinea perfettamente con il mio approccio allo sviluppo."
+        ]
+      },
+      "from": {
+        "title": "Da Dove Vengo",
+        "content": [
+          "Sono originario di Napoli, Italia - una città nota per la sua ricca cultura, la costa mozzafiato e il maestoso Vesuvio. Crescere in un ambiente così ricco di storia e cultura ha fortemente influenzato il mio approccio creativo allo sviluppo."
+        ]
+      },
+      "hobbies": {
+        "title": "I Miei Hobby",
+        "content": [
+          "Quando non programmo, mi puoi trovare:",
+          "Esplorando la vibrante scena tech di Berlino",
+          "Gustando una buona tazza di caffè",
+          "Lavorando a progetti personali",
+          "Imparando nuove tecnologie",
+          "Contribuendo a progetti open-source"
+        ]
+      }
+    }
+  },
   "contactForm": {
     "messagePrompts": [
       { "text": "dimmi qualcosa in più", "minLength": 19 },

@@ -1,8 +1,6 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useSnapshot } from 'valtio';
 import store from '../../appStore';
-import { HiChat } from 'react-icons/hi';
-import Dialog from './ui-utils/Dialog';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
@@ -273,206 +271,191 @@ const ContactForm = () => {
   };
 
   return (
-    <Dialog
-      expanded={snap.contactFormExpanded}
-      handleCloseClick={() => (store.contactFormExpanded = false)}
-      handleOpenClick={() => (store.contactFormExpanded = true)}
-      buttonPositionRight="right-[5.85vw]"
-      textDialogButton={
-        <>
-          {t('contactForm.buttonOpenDialogText')} <HiChat />
-        </>
-      }
-      initialDialogWidthSize={9}
-      dialogWidthSize={40}
-      dialogHeightSize={35}
-    >
-      <div className="px-[1.5vw] w-full h-full">
-        <h2 className="text-textDark dark:text-textLight transition-colors duration-300 text-[4vw] uppercase select-none mb-6">
-          {t('contactForm.buttonOpenDialogText')}
-        </h2>
+    <div className="px-[1.5vw] w-full h-fit">
+      <h2 className="text-textDark dark:text-textLight transition-colors duration-300 text-[4vw] uppercase select-none mb-6">
+        {t('contactForm.buttonOpenDialogText')}
+      </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-[1.75vw]">
-          <div className="grid grid-cols-2 gap-4">
-            <div className="flex flex-col">
-              <FormLabel
-                htmlFor="email"
-                className={
-                  errors.email
-                    ? 'text-red-500'
-                    : 'text-textDark dark:text-textLight'
-                }
-              >
-                {errors.email
-                  ? errors.email === 'Email is required'
-                    ? t('contactForm.email.labelIsRequired')
-                    : t('contactForm.email.labelIsNotValid')
-                  : t('contactForm.email.label')}
-              </FormLabel>
-              <input
-                id="email"
-                type="email"
-                name="email"
-                placeholder={t('contactForm.email.placeholder')}
-                value={formData.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                className={`p-[0.75vw] border rounded-xl bg-transparent text-textDark dark:text-textLight text-[1vw] placeholder:text-gray-500 dark:placeholder:text-gray-400 ${
-                  errors.email
-                    ? 'border-red-500'
-                    : 'border-gray-700 dark:border-gray-500'
-                } focus:outline-none focus:ring-2`}
-                style={
-                  {
-                    '--tw-ring-color': snap.selectedColor,
-                  } as React.CSSProperties
-                }
-                disabled={isSubmitting}
-              />
-            </div>
-
-            <div className="flex flex-col">
-              <FormLabel
-                htmlFor="reason"
-                className={
-                  errors.reason
-                    ? 'text-red-500'
-                    : 'text-textDark dark:text-textLight'
-                }
-              >
-                {errors.reason
-                  ? t('contactForm.reason.labelIsRequired')
-                  : t('contactForm.reason.label')}
-              </FormLabel>
-              <CustomSelect
-                id="reason"
-                name="reason"
-                value={formData.reason}
-                onChange={(value) =>
-                  handleChange({
-                    target: { name: 'reason', value },
-                  } as React.ChangeEvent<HTMLSelectElement>)
-                }
-                options={
-                  t('contactForm.reason.options', {
-                    returnObjects: true,
-                  }) as readonly { value: string; label: string }[]
-                }
-                error={errors.reason}
-                disabled={isSubmitting}
-                selectedColor={snap.selectedColor}
-              />
-            </div>
-          </div>
-
+      <form onSubmit={handleSubmit} className="space-y-[1.75vw]">
+        <div className="grid grid-cols-2 gap-4">
           <div className="flex flex-col">
-            <div className="flex justify-between items-center mb-1">
-              <FormLabel
-                htmlFor="message"
-                className={
-                  errors.message
-                    ? 'text-red-500'
-                    : 'text-textDark dark:text-textLight'
-                }
-              >
-                {errors.message
-                  ? errors.message.includes('14 characters')
-                    ? t('contactForm.message.labelIsTooShort')
-                    : t('contactForm.message.labelIsRequired')
-                  : t('contactForm.message.label')}
-              </FormLabel>
-              <div className="text-right">
-                {getColoredPrompt(formData.message.length)}
-              </div>
-            </div>
-            <textarea
-              id="message"
-              name="message"
-              placeholder={t('contactForm.message.placeholder')}
-              value={formData.message}
+            <FormLabel
+              htmlFor="email"
+              className={
+                errors.email
+                  ? 'text-red-500'
+                  : 'text-textDark dark:text-textLight'
+              }
+            >
+              {errors.email
+                ? errors.email === 'Email is required'
+                  ? t('contactForm.email.labelIsRequired')
+                  : t('contactForm.email.labelIsNotValid')
+                : t('contactForm.email.label')}
+            </FormLabel>
+            <input
+              id="email"
+              type="email"
+              name="email"
+              placeholder={t('contactForm.email.placeholder')}
+              value={formData.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              rows={4}
-              className={`p-[0.75vw] h-[10vw] border rounded-xl bg-transparent text-textDark dark:text-textLight text-[1vw] placeholder:text-gray-500 dark:placeholder:text-gray-400 ${
-                errors.message
+              className={`p-[0.75vw] border rounded-xl bg-transparent text-textDark dark:text-textLight text-[1vw] placeholder:text-gray-500 dark:placeholder:text-gray-400 ${
+                errors.email
                   ? 'border-red-500'
                   : 'border-gray-700 dark:border-gray-500'
               } focus:outline-none focus:ring-2`}
               style={
-                { '--tw-ring-color': snap.selectedColor } as React.CSSProperties
+                {
+                  '--tw-ring-color': snap.selectedColor,
+                } as React.CSSProperties
               }
               disabled={isSubmitting}
             />
           </div>
 
-          <div className="flex items-end space-x-3">
-            <CustomCheckbox
-              id="legalConsent"
-              checked={formData.legalConsent}
-              onChange={(checked) =>
-                handleChange({
-                  target: {
-                    name: 'legalConsent',
-                    type: 'checkbox',
-                    checked,
-                  },
-                } as React.ChangeEvent<HTMLInputElement>)
+          <div className="flex flex-col">
+            <FormLabel
+              htmlFor="reason"
+              className={
+                errors.reason
+                  ? 'text-red-500'
+                  : 'text-textDark dark:text-textLight'
               }
-              error={errors.legalConsent}
-              selectedColor={snap.selectedColor}
+            >
+              {errors.reason
+                ? t('contactForm.reason.labelIsRequired')
+                : t('contactForm.reason.label')}
+            </FormLabel>
+            <CustomSelect
+              id="reason"
+              name="reason"
+              value={formData.reason}
+              onChange={(value) =>
+                handleChange({
+                  target: { name: 'reason', value },
+                } as React.ChangeEvent<HTMLSelectElement>)
+              }
+              options={
+                t('contactForm.reason.options', {
+                  returnObjects: true,
+                }) as readonly { value: string; label: string }[]
+              }
+              error={errors.reason}
               disabled={isSubmitting}
+              selectedColor={snap.selectedColor}
             />
-            <div className="flex flex-col">
-              <div
-                className={`text-[0.9vw] select-none ${
-                  errors.legalConsent
-                    ? 'text-red-500'
-                    : 'text-textDark dark:text-textLight'
-                } ${isSubmitting ? 'opacity-50' : ''}`}
-                dangerouslySetInnerHTML={{
-                  __html: t('contactForm.legalConsent.text').replace(
-                    "class='underline'",
-                    `style='color: ${snap.selectedColor}; text-decoration: underline; cursor: pointer;'`
-                  ),
-                }}
-                onClick={(e) => {
-                  const target = e.target as HTMLElement;
-                  if (target.tagName === 'A') {
-                    e.preventDefault();
-                    store.contactFormExpanded = false;
-                    navigate('/privacy-policy');
-                  }
-                }}
-              />
-              {errors.legalConsent && (
-                <span className="text-red-500 text-[0.8vw] mt-1">
-                  {t('contactForm.legalConsent.error')}
-                </span>
-              )}
+          </div>
+        </div>
+
+        <div className="flex flex-col">
+          <div className="flex justify-between items-center mb-1">
+            <FormLabel
+              htmlFor="message"
+              className={
+                errors.message
+                  ? 'text-red-500'
+                  : 'text-textDark dark:text-textLight'
+              }
+            >
+              {errors.message
+                ? errors.message.includes('14 characters')
+                  ? t('contactForm.message.labelIsTooShort')
+                  : t('contactForm.message.labelIsRequired')
+                : t('contactForm.message.label')}
+            </FormLabel>
+            <div className="text-right">
+              {getColoredPrompt(formData.message.length)}
             </div>
           </div>
-
-          <button
-            type="submit"
-            disabled={isSubmitting || !isFormValid}
-            className={`uppercase w-full py-2 px-4 rounded-full text-[1.25vw] ${
-              isSubmitting || !isFormValid
-                ? 'bg-gray-400 cursor-not-allowed text-gray-200'
-                : 'text-textDark dark:text-textLight'
-            }`}
+          <textarea
+            id="message"
+            name="message"
+            placeholder={t('contactForm.message.placeholder')}
+            value={formData.message}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            rows={4}
+            className={`p-[0.75vw] h-[10vw] border rounded-xl bg-transparent text-textDark dark:text-textLight text-[1vw] placeholder:text-gray-500 dark:placeholder:text-gray-400 ${
+              errors.message
+                ? 'border-red-500'
+                : 'border-gray-700 dark:border-gray-500'
+            } focus:outline-none focus:ring-2`}
             style={
-              isSubmitting || !isFormValid
-                ? undefined
-                : { backgroundColor: snap.selectedColor }
+              { '--tw-ring-color': snap.selectedColor } as React.CSSProperties
             }
-          >
-            {isSubmitting
-              ? t('contactForm.buttonSendTextIsLoading')
-              : t('contactForm.buttonSendText')}
-          </button>
-        </form>
-      </div>
-    </Dialog>
+            disabled={isSubmitting}
+          />
+        </div>
+
+        <div className="flex items-end space-x-3">
+          <CustomCheckbox
+            id="legalConsent"
+            checked={formData.legalConsent}
+            onChange={(checked) =>
+              handleChange({
+                target: {
+                  name: 'legalConsent',
+                  type: 'checkbox',
+                  checked,
+                },
+              } as React.ChangeEvent<HTMLInputElement>)
+            }
+            error={errors.legalConsent}
+            selectedColor={snap.selectedColor}
+            disabled={isSubmitting}
+          />
+          <div className="flex flex-col">
+            <div
+              className={`text-[0.9vw] select-none ${
+                errors.legalConsent
+                  ? 'text-red-500'
+                  : 'text-textDark dark:text-textLight'
+              } ${isSubmitting ? 'opacity-50' : ''}`}
+              dangerouslySetInnerHTML={{
+                __html: t('contactForm.legalConsent.text').replace(
+                  "class='underline'",
+                  `style='color: ${snap.selectedColor}; text-decoration: underline; cursor: pointer;'`
+                ),
+              }}
+              onClick={(e) => {
+                const target = e.target as HTMLElement;
+                if (target.tagName === 'A') {
+                  e.preventDefault();
+                  store.contactFormExpanded = false;
+                  navigate('/privacy-policy');
+                }
+              }}
+            />
+            {errors.legalConsent && (
+              <span className="text-red-500 text-[0.8vw] mt-1">
+                {t('contactForm.legalConsent.error')}
+              </span>
+            )}
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isSubmitting || !isFormValid}
+          className={`uppercase w-full py-2 px-4 rounded-full text-[1.25vw] ${
+            isSubmitting || !isFormValid
+              ? 'bg-bgLightTransparent dark:bg-bgDarkTransparent cursor-not-allowed text-textDark/50 dark:text-textLight/50'
+              : 'text-textDark dark:text-textLight'
+          }`}
+          style={
+            isSubmitting || !isFormValid
+              ? undefined
+              : { backgroundColor: snap.selectedColor }
+          }
+        >
+          {isSubmitting
+            ? t('contactForm.buttonSendTextIsLoading')
+            : t('contactForm.buttonSendText')}
+        </button>
+      </form>
+    </div>
   );
 };
 

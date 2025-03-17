@@ -26,6 +26,51 @@
       "colorChanged": "Main color changed to"
     }
   },
+  "aboutPage": {
+    "sections": {
+      "who": {
+        "title": "Who I Am",
+        "content": [
+          "Hi! I'm Alessandro, a Frontend Developer based in Berlin. I'm passionate about creating beautiful and functional web experiences that make a difference.",
+          "With a focus on modern web technologies like React, TypeScript, and Three.js, I strive to build applications that are not only visually appealing but also performant and user-friendly."
+        ]
+      },
+      "what": {
+        "title": "What I Do",
+        "content": [
+          "I specialize in building modern web applications using cutting-edge technologies. My expertise includes:",
+          "React and TypeScript development",
+          "3D web experiences with Three.js",
+          "Responsive and accessible design",
+          "Performance optimization",
+          "Modern state management"
+        ]
+      },
+      "live": {
+        "title": "Where I Live",
+        "content": [
+          "Berlin has been my home for several years now. This vibrant city, with its rich history and thriving tech scene, provides endless inspiration for my work. The city's unique blend of history, technology, and creativity perfectly aligns with my approach to development."
+        ]
+      },
+      "from": {
+        "title": "Where I'm From",
+        "content": [
+          "I'm originally from Naples, Italy - a city known for its rich culture, stunning coastline, and the majestic Mount Vesuvius. Growing up in such a historically and culturally rich environment has greatly influenced my creative approach to development."
+        ]
+      },
+      "hobbies": {
+        "title": "My Hobbies",
+        "content": [
+          "When I'm not coding, you can find me:",
+          "Exploring Berlin's vibrant tech scene",
+          "Enjoying a good cup of coffee",
+          "Working on personal projects",
+          "Learning new technologies",
+          "Contributing to open-source projects"
+        ]
+      }
+    }
+  },
   "contactForm": {
     "messagePrompts": [
       { "text": "tell me a bit more", "minLength": 15 },

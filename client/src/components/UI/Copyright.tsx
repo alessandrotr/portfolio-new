@@ -34,7 +34,10 @@ const Copyright = () => {
         onMouseMove={handleMouseMove}
       >
         {text.split('\n').map((line, lineIndex) => (
-          <h3 key={lineIndex} className="w-full flex">
+          <h3
+            key={lineIndex}
+            className="w-full flex text-textDark dark:text-textLight"
+          >
             {line.split('').map((char, charIndex) => (
               <AnimatedLetter
                 key={`${lineIndex}-${charIndex}`}

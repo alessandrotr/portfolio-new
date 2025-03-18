@@ -32,7 +32,10 @@ const Logo = () => {
       onClick={handleClick}
     >
       {text.split('\n').map((line, lineIndex) => (
-        <h3 key={lineIndex} className="w-fit flex cursor-pointer">
+        <h3
+          key={lineIndex}
+          className="w-fit flex cursor-pointer text-textDark dark:text-textLight"
+        >
           {line.split('').map((char, charIndex) => (
             <AnimatedLetter
               key={`${lineIndex}-${charIndex}`}

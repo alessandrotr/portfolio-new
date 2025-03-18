@@ -96,15 +96,15 @@ const AnimatedLetter = ({
   });
 
   const { transform } = useSpring({
-    from: { transform: 'translate(0px, 0px)' },
+    from: { transform: 'translate(0px, 0px) scale(1)' },
     to: {
       transform:
         !isTouchDevice &&
         (hovered || hoveredIndex === lineIndex * 100 + charIndex)
           ? `translate(${-mouseDeltaX * effectStrength * 0.15}px, ${
               -mouseDeltaY * effectStrength * 0.15
-            }px)`
-          : 'translate(0px, 0px)',
+            }px) scale(${1 + effectStrength * 0.1})`
+          : 'translate(0px, 0px) scale(1)',
     },
     config: {
       tension: 180,
@@ -123,6 +123,22 @@ const AnimatedLetter = ({
         (hovered || hoveredIndex === lineIndex * 100 + charIndex)
           ? `-2px 10px 10px rgba(0,0,0,${0.15 * effectStrength})`
           : '0px 0px 0px rgba(0,0,0,0)',
+    },
+    config: {
+      tension: 200,
+      friction: 15,
+    },
+    delay: !hovered && lastHoveredRef.current ? waveDelay : 0,
+  });
+
+  const { color } = useSpring({
+    from: { color: 'inherit' },
+    to: {
+      color:
+        !isTouchDevice &&
+        (hovered || hoveredIndex === lineIndex * 100 + charIndex)
+          ? snap.selectedColor
+          : 'inherit',
     },
     config: {
       tension: 200,
@@ -155,6 +171,7 @@ const AnimatedLetter = ({
         opacity,
         transform: char === ',' ? 'none' : transform,
         textShadow: char === ',' ? 'none' : textShadow,
+        color: char === ',' ? 'inherit' : color,
       }}
       onMouseEnter={
         char === ',' || isTouchDevice ? undefined : handleMouseEnter

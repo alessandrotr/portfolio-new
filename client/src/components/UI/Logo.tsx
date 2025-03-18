@@ -25,9 +25,9 @@ const Logo = () => {
     if (location.pathname === `/${currentLanguage}`) return;
 
     setIsClicked(true);
+    navigate(`/${currentLanguage}`);
     setTimeout(() => {
       setIsClicked(false);
-      navigate(`/${currentLanguage}`);
     }, 1000);
   };
 

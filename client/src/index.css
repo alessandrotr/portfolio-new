@@ -58,6 +58,7 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
 }
 
@@ -68,4 +69,21 @@ body {
 
 .sidebar {
   scrollbar-width: none;
+}
+
+/* Mobile viewport height fix */
+.h-screen {
+  height: 100vh; /* Fallback */
+  height: 100dvh; /* Modern browsers */
+}
+
+.h-full {
+  height: 100%;
+}
+
+/* Ensure the canvas container uses the full viewport height */
+#root {
+  height: 100vh; /* Fallback */
+  height: 100dvh; /* Modern browsers */
+  width: 100%;
 }

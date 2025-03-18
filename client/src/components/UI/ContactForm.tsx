@@ -4,6 +4,7 @@ import store from '../../appStore';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import { useLanguage } from '../../contexts/LanguageContext';
 
 interface FormData {
   email: string;
@@ -28,6 +29,7 @@ const ContactForm = () => {
   const snap = useSnapshot(store);
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { currentLanguage } = useLanguage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
@@ -424,7 +426,7 @@ const ContactForm = () => {
                 if (target.tagName === 'A') {
                   e.preventDefault();
                   store.contactFormExpanded = false;
-                  navigate('/privacy-policy');
+                  navigate(`/${currentLanguage}/privacy-policy`);
                 }
               }}
             />
@@ -625,7 +627,7 @@ const CustomCheckbox: React.FC<CustomCheckboxProps> = ({
     >
       {checked && (
         <svg
-          className="w-[1.5vw] h-[1.5vw] text-white"
+          className="w-[1.5vw] h-[1.5vw] text-textDark"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"

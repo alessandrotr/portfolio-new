@@ -1,0 +1,167 @@
+import { useState, useEffect, useRef, useCallback } from 'react';
+import { useSpring, animated, config as springConfig } from '@react-spring/web';
+import { useSnapshot } from 'valtio';
+import store from '../../appStore';
+
+interface AnimatedLetterProps {
+  char: string;
+  lineIndex: number;
+  charIndex: number;
+  setHoveredIndex: (index: number | null) => void;
+  hoveredIndex: number | null;
+  mouseX: number;
+  mouseY: number;
+  delay?: number;
+  className?: string;
+}
+
+const AnimatedLetter = ({
+  char,
+  lineIndex,
+  charIndex,
+  setHoveredIndex,
+  hoveredIndex,
+  mouseX,
+  mouseY,
+  delay = 50,
+  className = '',
+}: AnimatedLetterProps) => {
+  const [hovered, setHovered] = useState(false);
+  const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const snap = useSnapshot(store);
+  const letterRef = useRef<HTMLDivElement | null>(null);
+  const positionRef = useRef({ x: 0, y: 0 });
+  const rafRef = useRef<number>();
+  const lastHoveredRef = useRef(false);
+
+  // Check for touch device on mount
+  useEffect(() => {
+    const checkTouchDevice = () => {
+      const hasTouch = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+      setIsTouchDevice(hasTouch);
+    };
+
+    checkTouchDevice();
+    window.addEventListener('resize', checkTouchDevice);
+    return () => window.removeEventListener('resize', checkTouchDevice);
+  }, []);
+
+  // Update position using requestAnimationFrame for smooth updates
+  const updatePosition = useCallback(() => {
+    if (letterRef.current) {
+      const rect = letterRef.current.getBoundingClientRect();
+      positionRef.current = {
+        x: rect.left + rect.width / 2,
+        y: rect.top + rect.height / 2,
+      };
+    }
+    rafRef.current = requestAnimationFrame(updatePosition);
+  }, []);
+
+  useEffect(() => {
+    if (!isTouchDevice) {
+      rafRef.current = requestAnimationFrame(updatePosition);
+    }
+    return () => {
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+      }
+    };
+  }, [updatePosition, isTouchDevice]);
+
+  const mouseDeltaX = mouseX - positionRef.current.x;
+  const mouseDeltaY = mouseY - positionRef.current.y;
+
+  // Calculate distance for smoother falloff with exponential easing
+  const distance = Math.sqrt(
+    mouseDeltaX * mouseDeltaX + mouseDeltaY * mouseDeltaY
+  );
+  const maxDistance = 150;
+  const normalizedDistance = Math.min(distance / maxDistance, 1);
+  const effectStrength = Math.pow(1 - normalizedDistance, 2);
+
+  // Calculate wave delay based on position
+  const waveDelay = (lineIndex * 100 + charIndex) * 20;
+
+  const { opacity } = useSpring({
+    opacity: snap.isLoading ? 0 : 1,
+    config: { ...springConfig.molasses, duration: 800 },
+    delay:
+      !hovered || snap.isLoading ? (lineIndex * 100 + charIndex) * delay : 0,
+  });
+
+  const { transform } = useSpring({
+    from: { transform: 'translate(0px, 0px)' },
+    to: {
+      transform:
+        !isTouchDevice &&
+        (hovered || hoveredIndex === lineIndex * 100 + charIndex)
+          ? `translate(${-mouseDeltaX * effectStrength * 0.15}px, ${
+              -mouseDeltaY * effectStrength * 0.15
+            }px)`
+          : 'translate(0px, 0px)',
+    },
+    config: {
+      tension: 180,
+      friction: 12,
+      mass: 0.8,
+    },
+    delay: !hovered && lastHoveredRef.current ? waveDelay : 0,
+    immediate: false,
+  });
+
+  const { textShadow } = useSpring({
+    from: { textShadow: '0px 0px 0px rgba(0,0,0,0)' },
+    to: {
+      textShadow:
+        !isTouchDevice &&
+        (hovered || hoveredIndex === lineIndex * 100 + charIndex)
+          ? `-2px 10px 10px rgba(0,0,0,${0.15 * effectStrength})`
+          : '0px 0px 0px rgba(0,0,0,0)',
+    },
+    config: {
+      tension: 200,
+      friction: 15,
+    },
+    delay: !hovered && lastHoveredRef.current ? waveDelay : 0,
+  });
+
+  const handleMouseEnter = useCallback(() => {
+    if (!isTouchDevice) {
+      setHovered(true);
+      setHoveredIndex(lineIndex * 100 + charIndex);
+      lastHoveredRef.current = true;
+    }
+  }, [lineIndex, charIndex, setHoveredIndex, isTouchDevice]);
+
+  const handleMouseLeave = useCallback(() => {
+    if (!isTouchDevice) {
+      setHovered(false);
+      setHoveredIndex(null);
+    }
+  }, [setHoveredIndex, isTouchDevice]);
+
+  const renderChar = char === ' ' ? '\u00A0' : char;
+
+  return (
+    <animated.h4
+      className={`pointer-events-auto relative text-textDark dark:text-textLight dark:transition-colors dark:duration-[1s] ${className}`}
+      style={{
+        opacity,
+        transform: char === ',' ? 'none' : transform,
+        textShadow: char === ',' ? 'none' : textShadow,
+      }}
+      onMouseEnter={
+        char === ',' || isTouchDevice ? undefined : handleMouseEnter
+      }
+      onMouseLeave={
+        char === ',' || isTouchDevice ? undefined : handleMouseLeave
+      }
+      ref={letterRef}
+    >
+      {renderChar}
+    </animated.h4>
+  );
+};
+
+export default AnimatedLetter;

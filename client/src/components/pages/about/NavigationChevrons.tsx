@@ -68,7 +68,7 @@ const NavigationChevrons: React.FC<NavigationChevronsProps> = memo(
     return (
       <>
         <div
-          className="fixed top-1/2 -translate-y-1/2 z-50 pointer-events-auto"
+          className="fixed top-1/2 -translate-y-1/2 z-[5] pointer-events-auto"
           style={{ left: LAYOUT.chevrons.horizontalOffset }}
         >
           <animated.button
@@ -102,7 +102,7 @@ const NavigationChevrons: React.FC<NavigationChevronsProps> = memo(
         </div>
 
         <div
-          className="fixed top-1/2 -translate-y-1/2 z-50 pointer-events-auto"
+          className="fixed top-1/2 -translate-y-1/2 z-[5] pointer-events-auto"
           style={{ right: LAYOUT.chevrons.horizontalOffset }}
         >
           <animated.button

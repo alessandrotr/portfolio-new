@@ -30,16 +30,30 @@ const AboutSectionNav = ({
     }
   }, [currentSection]);
 
-  // Set up ResizeObserver to handle dynamic updates
+  // Set up observers and event listeners to handle dynamic updates
   useEffect(() => {
     const navElement = navRef.current;
 
     if (navElement) {
+      // Create ResizeObserver for the nav element
       observerRef.current = new ResizeObserver(() => {
         updateBackgroundPosition();
       });
 
       observerRef.current.observe(navElement);
+
+      // Add window resize listener
+      const handleResize = () => {
+        updateBackgroundPosition();
+      };
+      window.addEventListener('resize', handleResize);
+
+      // Add orientation change listener
+      const handleOrientationChange = () => {
+        // Small delay to ensure layout is updated
+        setTimeout(updateBackgroundPosition, 100);
+      };
+      window.addEventListener('orientationchange', handleOrientationChange);
 
       // Initial position update
       updateBackgroundPosition();
@@ -51,15 +65,20 @@ const AboutSectionNav = ({
         if (observerRef.current) {
           observerRef.current.disconnect();
         }
+        window.removeEventListener('resize', handleResize);
+        window.removeEventListener(
+          'orientationchange',
+          handleOrientationChange
+        );
         clearTimeout(timeoutId);
       };
     }
   }, [updateBackgroundPosition]);
 
-  // Update position when section changes
+  // Update position when section changes or sections array changes
   useEffect(() => {
     updateBackgroundPosition();
-  }, [currentSection, updateBackgroundPosition]);
+  }, [currentSection, sections, updateBackgroundPosition]);
 
   const handleSectionClick = useCallback(
     (index: number) => {

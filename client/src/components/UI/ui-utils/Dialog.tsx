@@ -12,8 +12,6 @@ import CloseButton from './CloseButton';
 import { SetStateBoolean } from '../../../types';
 import useSound from 'use-sound';
 import popSfx from '../../../../public/sounds/pop.mp3';
-import { useLocation } from 'react-router-dom';
-
 interface DialogProps {
   expanded: boolean;
   handleCloseClick: () => void;
@@ -119,8 +117,6 @@ const DialogContainer: React.FC<DialogContainerProps> = ({
 }) => {
   const ref = useRef<HTMLDivElement>(null);
   const snap = useSnapshot(store);
-  const location = useLocation();
-  const isPrivacyPolicy = location.pathname === '/privacy-policy';
 
   const [, sphereApi] = useSpring(() => ({
     from: { height: 3, width: initialDialogWidthSize, top: -50 },
@@ -195,11 +191,9 @@ const DialogContainer: React.FC<DialogContainerProps> = ({
     >
       <div
         className={`group w-full h-full flex overflow-hidden transition-all items-center justify-center ${
-          expanded ? 'rounded-[20px]' : 'rounded-[25px]'
-        } ${
-          isPrivacyPolicy && expanded
-            ? 'bg-white dark:bg-black'
-            : 'bg-borderLightTransparent dark:bg-borderDarkTransparent'
+          expanded
+            ? 'rounded-[20px] bg-bgLight dark:bg-bgDark'
+            : 'rounded-[25px] bg-borderLightTransparent dark:bg-borderDarkTransparent'
         }`}
       >
         {children}

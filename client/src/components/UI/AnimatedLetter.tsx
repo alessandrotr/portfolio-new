@@ -131,18 +131,19 @@ const AnimatedLetter = ({
     delay: !hovered && lastHoveredRef.current ? waveDelay : 0,
   });
 
-  const { color } = useSpring({
-    from: { color: 'inherit' },
+  const { fillProgress } = useSpring({
+    from: { fillProgress: 0 },
     to: {
-      color:
+      fillProgress:
         !isTouchDevice &&
         (hovered || hoveredIndex === lineIndex * 100 + charIndex)
-          ? snap.selectedColor
-          : 'inherit',
+          ? 1
+          : 0,
     },
     config: {
-      tension: 200,
-      friction: 15,
+      mass: 1,
+      tension: 280,
+      friction: 60,
     },
     delay: !hovered && lastHoveredRef.current ? waveDelay : 0,
   });
@@ -171,7 +172,8 @@ const AnimatedLetter = ({
         opacity,
         transform: char === ',' ? 'none' : transform,
         textShadow: char === ',' ? 'none' : textShadow,
-        color: char === ',' ? 'inherit' : color,
+        position: 'relative',
+        display: 'inline-block',
       }}
       onMouseEnter={
         char === ',' || isTouchDevice ? undefined : handleMouseEnter
@@ -181,7 +183,29 @@ const AnimatedLetter = ({
       }
       ref={letterRef}
     >
-      {renderChar}
+      <span className="relative inline-block">
+        <span className="relative" style={{ color: 'currentColor' }}>
+          {renderChar}
+        </span>
+        {char !== ',' && (
+          <animated.span
+            style={{
+              position: 'absolute',
+              left: 0,
+              top: 0,
+              width: '100%',
+              height: '100%',
+              display: 'flex',
+              alignItems: 'center',
+              color: snap.selectedColor,
+              clipPath: fillProgress.to((p) => `inset(${100 - p * 100}% 0 0)`),
+              zIndex: 1,
+            }}
+          >
+            {renderChar}
+          </animated.span>
+        )}
+      </span>
     </animated.span>
   );
 };

@@ -58,7 +58,6 @@ const Logo = () => {
               hoveredIndex={hoveredIndex}
               mouseX={mouseX}
               mouseY={mouseY}
-              isLink={true}
               isClicked={isClicked}
             />
           ))}

@@ -14,7 +14,6 @@ interface AnimatedLetterProps {
   delay?: number;
   className?: string;
   isActive?: boolean;
-  isLink?: boolean;
   isClicked?: boolean;
 }
 
@@ -29,7 +28,6 @@ const AnimatedLetter = ({
   delay = 50,
   className = '',
   isActive,
-  isLink = false,
   isClicked = false,
 }: AnimatedLetterProps) => {
   const [hovered, setHovered] = useState(false);

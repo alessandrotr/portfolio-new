@@ -13,6 +13,7 @@ interface AnimatedLetterProps {
   mouseY: number;
   delay?: number;
   className?: string;
+  isActive?: boolean;
 }
 
 const AnimatedLetter = ({
@@ -25,11 +26,12 @@ const AnimatedLetter = ({
   mouseY,
   delay = 50,
   className = '',
+  isActive,
 }: AnimatedLetterProps) => {
   const [hovered, setHovered] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const snap = useSnapshot(store);
-  const letterRef = useRef<HTMLDivElement | null>(null);
+  const letterRef = useRef<HTMLSpanElement | null>(null);
   const positionRef = useRef({ x: 0, y: 0 });
   const rafRef = useRef<number>();
   const lastHoveredRef = useRef(false);
@@ -84,10 +86,13 @@ const AnimatedLetter = ({
   const waveDelay = (lineIndex * 100 + charIndex) * 20;
 
   const { opacity } = useSpring({
-    opacity: snap.isLoading ? 0 : 1,
+    opacity:
+      isActive !== undefined ? (isActive ? 1 : 0) : snap.isLoading ? 0 : 1,
     config: { ...springConfig.molasses, duration: 800 },
     delay:
-      !hovered || snap.isLoading ? (lineIndex * 100 + charIndex) * delay : 0,
+      !hovered || (isActive !== undefined ? !isActive : snap.isLoading)
+        ? (lineIndex * 100 + charIndex) * delay + (isActive ? 500 : 0)
+        : 0,
   });
 
   const { transform } = useSpring({
@@ -144,8 +149,8 @@ const AnimatedLetter = ({
   const renderChar = char === ' ' ? '\u00A0' : char;
 
   return (
-    <animated.h4
-      className={`pointer-events-auto relative text-textDark dark:text-textLight dark:transition-colors dark:duration-[1s] ${className}`}
+    <animated.span
+      className={`pointer-events-auto relative text-textDark dark:text-textLight dark:transition-colors dark:duration-[1s] select-none ${className}`}
       style={{
         opacity,
         transform: char === ',' ? 'none' : transform,
@@ -160,7 +165,7 @@ const AnimatedLetter = ({
       ref={letterRef}
     >
       {renderChar}
-    </animated.h4>
+    </animated.span>
   );
 };
 

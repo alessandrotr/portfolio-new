@@ -34,7 +34,7 @@ const Copyright = () => {
         onMouseMove={handleMouseMove}
       >
         {text.split('\n').map((line, lineIndex) => (
-          <div key={lineIndex} className="w-full flex">
+          <h3 key={lineIndex} className="w-full flex">
             {line.split('').map((char, charIndex) => (
               <AnimatedLetter
                 key={`${lineIndex}-${charIndex}`}
@@ -47,7 +47,7 @@ const Copyright = () => {
                 mouseY={mouseY}
               />
             ))}
-          </div>
+          </h3>
         ))}
       </div>
       <animated.div style={{ opacity: buttonOpacity }}>

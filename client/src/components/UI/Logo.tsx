@@ -32,7 +32,7 @@ const Logo = () => {
       onClick={handleClick}
     >
       {text.split('\n').map((line, lineIndex) => (
-        <div key={lineIndex} className="w-fit flex cursor-pointer">
+        <h3 key={lineIndex} className="w-fit flex cursor-pointer">
           {line.split('').map((char, charIndex) => (
             <AnimatedLetter
               key={`${lineIndex}-${charIndex}`}
@@ -45,7 +45,7 @@ const Logo = () => {
               mouseY={mouseY}
             />
           ))}
-        </div>
+        </h3>
       ))}
       <p
         className={`text-[2.32vw] xl:text-[0.87vw] text-textDark dark:text-textLight select-none uppercase transition-opacity duration-750 dark:transition-colors dark:duration-[1s] ${

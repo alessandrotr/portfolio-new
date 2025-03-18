@@ -133,6 +133,7 @@ const AboutPage = () => {
             title={section.title}
             content={section.content}
             style={sectionSprings[index]}
+            isActive={currentSection === index}
           />
         ))}
       </animated.div>

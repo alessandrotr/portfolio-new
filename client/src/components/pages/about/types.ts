@@ -18,6 +18,7 @@ export interface AboutSectionProps {
     opacity: SpringValue<number>;
     transform: SpringValue<string>;
   };
+  isActive?: boolean;
 }
 
 export interface NavigationChevronsProps {

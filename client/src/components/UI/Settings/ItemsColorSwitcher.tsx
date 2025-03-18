@@ -2,6 +2,7 @@ import { useSnapshot } from 'valtio';
 import store from '../../../appStore';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import { SettingsSubtitle } from './SettingsBar';
 
 export default function ItemsColorSwitcher() {
   const snap = useSnapshot(store);
@@ -21,9 +22,7 @@ export default function ItemsColorSwitcher() {
 
   return (
     <div className="space-y-[0.3vw]">
-      <span className="text-[0.75vw] text-gray-500 dark:text-gray-400 transition-colors duration-300">
-        {t('settingsBar.languages.changeColorText')}
-      </span>
+      <SettingsSubtitle text={t('settingsBar.languages.changeColorText')} />
       <div className="flex gap-2">
         {snap.availableColors.map((color, index) => (
           <div

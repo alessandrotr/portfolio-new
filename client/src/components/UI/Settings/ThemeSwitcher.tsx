@@ -3,6 +3,7 @@ import useTheme from '../../../hooks/useTheme';
 import store from '../../../appStore';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
+import { SettingsSubtitle } from './SettingsBar';
 
 export default function ThemeSwitcher() {
   const { theme, toggleTheme } = useTheme();
@@ -47,12 +48,10 @@ export default function ThemeSwitcher() {
 
   return (
     <div className="space-y-[0.3vw]">
-      <span className="text-[0.75vw] text-gray-500 dark:text-gray-400 transition-colors duration-300">
-        {t('settingsBar.theme.changeThemeText')}
-      </span>
+      <SettingsSubtitle text={t('settingsBar.theme.changeThemeText')} />
       <div
         onClick={handleToggle}
-        className="cursor-pointer flex items-center text-center text-[0.85vw] w-[4vw] h-[2vw] uppercase select-none bg-bgLight dark:bg-bgDark rounded-full p-[2px]"
+        className="cursor-pointer flex items-center text-center text-[0.85vw] w-[4vw] h-[2vw] uppercase select-none bg-borderLightTransparent dark:bg-borderDarkTransparent rounded-full p-[2px]"
       >
         <animated.div
           style={{

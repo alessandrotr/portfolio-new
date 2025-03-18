@@ -1,6 +1,7 @@
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { useNavigate, useLocation } from 'react-router-dom';
+import { SettingsSubtitle } from './SettingsBar';
 
 const languages = [
   { code: 'en', flag: <EnglishFlag />, name: 'English', emoji: '🇬🇧' },
@@ -44,9 +45,7 @@ function LanguageSwitcher() {
 
   return (
     <div className="space-y-[0.3vw]">
-      <span className="text-[0.75vw] text-gray-500 dark:text-gray-400 transition-colors duration-300">
-        {t('settingsBar.languages.changeLangText')}
-      </span>
+      <SettingsSubtitle text={t('settingsBar.languages.changeLangText')} />
       <div className="flex gap-3">
         {languages.map(({ code, flag }) => (
           <button

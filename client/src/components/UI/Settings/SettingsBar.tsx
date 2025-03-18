@@ -38,9 +38,7 @@ function SettingsBar() {
         </div>
         <div className="flex flex-col">
           <SettingTitle text={t('settingsBar.sound.titleSound')} />
-          <span className="text-[0.75vw] text-gray-500 dark:text-gray-400 transition-colors duration-300">
-            {t('settingsBar.sound.changeVolumeText')}
-          </span>
+          <SettingsSubtitle text={t('settingsBar.sound.changeVolumeText')} />
           <div className="flex items-center gap-4 mt-1.5">
             <VolumeButton />
             <VolumeControl />
@@ -62,5 +60,13 @@ const SettingTitle: React.FC<SettingTitleProps> = ({ text }) => {
     <h2 className="text-textDark dark:text-textLight transition-colors duration-300 text-[1vw] uppercase select-none">
       {text}
     </h2>
+  );
+};
+
+export const SettingsSubtitle: React.FC<SettingTitleProps> = ({ text }) => {
+  return (
+    <span className="text-[0.75vw] text-gray-500 dark:text-gray-400 transition-colors duration-300 select-none">
+      {text}
+    </span>
   );
 };

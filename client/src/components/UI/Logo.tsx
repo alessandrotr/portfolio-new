@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useSnapshot } from 'valtio';
 import store from '../../appStore';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
 import AnimatedLetter from './AnimatedLetter';
 
@@ -11,7 +11,9 @@ const Logo = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mouseX, setMouseX] = useState(0);
   const [mouseY, setMouseY] = useState(0);
+  const [isClicked, setIsClicked] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentLanguage } = useLanguage();
 
   const handleMouseMove = (event: React.MouseEvent) => {
@@ -20,21 +22,31 @@ const Logo = () => {
   };
 
   const handleClick = () => {
-    navigate(`/${currentLanguage}`);
+    if (location.pathname === `/${currentLanguage}`) return;
+
+    setIsClicked(true);
+    setTimeout(() => {
+      setIsClicked(false);
+      navigate(`/${currentLanguage}`);
+    }, 1000);
   };
 
   const snap = useSnapshot(store);
 
   return (
     <div
-      className="absolute left-[1.5vw] top-[1vw] flex flex-col text-center text-[4vw] xl:text-[1.5vw] uppercase whitespace-pre-line select-none cursor-pointer z-[50]"
+      className={`absolute left-[1.5vw] top-[1vw] flex flex-col text-center text-[4vw] xl:text-[1.5vw] uppercase whitespace-pre-line select-none z-[50] ${
+        location.pathname !== `/${currentLanguage}` ? 'cursor-pointer' : ''
+      }`}
       onMouseMove={handleMouseMove}
       onClick={handleClick}
     >
       {text.split('\n').map((line, lineIndex) => (
         <h3
           key={lineIndex}
-          className="w-fit flex cursor-pointer text-textDark dark:text-textLight"
+          className={`w-fit flex text-textDark dark:text-textLight ${
+            location.pathname !== `/${currentLanguage}` ? 'cursor-pointer' : ''
+          }`}
         >
           {line.split('').map((char, charIndex) => (
             <AnimatedLetter
@@ -46,6 +58,8 @@ const Logo = () => {
               hoveredIndex={hoveredIndex}
               mouseX={mouseX}
               mouseY={mouseY}
+              isLink={true}
+              isClicked={isClicked}
             />
           ))}
         </h3>

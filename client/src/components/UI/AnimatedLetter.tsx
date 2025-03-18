@@ -14,6 +14,8 @@ interface AnimatedLetterProps {
   delay?: number;
   className?: string;
   isActive?: boolean;
+  isLink?: boolean;
+  isClicked?: boolean;
 }
 
 const AnimatedLetter = ({
@@ -27,6 +29,8 @@ const AnimatedLetter = ({
   delay = 50,
   className = '',
   isActive,
+  isLink = false,
+  isClicked = false,
 }: AnimatedLetterProps) => {
   const [hovered, setHovered] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
@@ -136,7 +140,7 @@ const AnimatedLetter = ({
     to: {
       fillProgress:
         !isTouchDevice &&
-        (hovered || hoveredIndex === lineIndex * 100 + charIndex)
+        (hovered || hoveredIndex === lineIndex * 100 + charIndex || isClicked)
           ? 1
           : 0,
     },

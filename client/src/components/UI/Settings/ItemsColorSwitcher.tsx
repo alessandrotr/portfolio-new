@@ -27,9 +27,10 @@ export default function ItemsColorSwitcher() {
         {snap.availableColors.map((color, index) => (
           <div
             key={index}
-            onClick={() => handleColorChange(color)}
-            className={`w-[1.5vw] h-[1.5vw] rounded-full transition-all duration-300 
-            ${
+            onClick={() =>
+              snap.selectedColor !== color && handleColorChange(color)
+            }
+            className={`w-[1.5vw] h-[1.5vw] rounded-full ${
               snap.selectedColor === color
                 ? 'ring-2 ring-bgLight'
                 : 'transition-transform transform hover:scale-110 cursor-pointer'

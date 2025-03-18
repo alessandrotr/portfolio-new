@@ -51,9 +51,12 @@ function LanguageSwitcher() {
           <button
             key={code}
             onClick={() => handleLanguageChange(code)}
-            className={`w-[1.5vw] h-[1.5vw] rounded-full overflow-hidden transition-transform transform hover:scale-110 ${
-              i18n.language === code ? 'ring-2 ring-bgLight' : ''
+            className={`w-[1.5vw] h-[1.5vw] rounded-full overflow-hidden ${
+              i18n.language === code
+                ? 'ring-2 ring-bgLight'
+                : 'transition-transform transform hover:scale-110 cursor-pointer'
             }`}
+            disabled={i18n.language === code}
           >
             {flag}
           </button>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import store from '../../../../appStore';
 
-type SceneId = 'who' | 'berlin' | 'naples' | null;
+type SceneId = 'who' | 'berlin' | 'naples' | 'what' | 'hobbies' | null;
 
 /**
  * Custom hook to manage 3D scene transitions

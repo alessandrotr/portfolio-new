@@ -14,6 +14,7 @@ import BerlinScene from '../scenes/BerlinScene';
 import NaplesScene from '../scenes/NaplesScene';
 import WhoScene from '../scenes/WhoScene';
 import WhatScene from '../scenes/WhatScene';
+import HobbiesScene from '../scenes/HobbiesScene';
 
 interface SphereBehavior {
   x: number;
@@ -1353,6 +1354,9 @@ export default function DotGridBackground() {
           </group>
           <group visible={snap.activeScene === 'what'}>
             <WhatScene visible={snap.activeScene === 'what'} />
+          </group>
+          <group visible={snap.activeScene === 'hobbies'}>
+            <HobbiesScene visible={snap.activeScene === 'hobbies'} />
           </group>
         </group>
 

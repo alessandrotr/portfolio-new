@@ -77,7 +77,14 @@ const AboutPage = () => {
 
   // Scene management
   const currentSceneId = useMemo(
-    () => sections[currentSection]?.sceneId as 'berlin' | 'naples' | null,
+    () =>
+      sections[currentSection]?.sceneId as
+        | 'who'
+        | 'berlin'
+        | 'naples'
+        | 'what'
+        | 'hobbies'
+        | null,
     [sections, currentSection]
   );
 

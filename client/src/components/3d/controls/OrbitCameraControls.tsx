@@ -3,11 +3,17 @@ import CameraControls from 'camera-controls';
 import { useThree, useFrame } from '@react-three/fiber';
 import { useMemo, useRef, useEffect } from 'react';
 
+// iOS-specific type for DeviceOrientationEvent
+interface iOSDeviceOrientationEvent extends DeviceOrientationEvent {
+  requestPermission(): Promise<'granted' | 'denied'>;
+}
+
 CameraControls.install({ THREE: THREE });
 
 const OrbitCameraControls = () => {
   const { camera } = useThree();
   const currentCoords = useRef([0, 0]);
+  const isMobile = useRef(false);
 
   const [cameraControls, clock] = useMemo(() => {
     const ctrls = new CameraControls(
@@ -35,7 +41,14 @@ const OrbitCameraControls = () => {
   }, [camera]);
 
   useEffect(() => {
+    // Check if device supports gyroscope
+    if (typeof DeviceOrientationEvent !== 'undefined') {
+      isMobile.current = true;
+    }
+
     const onMouseMove = (e: MouseEvent) => {
+      if (isMobile.current) return; // Skip mouse movement on mobile devices
+
       const xOffset = (e.clientX - window.innerWidth / 2) / window.innerWidth;
       const yOffset = (e.clientY - window.innerHeight / 2) / window.innerHeight;
 
@@ -45,8 +58,62 @@ const OrbitCameraControls = () => {
         true
       );
     };
-    document.addEventListener('mousemove', onMouseMove, true);
-    return () => document.removeEventListener('mousemove', onMouseMove, true);
+
+    const onDeviceOrientation = (event: DeviceOrientationEvent) => {
+      if (!isMobile.current) return; // Skip gyroscope on desktop devices
+
+      // Beta represents front-to-back tilt in degrees, with range [-180,180]
+      // Gamma represents left-to-right tilt in degrees, with range [-90,90]
+      const beta = event.beta || 0;
+      const gamma = event.gamma || 0;
+
+      // Convert device orientation to camera rotation
+      // Adjust these multipliers to control sensitivity
+      const xOffset = (gamma / 90) * 1.0;
+      const yOffset = (beta / 180) * 1.0;
+
+      cameraControls.rotateTo(
+        currentCoords.current[0] - xOffset,
+        currentCoords.current[1] - yOffset,
+        true
+      );
+    };
+
+    // Handle both iOS and Android devices
+    if (isMobile.current) {
+      // Check if it's iOS (which requires permission)
+      if (
+        typeof (DeviceOrientationEvent as unknown as iOSDeviceOrientationEvent)
+          .requestPermission === 'function'
+      ) {
+        (DeviceOrientationEvent as unknown as iOSDeviceOrientationEvent)
+          .requestPermission()
+          .then((permissionState: 'granted' | 'denied') => {
+            if (permissionState === 'granted') {
+              window.addEventListener('deviceorientation', onDeviceOrientation);
+            }
+          })
+          .catch((error: Error) => {
+            console.error(
+              'Error requesting device orientation permission:',
+              error
+            );
+          });
+      } else {
+        // For Android and other devices, directly add the event listener
+        window.addEventListener('deviceorientation', onDeviceOrientation);
+      }
+    } else {
+      document.addEventListener('mousemove', onMouseMove, true);
+    }
+
+    return () => {
+      if (isMobile.current) {
+        window.removeEventListener('deviceorientation', onDeviceOrientation);
+      } else {
+        document.removeEventListener('mousemove', onMouseMove, true);
+      }
+    };
   }, [cameraControls]);
 
   useFrame(() => {

@@ -12,6 +12,7 @@ import { useAboutAnimations } from './hooks/useAboutAnimations';
 import { useUrlSync } from './hooks/useUrlSync';
 import { useSceneManagement } from './hooks/useSceneManagement';
 import { useSections } from './hooks/useSections';
+import { useVirtualization } from './hooks/useVirtualization';
 
 // Lazy load the AboutSection component
 const AboutSection = lazy(() => import('./AboutSection'));
@@ -51,6 +52,13 @@ const AboutPage = () => {
   } = useNavigation({
     totalSections: sections.length,
     initialSection: initialSectionIndex,
+  });
+
+  // Virtualization hook
+  const { isSectionVisible } = useVirtualization({
+    currentSection,
+    totalSections: sections.length,
+    bufferSize: 1, // Only render current section and adjacent sections
   });
 
   useUrlSync({
@@ -136,15 +144,22 @@ const AboutPage = () => {
             </div>
           }
         >
-          {sections.map((section, index) => (
-            <AboutSection
-              key={section.id}
-              title={section.title}
-              content={section.content}
-              style={sectionSprings[index]}
-              isActive={currentSection === index}
-            />
-          ))}
+          {sections.map((section, index) => {
+            // Only render visible sections
+            if (!isSectionVisible(index)) {
+              return null;
+            }
+
+            return (
+              <AboutSection
+                key={section.id}
+                title={section.title}
+                content={section.content}
+                style={sectionSprings[index]}
+                isActive={currentSection === index}
+              />
+            );
+          })}
         </Suspense>
       </animated.div>
     </div>

@@ -40,8 +40,8 @@ const OrbitCameraControls = () => {
       const yOffset = (e.clientY - window.innerHeight / 2) / window.innerHeight;
 
       cameraControls.rotateTo(
-        currentCoords.current[0] - xOffset * 0.05,
-        currentCoords.current[1] - yOffset * 0.05,
+        currentCoords.current[0] - xOffset * 0.1,
+        currentCoords.current[1] - yOffset * 0.1,
         true
       );
     };

@@ -31,6 +31,7 @@ import {
 } from './config/languages';
 import './styles/toaster.css';
 import DotSphere from './components/3d/background/DotSphere';
+import OrbitCameraControls from './components/3d/controls/OrbitCameraControls';
 
 const App: React.FC = () => {
   useTheme();
@@ -86,6 +87,7 @@ const App: React.FC = () => {
               <DotSphere />
               <BackgroundThemeSwitch />
               <Lights />
+              <OrbitCameraControls />
             </Suspense>
           </Canvas>
 

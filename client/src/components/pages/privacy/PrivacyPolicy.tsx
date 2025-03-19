@@ -134,7 +134,7 @@ const PrivacyPolicy = () => {
         transform: 'translateX(-50%)',
         width: '65%',
         maxWidth: '1150px',
-        height: '85vh',
+        height: '75vh',
       }}
       className="z-[4] drop-shadow rounded-[25px] border-2 border-borderLightTransparent dark:border-borderDarkTransparent p-[15px]"
     >

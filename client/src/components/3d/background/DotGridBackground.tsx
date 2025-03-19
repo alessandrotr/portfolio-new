@@ -1,4 +1,4 @@
-import { useMemo, useRef, useEffect, useState } from 'react';
+import { useMemo, useRef, useEffect, useState, Suspense, lazy } from 'react';
 import { ThreeEvent, useFrame, useThree } from '@react-three/fiber';
 import { shaderMaterial, useTrailTexture } from '@react-three/drei';
 import * as THREE from 'three';
@@ -10,11 +10,13 @@ import tailwindColors from '../../../tailwindColors';
 import useSound from 'use-sound';
 import sphereDotfx from '/sounds/glitch.mp3';
 import { useScreenSize } from '../../../hooks/useScreenSize';
-import BerlinScene from '../scenes/BerlinScene';
-import NaplesScene from '../scenes/NaplesScene';
-import WhoScene from '../scenes/WhoScene';
-import WhatScene from '../scenes/WhatScene';
-import HobbiesScene from '../scenes/HobbiesScene';
+
+// Lazy load scenes
+const WhoScene = lazy(() => import('../scenes/WhoScene'));
+const BerlinScene = lazy(() => import('../scenes/BerlinScene'));
+const NaplesScene = lazy(() => import('../scenes/NaplesScene'));
+const WhatScene = lazy(() => import('../scenes/WhatScene'));
+const HobbiesScene = lazy(() => import('../scenes/HobbiesScene'));
 
 interface SphereBehavior {
   x: number;
@@ -147,40 +149,21 @@ const DotMaterial = shaderMaterial(
     void main() {
       vUv = uv;
       
-      // Calculate sphere position
-      vec3 spherePosition = position;
-      
-      // Calculate floor plane position
-      vec3 planePosition;
-      
-      // First rotate the sphere to lay flat (90 degrees around X axis)
-      float angle = -3.14159 / 2.0;
+      // Optimize position calculation
+      vec3 pos = position;
+      float angle = -1.5708; // -PI/2
       vec3 rotated = vec3(
-        position.x,
-        position.y * cos(angle) - position.z * sin(angle),
-        position.y * sin(angle) + position.z * cos(angle)
+        pos.x,
+        pos.y * cos(angle) - pos.z * sin(angle),
+        pos.y * sin(angle) + pos.z * cos(angle)
       );
       
-      // Then transform into a flat plane
-      planePosition = vec3(
-        rotated.x * 8.0,           // Double X stretch
-        -0.5,                      // Fixed Y position for floor
-        rotated.z * 8.0            // Double Z stretch
-      );
+      vec3 planePos = vec3(rotated.x * 8.0, -0.5, rotated.z * 8.0);
+      vec3 morphedPos = mix(pos, planePos, morphFactor);
       
-      // Interpolate between sphere and plane positions
-      vec3 morphedPosition = mix(spherePosition, planePosition, morphFactor);
-      
-      // Calculate normal based on morphed position
-      vec3 morphedNormal = mix(
-        normalize(position),
-        vec3(0.0, 1.0, 0.0),      // Floor plane normal points straight up
-        morphFactor
-      );
-      
-      vNormal = normalize(normalMatrix * morphedNormal);
-      vPosition = morphedPosition;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(morphedPosition, 1.0);
+      vNormal = normalize(normalMatrix * mix(normalize(pos), vec3(0.0, 1.0, 0.0), morphFactor));
+      vPosition = morphedPos;
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(morphedPos, 1.0);
     }
   `,
   /* glsl */ `
@@ -205,56 +188,49 @@ const DotMaterial = shaderMaterial(
     varying vec3 vNormal;
     varying vec3 vPosition;
 
+    // Optimize random function
     float random(vec2 st) {
       return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
     }
 
+    // Optimize noise function
     float smoothNoise(vec2 st) {
       vec2 i = floor(st);
       vec2 f = fract(st);
-      
-      float a = random(i);
-      float b = random(i + vec2(1.0, 0.0));
-      float c = random(i + vec2(0.0, 1.0));
-      float d = random(i + vec2(1.0, 1.0));
-
       vec2 u = f * f * (3.0 - 2.0 * f);
-      return mix(a, b, u.x) + (c - a) * u.y * (1.0 - u.x) + (d - b) * u.x * u.y;
+      return mix(
+        mix(random(i), random(i + vec2(1.0, 0.0)), u.x),
+        mix(random(i + vec2(0.0, 1.0)), random(i + vec2(1.0, 1.0)), u.x),
+        u.y
+      );
     }
 
     float getDot(vec2 uv, float scale, float aspectRatio) {
       vec2 center = vec2(0.5);
-      vec2 adjustedUV = vec2(
-        (uv.x - center.x) * aspectRatio + center.x,
-        uv.y
-      );
+      vec2 adjustedUV = vec2((uv.x - center.x) * aspectRatio + center.x, uv.y);
       float dist = length(adjustedUV - center);
       return smoothstep(0.2 * scale, 0.15 * scale, dist);
     }
 
     float getGrid(vec2 uv) {
       vec2 grid = abs(fract(uv - 0.5) - 0.5) / fwidth(uv);
-      float line = min(grid.x, grid.y);
-      return 1.0 - smoothstep(0.0, 1.5, line);
+      return 1.0 - smoothstep(0.0, 1.5, min(grid.x, grid.y));
     }
 
     vec2 getGridUV() {
-      // For sphere state
       vec3 pos = normalize(vPosition);
       float phi = atan(pos.z, pos.x);
       float theta = acos(pos.y);
       vec2 sphereUV = vec2(
-        fract(phi / (2.0 * 3.14159) * 64.0),
-        fract(theta / 3.14159 * 32.0)
+        fract(phi * 10.1859), // 64.0 / (2.0 * PI)
+        fract(theta * 10.1859) // 32.0 / PI
       );
       
-      // For plane state - use regular grid pattern
       vec2 planeUV = vec2(
-        fract(vPosition.x * 4.0 + 0.5),  // Adjust the 8.0 to control dot density
-        fract(vPosition.z * 4.0 + 0.5)   // Use x and z coordinates for plane
+        fract(vPosition.x * 4.0 + 0.5),
+        fract(vPosition.z * 4.0 + 0.5)
       );
       
-      // Interpolate between sphere and plane UVs
       return mix(sphereUV, planeUV, morphFactor);
     }
 
@@ -263,12 +239,11 @@ const DotMaterial = shaderMaterial(
       float phi = atan(pos.z, pos.x);
       float theta = acos(pos.y);
       vec2 sphereUV = vec2(
-        phi / (2.0 * 3.14159) * 64.0,
-        theta / 3.14159 * 32.0
+        phi * 10.1859,
+        theta * 10.1859
       );
       
       vec2 planeUV = vPosition.xy * 16.0 + 0.5;
-      
       return mix(sphereUV, planeUV, morphFactor);
     }
 
@@ -276,29 +251,26 @@ const DotMaterial = shaderMaterial(
       vec2 gridUv = getGridUV();
       vec2 globalUv = getGlobalUV();
 
-      // Opening pattern effect
+      // Optimize wave calculation
       float wave = sin(atan(vPosition.z, vPosition.x) * 8.0 + time * 2.0) * 0.5 + 0.5;
       float opening = smoothstep(0.0, 1.0, wave + acos(vPosition.y) * 0.8);
       opening = mix(1.0, opening, isPrivacyPage);
       
-      // Generate smooth random opacity variation
+      // Optimize random opacity calculation
       vec2 randomSeed = vec2(floor(globalUv.x), floor(globalUv.y));
       float randomOpacity = mix(0.3, 0.9, smoothNoise(randomSeed + time * 0.05));
       
       float trailInfluence = texture2D(mouseTrail, vUv).r;
       float dotScale = mix(1.0, 3.0, trailInfluence);
       
-      // Adjust pole compensation based on morph
+      // Optimize pole compensation
       float poleCompensation = mix(1.0, sin(acos(vPosition.y)), 1.0 - morphFactor);
       dotScale *= poleCompensation;
       
-      // Calculate aspect ratio compensation
-      float aspectRatio = mix(1.0, 1.0, morphFactor); // No compensation needed for plane
-      
-      float dot = getDot(gridUv, dotScale, aspectRatio);
+      float dot = getDot(gridUv, dotScale, 1.0);
       float grid = getGrid(globalUv) * 0.15;
 
-      // Add ripple effect
+      // Optimize ripple effect
       float rippleEffect = 0.0;
       if (rippleTime > 0.0) {
         float dist = length(vUv - clickPosition);
@@ -565,20 +537,20 @@ export default function DotGridBackground() {
   const bgMaterial = useMemo(() => new BackgroundMaterial(), []);
   const wireframeMaterial = useMemo(() => new WireframeMaterial(), []);
 
-  // Create ray objects for each dot
+  // Reduce the number of rays and optimize their creation
   const rayObjects = useMemo(() => {
     const objects = [];
-    const dotsX = 32; // More rays for better coverage
-    const dotsY = 16; // More rays for better coverage
-    const rayLength = 4.0; // Longer rays
-    const segments = 4; // More segments for smoother rays
+    const dotsX = 24; // Reduced from 32
+    const dotsY = 12; // Reduced from 16
+    const rayLength = 3.0; // Reduced from 4.0
+    const segments = 3; // Reduced from 4
 
     // Create a more evenly distributed grid using spherical coordinates
     for (let y = 0; y < dotsY; y++) {
       for (let x = 0; x < dotsX; x++) {
         // Calculate spherical coordinates
-        const phi = (x / dotsX) * Math.PI * 2; // Azimuthal angle
-        const theta = (y / dotsY) * Math.PI; // Polar angle
+        const phi = (x / dotsX) * Math.PI * 2;
+        const theta = (y / dotsY) * Math.PI;
 
         // Convert to Cartesian coordinates
         const dotPos = new THREE.Vector3(
@@ -594,7 +566,7 @@ export default function DotGridBackground() {
         dotPos.z += (Math.random() - 0.5) * randomOffset;
         dotPos.normalize();
 
-        // Create ray geometry
+        // Create ray geometry with shared buffer attributes
         const rayGeometry = new THREE.BufferGeometry();
         const vertices = new Float32Array((segments + 1) * 3);
         const indices = new Uint32Array(segments * 2);
@@ -604,16 +576,15 @@ export default function DotGridBackground() {
         vertices[1] = dotPos.y;
         vertices[2] = dotPos.z;
 
-        // Create segments with exponential scaling for better visual effect
+        // Create segments with exponential scaling
         for (let i = 0; i < segments; i++) {
           const t = (i + 1) / segments;
-          const scale = 1 + rayLength * Math.pow(t, 1.5); // Exponential scaling
+          const scale = 1 + rayLength * Math.pow(t, 1.5);
           const pos = dotPos.clone().multiplyScalar(scale);
           vertices[(i + 1) * 3] = pos.x;
           vertices[(i + 1) * 3 + 1] = pos.y;
           vertices[(i + 1) * 3 + 2] = pos.z;
 
-          // Create line segments
           indices[i * 2] = i;
           indices[i * 2 + 1] = i + 1;
         }
@@ -624,14 +595,14 @@ export default function DotGridBackground() {
         );
         rayGeometry.setIndex(new THREE.BufferAttribute(indices, 1));
 
-        // Create ray material with animation
+        // Create ray material with optimized shader
         const rayMaterial = new THREE.ShaderMaterial({
           uniforms: {
             time: { value: 0 },
             dotColor: { value: new THREE.Color() },
             rayColor: { value: new THREE.Color(snap.selectedColor) },
-            rayIntensity: { value: 2.0 }, // Increased intensity
-            raySpeed: { value: 0.01 }, // Very slow speed
+            rayIntensity: { value: 2.0 },
+            raySpeed: { value: 0.01 },
             isActive: { value: 0.0 },
             rayProgress: { value: 0.0 },
           },
@@ -660,20 +631,12 @@ export default function DotGridBackground() {
             varying float vSegment;
 
             void main() {
-              // Only show the ray up to the current progress
               float progressMask = step(vSegment, rayProgress);
-              
-              // Fade out with distance using exponential falloff
               float fade = 1.0 - smoothstep(0.0, 4.0, vDistance);
-              fade = pow(fade, 1.5); // Sharper falloff
-              
-              // Only show rays for active dots
+              fade = pow(fade, 1.5);
               float rayEffect = isActive * progressMask * fade;
-              
-              // Combine effects
               vec3 finalColor = mix(dotColor, rayColor, rayEffect * rayIntensity);
               float alpha = rayEffect * rayIntensity;
-              
               gl_FragColor = vec4(finalColor, alpha);
             }
           `,
@@ -952,20 +915,21 @@ export default function DotGridBackground() {
     };
   }, []);
 
-  // Update frame animation to include fade progress and morph progress
+  // Optimize frame updates
   useFrame((state) => {
-    dotMaterial.uniforms.time.value = state.clock.getElapsedTime();
-    wireframeMaterial.uniforms.time.value = state.clock.getElapsedTime();
-    lightRayMaterial.uniforms.time.value = state.clock.getElapsedTime();
-
+    const currentTime = state.clock.getElapsedTime();
     const morphValue = springs.morph.get();
     const isAboutPage = location.pathname === '/about';
 
-    // Update morph factor in materials first
+    // Update material uniforms only when needed
     if (dotMaterial.uniforms) {
+      dotMaterial.uniforms.time.value = currentTime;
       dotMaterial.uniforms.morphFactor.value = morphValue;
+      dotMaterial.uniforms.opacityFactor.value = springs.opacity.get();
     }
+
     if (wireframeMaterial.uniforms) {
+      wireframeMaterial.uniforms.time.value = currentTime;
       wireframeMaterial.uniforms.morphFactor.value = morphValue;
     }
 
@@ -1019,28 +983,19 @@ export default function DotGridBackground() {
       );
     }
 
-    // Calculate wireframe opacity with smooth transition
+    // Optimize wireframe and light effects
+    const hasReachedMax = wireframeMaterial.uniforms.hasReachedMax.value > 0.5;
     if (isMousePressed && isLongPress) {
-      const currentDuration =
-        state.clock.getElapsedTime() - pressStartTime - 0.5; // Subtract initial delay
-      const progress = Math.max(0, Math.min(currentDuration / 6, 1)); // 6 seconds transition
+      const currentDuration = currentTime - pressStartTime - 0.5;
+      const progress = Math.max(0, Math.min(currentDuration / 6, 1));
       wireframeMaterial.uniforms.transitionProgress.value = progress;
-
-      // Only set hasReachedMax to true if we complete the full 6 seconds
-      const hasReachedMax = progress >= 1.0;
-      wireframeMaterial.uniforms.hasReachedMax.value = hasReachedMax
-        ? 1.0
-        : 0.0;
-
-      // Reset deactivation progress when pressing
+      wireframeMaterial.uniforms.hasReachedMax.value =
+        progress >= 1.0 ? 1.0 : 0.0;
       wireframeMaterial.uniforms.deactivationProgress.value = 1.0;
 
-      // Update light only when fully transitioned
       if (lightRef.current) {
-        if (hasReachedMax) {
-          // Pulsing light intensity that follows the exponential curve
-          const pulseIntensity =
-            Math.sin(state.clock.getElapsedTime() * 3) * 0.5 + 1.5;
+        if (progress >= 1.0) {
+          const pulseIntensity = Math.sin(currentTime * 3) * 0.5 + 1.5;
           lightRef.current.intensity = pulseIntensity;
           lightRef.current.distance = 15;
         } else {
@@ -1048,15 +1003,13 @@ export default function DotGridBackground() {
         }
       }
     } else {
-      // Handle deactivation transition when releasing after max
-      if (wireframeMaterial.uniforms.hasReachedMax.value > 0.5) {
+      if (hasReachedMax) {
         if (deactivationStartTimeRef.current === 0) {
-          deactivationStartTimeRef.current = state.clock.getElapsedTime();
+          deactivationStartTimeRef.current = currentTime;
         }
 
-        const deactivationDuration = 1.0; // 1 second deactivation
-        const elapsed =
-          state.clock.getElapsedTime() - deactivationStartTimeRef.current;
+        const deactivationDuration = 1.0;
+        const elapsed = currentTime - deactivationStartTimeRef.current;
         const progress = Math.max(0, 1 - elapsed / deactivationDuration);
         wireframeMaterial.uniforms.deactivationProgress.value = progress;
 
@@ -1069,7 +1022,6 @@ export default function DotGridBackground() {
           }
         });
       } else {
-        // Reset max state and transition progress when not pressing or when rotated
         wireframeMaterial.uniforms.hasReachedMax.value = 0;
         wireframeMaterial.uniforms.transitionProgress.value = 0;
         wireframeMaterial.uniforms.deactivationProgress.value = 1.0;
@@ -1091,30 +1043,15 @@ export default function DotGridBackground() {
 
     // Update fade progress based on mouse press state
     if (isMousePressed) {
-      const elapsed = state.clock.getElapsedTime() - pressStartTime;
+      const elapsed = currentTime - pressStartTime;
       if (elapsed < 0.5) {
-        // Initial visibility during the first 500ms
         wireframeMaterial.uniforms.fadeOutProgress.value = 0.1;
       } else {
-        // After 500ms, increase visibility based on press duration
         const progress = Math.min(1.0, (elapsed - 0.5) / 6);
         wireframeMaterial.uniforms.fadeOutProgress.value = progress;
       }
     } else {
-      // Use the fade out progress when not pressing
       wireframeMaterial.uniforms.fadeOutProgress.value = fadeOutProgress;
-    }
-
-    if (dotMaterial.uniforms) {
-      dotMaterial.uniforms.opacityFactor.value = springs.opacity.get();
-    }
-
-    // Update morph factor in materials
-    if (dotMaterial.uniforms) {
-      dotMaterial.uniforms.morphFactor.value = springs.morph.get();
-    }
-    if (wireframeMaterial.uniforms) {
-      wireframeMaterial.uniforms.morphFactor.value = springs.morph.get();
     }
   });
 
@@ -1216,73 +1153,56 @@ export default function DotGridBackground() {
     lightRayMaterial,
   ]);
 
-  // Add state for active dots
-  const [activeDots, setActiveDots] = useState(new Float32Array(64 * 32));
+  // Update the active dots state to match new grid size
+  const [activeDots, setActiveDots] = useState(new Float32Array(24 * 12)); // Match new grid size
   const lastUpdateRef = useRef(0);
   const hasReachedMaxRef = useRef(false);
 
-  // Update ray colors when selected color changes
-  useEffect(() => {
-    rayObjects.forEach((ray) => {
-      if (ray.material.uniforms) {
-        ray.material.uniforms.rayColor.value = new THREE.Color(
-          snap.selectedColor
-        );
-      }
-    });
-  }, [snap.selectedColor, rayObjects]);
-
-  // Update active dots periodically
+  // Optimize the frame update for rays
   useFrame((state) => {
     const currentTime = state.clock.getElapsedTime();
-
-    // Check if we've reached max wireframe effect
     const hasReachedMax = wireframeMaterial.uniforms.hasReachedMax.value > 0.5;
     hasReachedMaxRef.current = hasReachedMax;
 
-    // Update ray materials
-    rayObjects.forEach((ray) => {
-      if (ray.material.uniforms) {
-        ray.material.uniforms.time.value = currentTime;
+    // Only update rays if we've reached max wireframe effect
+    if (hasReachedMax) {
+      rayObjects.forEach((ray) => {
+        if (ray.material.uniforms) {
+          ray.material.uniforms.time.value = currentTime;
 
-        // Only animate rays if we've reached max wireframe effect
-        if (hasReachedMax && activeDots[ray.dotIndex] > 0.5) {
-          // If this is the first frame of activation, set start time
-          if (ray.startTime === 0) {
-            ray.startTime = currentTime;
-          }
+          if (activeDots[ray.dotIndex] > 0.5) {
+            if (ray.startTime === 0) {
+              ray.startTime = currentTime;
+            }
 
-          // Calculate progress (0 to 1) over 4 seconds (slower animation)
-          const progress = Math.min(1.0, (currentTime - ray.startTime) / 4.0);
-          ray.material.uniforms.rayProgress.value = progress;
+            const progress = Math.min(1.0, (currentTime - ray.startTime) / 4.0);
+            ray.material.uniforms.rayProgress.value = progress;
 
-          // Reset after animation completes
-          if (progress >= 1.0) {
-            ray.startTime = 0;
-            ray.material.uniforms.isActive.value = 0.0;
+            if (progress >= 1.0) {
+              ray.startTime = 0;
+              ray.material.uniforms.isActive.value = 0.0;
+            } else {
+              ray.material.uniforms.isActive.value = 1.0;
+            }
           } else {
-            ray.material.uniforms.isActive.value = 1.0;
+            ray.startTime = 0;
+            ray.material.uniforms.rayProgress.value = 0.0;
+            ray.material.uniforms.isActive.value = 0.0;
           }
-        } else {
-          ray.startTime = 0;
-          ray.material.uniforms.rayProgress.value = 0.0;
-          ray.material.uniforms.isActive.value = 0.0;
         }
-      }
-    });
+      });
 
-    // Only update active dots when we've reached max wireframe effect
-    if (hasReachedMax && currentTime - lastUpdateRef.current > 3.0) {
-      const newActiveDots = new Float32Array(32 * 16); // Match new grid size
-      // Activate more dots at once
-      for (let i = 0; i < 32 * 16; i++) {
-        if (Math.random() < 0.12) {
-          // 12% chance (more rays at once)
-          newActiveDots[i] = 1.0;
+      // Update active dots less frequently
+      if (currentTime - lastUpdateRef.current > 3.0) {
+        const newActiveDots = new Float32Array(24 * 12);
+        for (let i = 0; i < 24 * 12; i++) {
+          if (Math.random() < 0.12) {
+            newActiveDots[i] = 1.0;
+          }
         }
+        setActiveDots(newActiveDots);
+        lastUpdateRef.current = currentTime;
       }
-      setActiveDots(newActiveDots);
-      lastUpdateRef.current = currentTime;
     }
   });
 
@@ -1309,15 +1229,19 @@ export default function DotGridBackground() {
     }
   }, [location.pathname]);
 
+  // Add these memoized geometries at the top of the component
+  const sphereGeometry = useMemo(() => new THREE.SphereGeometry(1, 48, 24), []); // Reduced segments
+  const highResSphereGeometry = useMemo(
+    () => new THREE.SphereGeometry(1, 64, 32),
+    []
+  ); // Keep high res for main sphere
+  const wireframeSphereGeometry = useMemo(
+    () => new THREE.SphereGeometry(1.001, 32, 16),
+    []
+  ); // Reduced for wireframe
+
   return (
     <>
-      {/* Sphere */}
-      {/* <Float
-        speed={floatEnabled ? (snap.isLoading ? 0 : 1) : 0}
-        rotationIntensity={floatEnabled ? (snap.isLoading ? 0 : 0.5) : 0}
-        floatIntensity={floatEnabled ? (snap.isLoading ? 0 : 0.5) : 0}
-        floatingRange={[-0.3, 0.3]}
-      > */}
       <animated.group
         ref={groupRef}
         position-x={springs.x}
@@ -1337,27 +1261,37 @@ export default function DotGridBackground() {
           onPointerDown={handlePointerDown}
           onPointerUp={handlePointerUp}
         >
-          <sphereGeometry args={[1.002, 64, 32]} />
+          <primitive object={sphereGeometry} />
           <meshBasicMaterial transparent opacity={0} side={THREE.DoubleSide} />
         </mesh>
 
         {/* Landmarks - only show when activeScene is set */}
         <group position-y={0.15}>
-          <group visible={snap.activeScene === 'who'}>
-            <WhoScene visible={snap.activeScene === 'who'} />
-          </group>
-          <group visible={snap.activeScene === 'berlin'}>
-            <BerlinScene visible={snap.activeScene === 'berlin'} />
-          </group>
-          <group visible={snap.activeScene === 'naples'}>
-            <NaplesScene visible={snap.activeScene === 'naples'} />
-          </group>
-          <group visible={snap.activeScene === 'what'}>
-            <WhatScene visible={snap.activeScene === 'what'} />
-          </group>
-          <group visible={snap.activeScene === 'hobbies'}>
-            <HobbiesScene visible={snap.activeScene === 'hobbies'} />
-          </group>
+          <Suspense fallback={null}>
+            <group visible={snap.activeScene === 'who'}>
+              <WhoScene visible={snap.activeScene === 'who'} />
+            </group>
+          </Suspense>
+          <Suspense fallback={null}>
+            <group visible={snap.activeScene === 'berlin'}>
+              <BerlinScene visible={snap.activeScene === 'berlin'} />
+            </group>
+          </Suspense>
+          <Suspense fallback={null}>
+            <group visible={snap.activeScene === 'naples'}>
+              <NaplesScene visible={snap.activeScene === 'naples'} />
+            </group>
+          </Suspense>
+          <Suspense fallback={null}>
+            <group visible={snap.activeScene === 'what'}>
+              <WhatScene visible={snap.activeScene === 'what'} />
+            </group>
+          </Suspense>
+          <Suspense fallback={null}>
+            <group visible={snap.activeScene === 'hobbies'}>
+              <HobbiesScene visible={snap.activeScene === 'hobbies'} />
+            </group>
+          </Suspense>
         </group>
 
         {/* Visual layers group */}
@@ -1384,7 +1318,7 @@ export default function DotGridBackground() {
 
           {/* Wireframe sphere */}
           <mesh renderOrder={2}>
-            <sphereGeometry args={[1.001, 32, 32]} />
+            <primitive object={wireframeSphereGeometry} />
             <primitive
               object={wireframeMaterial}
               wireframe={true}
@@ -1398,7 +1332,7 @@ export default function DotGridBackground() {
 
           {/* Dot sphere */}
           <mesh renderOrder={3}>
-            <sphereGeometry args={[1, 64, 32]} />
+            <primitive object={highResSphereGeometry} />
             <primitive
               object={dotMaterial}
               resolution={[
@@ -1416,7 +1350,6 @@ export default function DotGridBackground() {
           </mesh>
         </group>
       </animated.group>
-      {/* </Float> */}
     </>
   );
 }

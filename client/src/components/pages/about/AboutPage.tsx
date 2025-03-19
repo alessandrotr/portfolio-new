@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, Suspense, lazy } from 'react';
 import { useSnapshot } from 'valtio';
 import store from '../../../appStore';
 import { animated } from '@react-spring/web';
 import AboutSectionNav from './AboutSectionNav';
-import AboutSection from './AboutSection';
 import NavigationChevrons from './NavigationChevrons';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -13,6 +12,9 @@ import { useAboutAnimations } from './hooks/useAboutAnimations';
 import { useUrlSync } from './hooks/useUrlSync';
 import { useSceneManagement } from './hooks/useSceneManagement';
 import { useSections } from './hooks/useSections';
+
+// Lazy load the AboutSection component
+const AboutSection = lazy(() => import('./AboutSection'));
 
 const AboutPage = () => {
   const snap = useSnapshot(store);
@@ -127,15 +129,23 @@ const AboutPage = () => {
           onSectionChange={handleSectionChange}
         />
 
-        {sections.map((section, index) => (
-          <AboutSection
-            key={section.id}
-            title={section.title}
-            content={section.content}
-            style={sectionSprings[index]}
-            isActive={currentSection === index}
-          />
-        ))}
+        <Suspense
+          fallback={
+            <div className="w-full h-full flex items-center justify-center">
+              Loading...
+            </div>
+          }
+        >
+          {sections.map((section, index) => (
+            <AboutSection
+              key={section.id}
+              title={section.title}
+              content={section.content}
+              style={sectionSprings[index]}
+              isActive={currentSection === index}
+            />
+          ))}
+        </Suspense>
       </animated.div>
     </div>
   );

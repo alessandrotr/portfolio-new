@@ -1,6 +1,7 @@
 import { useSpring, useSprings } from '@react-spring/web';
 import { ANIMATION_CONFIG } from '../constants';
 import { Section } from '../types';
+import { useMemo } from 'react';
 
 interface UseAboutAnimationsProps {
   isLoading: boolean;
@@ -27,11 +28,15 @@ export const useAboutAnimations = ({
 
   const sectionSprings = useSprings(
     sections.length,
-    sections.map((_, index) => ({
-      opacity: currentSection === index ? 1 : 0,
-      transform: `translateX(${(index - currentSection) * 100}vw)`,
-      config: ANIMATION_CONFIG.gentle,
-    }))
+    useMemo(
+      () =>
+        Array.from({ length: sections.length }, (_, index) => ({
+          opacity: currentSection === index ? 1 : 0,
+          transform: `translateX(${(index - currentSection) * 100}vw)`,
+          config: ANIMATION_CONFIG.gentle,
+        })),
+      [sections.length, currentSection]
+    )
   );
 
   return {

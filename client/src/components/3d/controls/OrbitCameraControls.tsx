@@ -41,10 +41,11 @@ const OrbitCameraControls = () => {
   }, [camera]);
 
   useEffect(() => {
-    // Check if device supports gyroscope
-    if (typeof DeviceOrientationEvent !== 'undefined') {
-      isMobile.current = true;
-    }
+    // Check if device is mobile using user agent and touch support
+    isMobile.current =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      ) || 'ontouchstart' in window;
 
     const onMouseMove = (e: MouseEvent) => {
       if (isMobile.current) return; // Skip mouse movement on mobile devices
@@ -62,56 +63,72 @@ const OrbitCameraControls = () => {
     const onDeviceOrientation = (event: DeviceOrientationEvent) => {
       if (!isMobile.current) return; // Skip gyroscope on desktop devices
 
-      // Beta represents front-to-back tilt in degrees, with range [-180,180]
-      // Gamma represents left-to-right tilt in degrees, with range [-90,90]
-      const beta = event.beta || 0;
-      const gamma = event.gamma || 0;
+      try {
+        // Beta represents front-to-back tilt in degrees, with range [-180,180]
+        // Gamma represents left-to-right tilt in degrees, with range [-90,90]
+        const beta = event.beta || 0;
+        const gamma = event.gamma || 0;
 
-      // Convert device orientation to camera rotation
-      // Adjust these multipliers to control sensitivity
-      const xOffset = (gamma / 90) * 1.0;
-      const yOffset = (beta / 180) * 1.0;
+        // Convert device orientation to camera rotation
+        // Adjust these multipliers to control sensitivity
+        const xOffset = (gamma / 90) * 1.0;
+        const yOffset = (beta / 180) * 1.0;
 
-      cameraControls.rotateTo(
-        currentCoords.current[0] - xOffset,
-        currentCoords.current[1] - yOffset,
-        true
-      );
+        cameraControls.rotateTo(
+          currentCoords.current[0] - xOffset,
+          currentCoords.current[1] - yOffset,
+          true
+        );
+      } catch (error) {
+        console.error('Error handling device orientation:', error);
+      }
     };
 
     // Handle both iOS and Android devices
     if (isMobile.current) {
-      // Check if it's iOS (which requires permission)
-      if (
-        typeof (DeviceOrientationEvent as unknown as iOSDeviceOrientationEvent)
-          .requestPermission === 'function'
-      ) {
-        (DeviceOrientationEvent as unknown as iOSDeviceOrientationEvent)
-          .requestPermission()
-          .then((permissionState: 'granted' | 'denied') => {
-            if (permissionState === 'granted') {
-              window.addEventListener('deviceorientation', onDeviceOrientation);
-            }
-          })
-          .catch((error: Error) => {
-            console.error(
-              'Error requesting device orientation permission:',
-              error
-            );
-          });
-      } else {
-        // For Android and other devices, directly add the event listener
-        window.addEventListener('deviceorientation', onDeviceOrientation);
+      try {
+        // Check if it's iOS (which requires permission)
+        if (
+          typeof (
+            DeviceOrientationEvent as unknown as iOSDeviceOrientationEvent
+          ).requestPermission === 'function'
+        ) {
+          (DeviceOrientationEvent as unknown as iOSDeviceOrientationEvent)
+            .requestPermission()
+            .then((permissionState: 'granted' | 'denied') => {
+              if (permissionState === 'granted') {
+                window.addEventListener(
+                  'deviceorientation',
+                  onDeviceOrientation
+                );
+              }
+            })
+            .catch((error: Error) => {
+              console.error(
+                'Error requesting device orientation permission:',
+                error
+              );
+            });
+        } else {
+          // For Android and other devices, directly add the event listener
+          window.addEventListener('deviceorientation', onDeviceOrientation);
+        }
+      } catch (error) {
+        console.error('Error setting up device orientation:', error);
       }
     } else {
-      document.addEventListener('mousemove', onMouseMove, true);
+      document.addEventListener('mousemove', onMouseMove);
     }
 
     return () => {
       if (isMobile.current) {
-        window.removeEventListener('deviceorientation', onDeviceOrientation);
+        try {
+          window.removeEventListener('deviceorientation', onDeviceOrientation);
+        } catch (error) {
+          console.error('Error removing device orientation listener:', error);
+        }
       } else {
-        document.removeEventListener('mousemove', onMouseMove, true);
+        document.removeEventListener('mousemove', onMouseMove);
       }
     };
   }, [cameraControls]);

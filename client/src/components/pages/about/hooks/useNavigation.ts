@@ -1,6 +1,33 @@
 import { useCallback, useState } from 'react';
 import store from '../../../../appStore';
 
+/**
+ * Custom hook for managing navigation in the About page.
+ * Handles all user interactions for navigating between sections including:
+ * - Mouse wheel scrolling
+ * - Touch swipe gestures
+ * - Button clicks
+ * - Direct section changes
+ *
+ * The hook maintains the current section state and provides methods to:
+ * - Navigate between sections
+ * - Handle wheel events for vertical/horizontal scrolling
+ * - Process touch events for swipe navigation
+ * - Control navigation through up/down buttons
+ *
+ * @param props - Hook props containing:
+ *   - totalSections: Total number of sections in the page
+ *   - initialSection: Starting section index (defaults to 0)
+ * @returns Object containing:
+ *   - currentSection: Current active section index
+ *   - setCurrentSection: Function to directly set the current section
+ *   - handleSectionChange: Function to change sections
+ *   - handleWheel: Function to handle mouse wheel events
+ *   - handleTouchStart: Function to handle touch start events
+ *   - handleTouchMove: Function to handle touch move events
+ *   - handleUpClick: Function to navigate to previous section
+ *   - handleDownClick: Function to navigate to next section
+ */
 interface UseNavigationProps {
   totalSections: number;
   initialSection?: number;

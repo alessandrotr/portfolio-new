@@ -8,10 +8,25 @@ interface UseSectionsProps {
 }
 
 /**
- * Custom hook to manage sections data and translations
+ * Custom hook for managing section content and translations in the About page.
+ * Handles the creation and management of section data including:
+ * - Translation of section titles and content
+ * - Mapping of section IDs to corresponding 3D scenes
+ * - Content formatting and structure
  *
- * @param props - Hook props containing translation function
- * @returns Array of sections with translated content
+ * The hook processes translations for each section and creates a structured
+ * section object with:
+ * - Translated title
+ * - Formatted content with paragraphs
+ * - Associated 3D scene ID
+ *
+ * @param props - Hook props containing:
+ *   - t: Translation function from i18next
+ * @returns Array of section objects, each containing:
+ *   - id: Unique section identifier
+ *   - title: Translated section title
+ *   - content: Translated and formatted section content
+ *   - sceneId: Associated 3D scene identifier (if applicable)
  */
 
 export const useSections = ({ t }: UseSectionsProps): Section[] => {

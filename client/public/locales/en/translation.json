@@ -26,6 +26,11 @@
       "colorChanged": "Main color changed to"
     }
   },
+  "navigation": {
+    "projects": "Projects",
+    "about": "About",
+    "contact": "Contact"
+  },
   "aboutPage": {
     "sections": {
       "who": {

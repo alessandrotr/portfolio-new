@@ -25,6 +25,11 @@
       "colorChanged": "Colore principale cambiato in"
     }
   },
+  "navigation": {
+    "projects": "Progetti",
+    "about": "Chi Sono",
+    "contact": "Contatti"
+  },
   "aboutPage": {
     "sections": {
       "who": {

@@ -4,6 +4,8 @@ import { useState, useCallback, useRef, useEffect } from 'react';
 import { useSnapshot } from 'valtio';
 import store from '../../appStore';
 import { useSpring, animated } from '@react-spring/web';
+import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 interface NavigationLetterProps {
   char: string;
@@ -181,119 +183,84 @@ const NavigationLetter = ({
 };
 
 const Navigation = () => {
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [mouseX, setMouseX] = useState(0);
+  const [mouseY, setMouseY] = useState(0);
+  const location = useLocation();
   const navigate = useNavigate();
   const { currentLanguage } = useLanguage();
-  const snap = useSnapshot(store);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const { t } = useTranslation();
 
-  useEffect(() => {
-    const handleRouteChange = () => {
-      setSelectedIndex(null);
-      setHoveredIndex(null);
-    };
+  const handleMouseMove = (event: React.MouseEvent) => {
+    setMouseX(event.clientX);
+    setMouseY(event.clientY);
+  };
 
-    window.addEventListener('popstate', handleRouteChange);
-    return () => window.removeEventListener('popstate', handleRouteChange);
-  }, []);
-
-  useEffect(() => {
-    const currentPath = window.location.pathname;
-    if (currentPath.includes('/projects')) setSelectedIndex(0);
-    else if (currentPath.includes('/about')) setSelectedIndex(1);
-    else if (currentPath.includes('/contact')) setSelectedIndex(2);
-    else setSelectedIndex(null);
-  }, [window.location.pathname]);
-
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY });
-  }, []);
-
-  const handleMouseLeave = useCallback(() => {
+  const handleMouseLeave = () => {
     setHoveredIndex(null);
-  }, []);
+  };
+
+  const projectsText = t('navigation.projects');
+  const aboutText = t('navigation.about');
+  const contactText = t('navigation.contact');
 
   return (
     <div
-      className="fixed top-[1.5vw] right-[7vw] flex gap-[1.75vw] z-[20] pointer-events-auto"
+      className="fixed top-[1.6vw] right-[7vw] flex gap-[1.75vw] z-[20] pointer-events-auto"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
       <h3
-        onClick={() => {
-          setSelectedIndex(0);
-          setHoveredIndex(null);
-          navigate(`/${currentLanguage}/projects`);
-        }}
-        onMouseLeave={handleMouseLeave}
-        className="text-textDark dark:text-textLight transition-colors duration-300 text-[1.25vw] uppercase select-none tracking-[1px] cursor-pointer relative"
+        className="text-[1.1vw] uppercase cursor-pointer"
+        onClick={() => navigate(`/${currentLanguage}/projects`)}
       >
-        {'Projects'.split('').map((char, charIndex) => (
+        {projectsText.split('').map((char, charIndex) => (
           <NavigationLetter
-            key={charIndex}
+            key={`projects-${charIndex}`}
             char={char}
             lineIndex={0}
             charIndex={charIndex + 100}
-            setHoveredIndex={setHoveredIndex}
+            mouseX={mouseX}
+            mouseY={mouseY}
             hoveredIndex={hoveredIndex}
-            mouseX={mousePosition.x}
-            mouseY={mousePosition.y}
-            delay={50}
-            isActive={!snap.isLoading}
-            isSelected={selectedIndex === 0}
+            setHoveredIndex={setHoveredIndex}
+            isSelected={location.pathname.includes('/projects')}
           />
         ))}
       </h3>
-
       <h3
-        onClick={() => {
-          setSelectedIndex(1);
-          setHoveredIndex(null);
-          navigate(`/${currentLanguage}/about`);
-        }}
-        onMouseLeave={handleMouseLeave}
-        className="text-textDark dark:text-textLight transition-colors duration-300 text-[1.25vw] uppercase select-none tracking-[1px] cursor-pointer relative"
+        className="text-[1.1vw] uppercase cursor-pointer"
+        onClick={() => navigate(`/${currentLanguage}/about`)}
       >
-        {'About'.split('').map((char, charIndex) => (
+        {aboutText.split('').map((char, charIndex) => (
           <NavigationLetter
-            key={charIndex}
+            key={`about-${charIndex}`}
             char={char}
             lineIndex={0}
             charIndex={charIndex + 200}
-            setHoveredIndex={setHoveredIndex}
+            mouseX={mouseX}
+            mouseY={mouseY}
             hoveredIndex={hoveredIndex}
-            mouseX={mousePosition.x}
-            mouseY={mousePosition.y}
-            delay={50}
-            isActive={!snap.isLoading}
-            isSelected={selectedIndex === 1}
+            setHoveredIndex={setHoveredIndex}
+            isSelected={location.pathname.includes('/about')}
           />
         ))}
       </h3>
-
       <h3
-        onClick={() => {
-          setSelectedIndex(2);
-          setHoveredIndex(null);
-          navigate(`/${currentLanguage}/contact`);
-        }}
-        onMouseLeave={handleMouseLeave}
-        className="text-textDark dark:text-textLight transition-colors duration-300 text-[1.25vw] uppercase select-none tracking-[1px] cursor-pointer relative"
+        className="text-[1.1vw] uppercase cursor-pointer"
+        onClick={() => navigate(`/${currentLanguage}/contact`)}
       >
-        {'Contact'.split('').map((char, charIndex) => (
+        {contactText.split('').map((char, charIndex) => (
           <NavigationLetter
-            key={charIndex}
+            key={`contact-${charIndex}`}
             char={char}
             lineIndex={0}
             charIndex={charIndex + 300}
-            setHoveredIndex={setHoveredIndex}
+            mouseX={mouseX}
+            mouseY={mouseY}
             hoveredIndex={hoveredIndex}
-            mouseX={mousePosition.x}
-            mouseY={mousePosition.y}
-            delay={50}
-            isActive={!snap.isLoading}
-            isSelected={selectedIndex === 2}
+            setHoveredIndex={setHoveredIndex}
+            isSelected={location.pathname.includes('/contact')}
           />
         ))}
       </h3>

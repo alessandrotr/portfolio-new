@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
+import AnimatedLetter from './AnimatedLetter';
 
 interface FormData {
   email: string;
@@ -34,6 +35,8 @@ const ContactForm = () => {
   const [submitStatus, setSubmitStatus] = useState<
     'idle' | 'success' | 'error'
   >('idle');
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const messagePrompts = t('contactForm.messagePrompts', {
     returnObjects: true,
@@ -100,6 +103,16 @@ const ContactForm = () => {
   useEffect(() => {
     localStorage.setItem('contactFormData', JSON.stringify(formData));
   }, [formData]);
+
+  // Add mouse move handler
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
 
   const getColoredPrompt = (messageLength: number): JSX.Element => {
     // Find the current prompt based on message length
@@ -275,7 +288,21 @@ const ContactForm = () => {
   return (
     <div className="px-[1.5vw] w-full h-fit">
       <h2 className="text-textDark dark:text-textLight transition-colors duration-300 text-[4vw] uppercase select-none mb-6">
-        {t('contactForm.buttonOpenDialogText')}
+        {t('contactForm.buttonOpenDialogText')
+          .split('')
+          .map((char, index) => (
+            <AnimatedLetter
+              key={index}
+              char={char}
+              lineIndex={0}
+              charIndex={index}
+              setHoveredIndex={setHoveredIndex}
+              hoveredIndex={hoveredIndex}
+              mouseX={mousePosition.x}
+              mouseY={mousePosition.y}
+              delay={50}
+            />
+          ))}
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-[1.75vw]">

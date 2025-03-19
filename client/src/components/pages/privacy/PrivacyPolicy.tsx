@@ -125,7 +125,7 @@ const PrivacyPolicy = () => {
         maxWidth: '1150px',
         height: '85vh',
       }}
-      className="z-[4] drop-shadow rounded-[25px] border-2 border-bgDarkTransparent dark:border-bgLightTransparent p-[15px]"
+      className="z-[4] drop-shadow rounded-[25px] border-2 border-borderLightTransparent dark:border-borderDarkTransparent p-[15px]"
     >
       <style>
         {`

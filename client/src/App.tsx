@@ -4,7 +4,6 @@ import AboutPage from './components/pages/about/AboutPage';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect } from 'react';
-import Lights from './components/3d/lights/Lights';
 import Logo from './components/UI/Logo';
 import Copyright from './components/UI/Copyright';
 import BackgroundThemeSwitch from './components/3d/background/BackgroundThemeSwitch';
@@ -86,7 +85,6 @@ const App: React.FC = () => {
             <Suspense fallback={''}>
               <DotSphere />
               <BackgroundThemeSwitch />
-              <Lights />
               <OrbitCameraControls />
             </Suspense>
           </Canvas>

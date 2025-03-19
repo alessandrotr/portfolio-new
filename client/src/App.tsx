@@ -31,6 +31,7 @@ import {
 import './styles/toaster.css';
 import DotSphere from './components/3d/background/DotSphere';
 import OrbitCameraControls from './components/3d/controls/OrbitCameraControls';
+import Navigation from './components/UI/Navigation';
 
 const App: React.FC = () => {
   useTheme();
@@ -93,6 +94,7 @@ const App: React.FC = () => {
           <Logo />
           <Copyright />
           <SettingsBar />
+          <Navigation />
           <Routes>
             <Route
               path="/"

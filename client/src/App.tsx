@@ -3,7 +3,6 @@ import ContactPage from './components/pages/contact/ContactPage';
 import AboutPage from './components/pages/about/AboutPage';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Canvas } from '@react-three/fiber';
-import DotGridBackground from './components/3d/background/DotGridBackground';
 import { Suspense, useEffect } from 'react';
 import Lights from './components/3d/lights/Lights';
 import Logo from './components/UI/Logo';
@@ -31,6 +30,7 @@ import {
   type SupportedLanguage,
 } from './config/languages';
 import './styles/toaster.css';
+import DotSphere from './components/3d/background/DotSphere';
 
 const App: React.FC = () => {
   useTheme();
@@ -83,7 +83,7 @@ const App: React.FC = () => {
 
           <Canvas {...CANVAS_CONFIG}>
             <Suspense fallback={''}>
-              <DotGridBackground />
+              <DotSphere />
               <BackgroundThemeSwitch />
               <Lights />
             </Suspense>

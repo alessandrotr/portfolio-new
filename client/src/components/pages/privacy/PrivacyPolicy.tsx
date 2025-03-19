@@ -1,11 +1,13 @@
 import { useTranslation } from 'react-i18next';
 import { animated, useSpring } from '@react-spring/web';
-import { useNavigate, useNavigationType } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CloseButton from '../../UI/ui-utils/CloseButton';
 import { useSnapshot } from 'valtio';
 import store from '../../../appStore';
-import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import AnimatedLetter from '../../UI/AnimatedLetter';
+import { useState, useEffect } from 'react';
 
 interface ContentSection {
   type: 'title' | 'paragraph' | 'list';
@@ -15,8 +17,11 @@ interface ContentSection {
 const PrivacyPolicy = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const navigationType = useNavigationType();
   const snap = useSnapshot(store);
+  const { currentLanguage } = useLanguage();
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isActive, setIsActive] = useState(false);
 
   const [springs, api] = useSpring(() => ({
     from: { opacity: 0, y: 1000 },
@@ -24,27 +29,33 @@ const PrivacyPolicy = () => {
     config: { tension: 300, friction: 30 },
   }));
 
+  // Add mouse move handler
   useEffect(() => {
-    if (navigationType === 'POP') {
-      api.start({
-        to: { opacity: 0, y: 1000 },
-        config: { tension: 300, friction: 30 },
-      });
-    }
-  }, [navigationType, api]);
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Trigger animation on mount
+  useEffect(() => {
+    setIsActive(true);
+    return () => setIsActive(false);
+  }, []);
 
   const handleClose = () => {
     api.start({
       to: { opacity: 0, y: 1000 },
       config: { tension: 300, friction: 30 },
-      onRest: () => {
-        if (window.history.length > 1) {
-          navigate(-1);
-        } else {
-          navigate('/');
-        }
-      },
     });
+
+    if (window.history.length > 1) {
+      navigate(-1);
+    } else {
+      navigate(`/${currentLanguage}`);
+    }
   };
 
   const renderContent = (section: ContentSection | string, index: number) => {
@@ -159,7 +170,22 @@ const PrivacyPolicy = () => {
             <div className="w-full h-full overflow-y-auto custom-scrollbar">
               <div className="px-[2.5vw] pr-[4vw] pt-[1vw]">
                 <h2 className="text-textDark dark:text-textLight transition-colors duration-300 text-[3.5vw] uppercase select-none mb-6">
-                  {t('privacyPolicy.title')}
+                  {t('privacyPolicy.title')
+                    .split('')
+                    .map((char, index) => (
+                      <AnimatedLetter
+                        key={index}
+                        char={char}
+                        lineIndex={0}
+                        charIndex={index}
+                        setHoveredIndex={setHoveredIndex}
+                        hoveredIndex={hoveredIndex}
+                        mouseX={mousePosition.x}
+                        mouseY={mousePosition.y}
+                        delay={50}
+                        isActive={isActive}
+                      />
+                    ))}
                 </h2>
                 <div className="space-y-4 text-[1vw] text-textDark dark:text-textLight pb-[2.5vw]">
                   {content.map((section, index) =>

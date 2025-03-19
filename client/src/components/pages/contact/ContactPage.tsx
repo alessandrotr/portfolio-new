@@ -1,16 +1,14 @@
 import ContactForm from '../../UI/ContactForm';
 import { animated, useSpring } from '@react-spring/web';
-import { useNavigate, useNavigationType } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import CloseButton from '../../UI/ui-utils/CloseButton';
 import { useSnapshot } from 'valtio';
-import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import store from '../../../appStore';
 import { useLanguage } from '../../../contexts/LanguageContext';
 
 const ContactPage = () => {
   const navigate = useNavigate();
-  const navigationType = useNavigationType();
   const snap = useSnapshot(store);
   const { currentLanguage } = useLanguage();
 
@@ -20,28 +18,35 @@ const ContactPage = () => {
     config: { tension: 300, friction: 30 },
   }));
 
-  useEffect(() => {
-    if (navigationType === 'POP') {
-      api.start({
-        to: { opacity: 0, y: 1000 },
-        config: { tension: 300, friction: 30 },
-      });
-    }
-  }, [navigationType, api]);
-
   const handleClose = () => {
     api.start({
       to: { opacity: 0, y: 1000 },
       config: { tension: 300, friction: 30 },
-      onRest: () => {
-        if (window.history.length > 1) {
-          navigate(-1);
-        } else {
-          navigate(`/${currentLanguage}`);
-        }
-      },
     });
+    navigate(`/${currentLanguage}`);
   };
+
+  const scrollbarStyles = `
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 8px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 0 4px 4px 0;
+    }
+    .dark .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.1);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: ${snap.selectedColor}80;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: ${snap.selectedColor}B3;
+      cursor: grab;
+      opacity: 0.8;
+    }
+  `;
 
   const contentPortal = (
     <animated.div
@@ -59,29 +64,7 @@ const ContactPage = () => {
       }}
       className="z-[4] drop-shadow rounded-[25px] border-2 border-borderLightTransparent dark:border-borderDarkTransparent p-[15px] max-h-[82vh]"
     >
-      <style>
-        {`
-          .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(0, 0, 0, 0.1);
-            border-radius: 0 4px 4px 0;
-          }
-          .dark .custom-scrollbar::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.1);
-          }
-          .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: ${snap.selectedColor}80;
-            border-radius: 4px;
-          }
-          .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: ${snap.selectedColor}B3;
-            cursor: grab;
-            opacity: 0.8;
-          }
-        `}
-      </style>
+      <style>{scrollbarStyles}</style>
       <div className="relative w-full h-full">
         <div className="absolute top-4 right-8">
           <CloseButton handleClick={handleClose} />

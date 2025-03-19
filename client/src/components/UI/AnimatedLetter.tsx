@@ -32,6 +32,8 @@ const AnimatedLetter = ({
 }: AnimatedLetterProps) => {
   const [hovered, setHovered] = useState(false);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
+  const [isInitialAnimationComplete, setIsInitialAnimationComplete] =
+    useState(false);
   const snap = useSnapshot(store);
   const letterRef = useRef<HTMLSpanElement | null>(null);
   const positionRef = useRef({ x: 0, y: 0 });
@@ -95,6 +97,9 @@ const AnimatedLetter = ({
       !hovered || (isActive !== undefined ? !isActive : snap.isLoading)
         ? (lineIndex * 100 + charIndex) * delay + (isActive ? 500 : 0)
         : 0,
+    onRest: () => {
+      setIsInitialAnimationComplete(true);
+    },
   });
 
   const { transform } = useSpring({
@@ -169,7 +174,11 @@ const AnimatedLetter = ({
 
   return (
     <animated.span
-      className={`pointer-events-auto relative text-textDark dark:text-textLight dark:transition-colors dark:duration-[1s] select-none ${className}`}
+      className={`${
+        isInitialAnimationComplete
+          ? 'pointer-events-auto'
+          : 'pointer-events-none'
+      } relative text-textDark dark:text-textLight dark:transition-colors dark:duration-[1s] select-none ${className}`}
       style={{
         opacity,
         transform: char === ',' ? 'none' : transform,
@@ -178,10 +187,14 @@ const AnimatedLetter = ({
         display: 'inline-block',
       }}
       onMouseEnter={
-        char === ',' || isTouchDevice ? undefined : handleMouseEnter
+        char === ',' || isTouchDevice || !isInitialAnimationComplete
+          ? undefined
+          : handleMouseEnter
       }
       onMouseLeave={
-        char === ',' || isTouchDevice ? undefined : handleMouseLeave
+        char === ',' || isTouchDevice || !isInitialAnimationComplete
+          ? undefined
+          : handleMouseLeave
       }
       ref={letterRef}
     >

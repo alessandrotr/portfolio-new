@@ -37,6 +37,7 @@ const ContactForm = () => {
   >('idle');
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [isActive, setIsActive] = useState(false);
 
   const messagePrompts = t('contactForm.messagePrompts', {
     returnObjects: true,
@@ -112,6 +113,12 @@ const ContactForm = () => {
 
     window.addEventListener('mousemove', handleMouseMove);
     return () => window.removeEventListener('mousemove', handleMouseMove);
+  }, []);
+
+  // Trigger animation on mount
+  useEffect(() => {
+    setIsActive(true);
+    return () => setIsActive(false);
   }, []);
 
   const getColoredPrompt = (messageLength: number): JSX.Element => {
@@ -301,6 +308,7 @@ const ContactForm = () => {
               mouseX={mousePosition.x}
               mouseY={mousePosition.y}
               delay={50}
+              isActive={isActive}
             />
           ))}
       </h2>

@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { useSpring, animated, config as springConfig } from '@react-spring/web';
 import { useSnapshot } from 'valtio';
-import store from '../../appStore';
+import store from '../../../appStore';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useLanguage } from '../../contexts/LanguageContext';
+import { useLanguage } from '../../../contexts/LanguageContext';
 import { NavigationLetter } from './NavigationLetter';
 
 const PrivacyPolicyLink = () => {

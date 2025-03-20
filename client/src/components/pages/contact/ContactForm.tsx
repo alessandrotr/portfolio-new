@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useSnapshot } from 'valtio';
-import store from '../../appStore';
+import store from '../../../appStore';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import { useLanguage } from '../../contexts/LanguageContext';
-import AnimatedLetter from './AnimatedLetter';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import AnimatedLetter from '../../UI/common/ui-utils/AnimatedLetter';
 
 interface FormData {
   email: string;

@@ -3,7 +3,7 @@ import { animated, useSpring } from '@react-spring/web';
 import { useSnapshot } from 'valtio';
 import store from '../../../appStore';
 import { createPortal } from 'react-dom';
-import AnimatedLetter from '../../UI/AnimatedLetter';
+import AnimatedLetter from '../../UI/common/ui-utils/AnimatedLetter';
 import { useState, useEffect } from 'react';
 
 interface ContentSection {

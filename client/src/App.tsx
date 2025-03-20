@@ -4,10 +4,10 @@ import AboutPage from './components/pages/about/AboutPage';
 import 'react-tooltip/dist/react-tooltip.css';
 import { Canvas } from '@react-three/fiber';
 import { Suspense, useEffect } from 'react';
-import Logo from './components/UI/Logo';
-import Copyright from './components/UI/Copyright';
+import Logo from './components/UI/navigation/Logo';
+import Copyright from './components/UI/layout/Copyright';
 import BackgroundThemeSwitch from './components/3d/background/BackgroundThemeSwitch';
-import SettingsBar from './components/UI/Settings/SettingsBar';
+import SettingsBar from './components/UI/common/Settings/SettingsBar';
 import useTheme from './hooks/useTheme';
 import { Toaster } from 'react-hot-toast';
 import PrivacyPolicy from './components/pages/privacy/PrivacyPolicy';
@@ -19,7 +19,7 @@ import {
 } from 'react-router-dom';
 import HomePage from './components/pages/home/HomePage';
 import store from './appStore';
-import LoadingScreen from './components/UI/LoadingScreen';
+import LoadingScreen from './components/UI/layout/LoadingScreen';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { CANVAS_CONFIG } from './config/canvas';
 import { TOASTER_CONFIG } from './config/toaster';
@@ -31,7 +31,7 @@ import {
 import './styles/toaster.css';
 import DotSphere from './components/3d/background/DotSphere';
 import OrbitCameraControls from './components/3d/controls/OrbitCameraControls';
-import Navigation from './components/UI/Navigation';
+import Navigation from './components/UI/navigation/Navigation';
 
 const App: React.FC = () => {
   useTheme();

@@ -1,7 +1,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { useSpring, animated } from '@react-spring/web';
 import { useSnapshot } from 'valtio';
-import store from '../../appStore';
+import store from '../../../appStore';
 
 interface NavigationLetterProps {
   char: string;

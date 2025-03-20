@@ -1,10 +1,10 @@
 import { useSpring, animated, config as springConfig } from '@react-spring/web';
 import { useSnapshot } from 'valtio';
-import store from '../../../appStore';
+import store from '../../../../appStore';
 import useSound from 'use-sound';
 import mute from '/sounds/mute.mp3';
 import unmute from '/sounds/unmute.mp3';
-import tailwindColors from '../../../tailwindColors';
+import tailwindColors from '../../../../tailwindColors';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';

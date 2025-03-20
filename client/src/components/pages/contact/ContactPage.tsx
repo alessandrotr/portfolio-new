@@ -1,8 +1,8 @@
-import ContactForm from '../../UI/ContactForm';
 import { animated, useSpring } from '@react-spring/web';
 import { useSnapshot } from 'valtio';
 import { createPortal } from 'react-dom';
 import store from '../../../appStore';
+import ContactForm from './ContactForm';
 
 const ContactPage = () => {
   const snap = useSnapshot(store);

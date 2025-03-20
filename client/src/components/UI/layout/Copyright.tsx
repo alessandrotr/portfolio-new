@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import AnimatedLetter from './AnimatedLetter';
-import PrivacyPolicyLink from './PrivacyPolicyLink';
+import AnimatedLetter from '../common/ui-utils/AnimatedLetter';
+import PrivacyPolicyLink from '../navigation/PrivacyPolicyLink';
 
 const Copyright = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

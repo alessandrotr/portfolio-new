@@ -1,5 +1,5 @@
 import { useSnapshot } from 'valtio';
-import store from '../../../appStore';
+import store from '../../../../appStore';
 import popSfx from '/sounds/pop2.mp3';
 import useSound from 'use-sound';
 

@@ -1,6 +1,6 @@
 import { useSpring, animated } from '@react-spring/web';
-import useTheme from '../../../hooks/useTheme';
-import store from '../../../appStore';
+import useTheme from '../../../../hooks/useTheme';
+import store from '../../../../appStore';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { SettingsSubtitle } from './SettingsBar';

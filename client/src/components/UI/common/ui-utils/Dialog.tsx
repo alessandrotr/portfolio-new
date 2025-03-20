@@ -7,11 +7,12 @@ import {
 import { useEffect, useRef, useState } from 'react';
 import { useSnapshot } from 'valtio';
 import Overlay from './OverlayBackground';
-import store from '../../../appStore';
+import store from '../../../../appStore';
 import CloseButton from './CloseButton';
-import { SetStateBoolean } from '../../../types';
+import { SetStateBoolean } from '../../../../types';
 import useSound from 'use-sound';
-import popSfx from '../../../../public/sounds/pop.mp3';
+import popSfx from '../../../../../public/sounds/pop.mp3';
+
 interface DialogProps {
   expanded: boolean;
   handleCloseClick: () => void;

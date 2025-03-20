@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { MdClose } from 'react-icons/md';
 import { useSnapshot } from 'valtio';
-import store from '../../../appStore';
+import store from '../../../../appStore';
 import useSound from 'use-sound';
 import popSfx from '/sounds/pop2.mp3';
 

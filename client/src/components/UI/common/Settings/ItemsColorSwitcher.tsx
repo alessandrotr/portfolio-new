@@ -1,5 +1,5 @@
 import { useSnapshot } from 'valtio';
-import store from '../../../appStore';
+import store from '../../../../appStore';
 import { useTranslation } from 'react-i18next';
 import toast from 'react-hot-toast';
 import { SettingsSubtitle } from './SettingsBar';

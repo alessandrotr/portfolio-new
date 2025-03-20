@@ -1,6 +1,6 @@
 import { animated, useTransition } from '@react-spring/web';
 import { useEffect, useState } from 'react';
-import store from '../../appStore';
+import store from '../../../appStore';
 
 // const items = ["Alessandro", "Traiola"];
 // const config = { mass: 5, tension: 750, friction: 150 };

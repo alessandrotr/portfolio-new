@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useSpring, animated, config as springConfig } from '@react-spring/web';
 import { useSnapshot } from 'valtio';
-import store from '../../appStore';
+import store from '../../../../appStore';
 
 interface AnimatedLetterProps {
   char: string;

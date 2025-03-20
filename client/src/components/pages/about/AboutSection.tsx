@@ -1,7 +1,7 @@
 import { animated } from '@react-spring/web';
 import { LAYOUT } from './constants';
 import { AboutSectionProps } from './types';
-import AnimatedLetter from '../../UI/AnimatedLetter';
+import AnimatedLetter from '../../UI/common/ui-utils/AnimatedLetter';
 import { useState, useCallback, memo, useMemo } from 'react';
 
 const AboutSection = memo(

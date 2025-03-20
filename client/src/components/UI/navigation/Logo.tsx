@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useSnapshot } from 'valtio';
-import store from '../../appStore';
+import store from '../../../appStore';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useLanguage } from '../../contexts/LanguageContext';
-import AnimatedLetter from './AnimatedLetter';
+import { useLanguage } from '../../../contexts/LanguageContext';
+import AnimatedLetter from '../common/ui-utils/AnimatedLetter';
 
 const text = `ALESSANDRO TRAIOLA`;
 

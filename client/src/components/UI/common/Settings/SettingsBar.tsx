@@ -1,5 +1,5 @@
 import { useSnapshot } from 'valtio';
-import store from '../../../appStore';
+import store from '../../../../appStore';
 import { HiCog } from 'react-icons/hi';
 import Dialog from '../ui-utils/Dialog';
 import ThemeSwitcher from './ThemeSwitcher';

@@ -1,5 +1,5 @@
 import { useSnapshot } from 'valtio';
-import store from '../../../appStore';
+import store from '../../../../appStore';
 import useSound from 'use-sound';
 import mute from '/sounds/mute.mp3';
 import unmute from '/sounds/unmute.mp3';

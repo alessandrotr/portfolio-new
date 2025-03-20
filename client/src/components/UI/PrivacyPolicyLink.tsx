@@ -5,7 +5,7 @@ import store from '../../appStore';
 import { useTranslation } from 'react-i18next';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useLanguage } from '../../contexts/LanguageContext';
-import { NavigationLetter } from './Navigation';
+import { NavigationLetter } from './NavigationLetter';
 
 const PrivacyPolicyLink = () => {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);

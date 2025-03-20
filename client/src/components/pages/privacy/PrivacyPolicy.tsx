@@ -1,11 +1,8 @@
 import { useTranslation } from 'react-i18next';
 import { animated, useSpring } from '@react-spring/web';
-import { useNavigate } from 'react-router-dom';
-import CloseButton from '../../UI/ui-utils/CloseButton';
 import { useSnapshot } from 'valtio';
 import store from '../../../appStore';
 import { createPortal } from 'react-dom';
-import { useLanguage } from '../../../contexts/LanguageContext';
 import AnimatedLetter from '../../UI/AnimatedLetter';
 import { useState, useEffect } from 'react';
 
@@ -16,14 +13,12 @@ interface ContentSection {
 
 const PrivacyPolicy = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
   const snap = useSnapshot(store);
-  const { currentLanguage } = useLanguage();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isActive, setIsActive] = useState(false);
 
-  const [springs, api] = useSpring(() => ({
+  const [springs] = useSpring(() => ({
     from: { opacity: 0, y: 1000 },
     to: { opacity: 1, y: 0 },
     config: { tension: 300, friction: 30 },
@@ -44,19 +39,6 @@ const PrivacyPolicy = () => {
     setIsActive(true);
     return () => setIsActive(false);
   }, []);
-
-  const handleClose = () => {
-    api.start({
-      to: { opacity: 0, y: 1000 },
-      config: { tension: 300, friction: 30 },
-    });
-
-    if (window.history.length > 1) {
-      navigate(-1);
-    } else {
-      navigate(`/${currentLanguage}`);
-    }
-  };
 
   const renderContent = (section: ContentSection | string, index: number) => {
     // Handle string format (old format)
@@ -162,9 +144,6 @@ const PrivacyPolicy = () => {
         `}
       </style>
       <div className="relative w-full h-full">
-        <div className="absolute top-4 right-8">
-          <CloseButton handleClick={handleClose} />
-        </div>
         <div className="w-full h-full overflow-hidden">
           <div className="w-full h-full rounded-[20px] bg-bgLightTransparent dark:bg-bgDarkTransparent">
             <div className="w-full h-full overflow-y-auto custom-scrollbar">

@@ -1,30 +1,17 @@
 import ContactForm from '../../UI/ContactForm';
 import { animated, useSpring } from '@react-spring/web';
-import { useNavigate } from 'react-router-dom';
-import CloseButton from '../../UI/ui-utils/CloseButton';
 import { useSnapshot } from 'valtio';
 import { createPortal } from 'react-dom';
 import store from '../../../appStore';
-import { useLanguage } from '../../../contexts/LanguageContext';
 
 const ContactPage = () => {
-  const navigate = useNavigate();
   const snap = useSnapshot(store);
-  const { currentLanguage } = useLanguage();
 
-  const [springs, api] = useSpring(() => ({
+  const [springs] = useSpring(() => ({
     from: { opacity: 0, y: 1000 },
     to: { opacity: 1, y: 0 },
     config: { tension: 300, friction: 30 },
   }));
-
-  const handleClose = () => {
-    api.start({
-      to: { opacity: 0, y: 1000 },
-      config: { tension: 300, friction: 30 },
-    });
-    navigate(`/${currentLanguage}`);
-  };
 
   const scrollbarStyles = `
     .custom-scrollbar::-webkit-scrollbar {
@@ -66,9 +53,6 @@ const ContactPage = () => {
     >
       <style>{scrollbarStyles}</style>
       <div className="relative w-full h-full">
-        <div className="absolute top-4 right-8">
-          <CloseButton handleClick={handleClose} />
-        </div>
         <div className="w-full h-full overflow-hidden">
           <div className="w-full h-full rounded-[20px] bg-bgLightTransparent dark:bg-bgDarkTransparent">
             <div className="w-full h-full overflow-y-auto custom-scrollbar">

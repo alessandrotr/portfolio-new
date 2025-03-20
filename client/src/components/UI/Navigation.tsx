@@ -20,7 +20,7 @@ interface NavigationLetterProps {
   isSelected?: boolean;
 }
 
-const NavigationLetter = ({
+export const NavigationLetter = ({
   char,
   lineIndex,
   charIndex,
